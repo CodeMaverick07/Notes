@@ -1,0 +1,22 @@
+Windows Assignment-Day1
+Windows Assignment-2
+1. Write minimum hardware requirement to install windows server 2016.
+2. Full form of FAT and NTFS.
+3. How to convert FAT32 partition into NTFS.
+4. Give three difference between FAT32 and NTFS.
+5. How many Primary partitions we can create on one hard disk?
+6. What are the different volumes are available in Dynamic disk?
+7. Full form of RAID.
+8. Minimum hard disk required for Mirrored volume--------
+9. What is MBR & GPT?
+10. Windows 10 Single can be joined to a domain.(True/False)
+11. Full form of GUID
+12. Mirrored Volume is also known as ________.
+13. What is the use of event viewer?
+14. What is the event id to see logs of shutdown events.
+15. What are the types of Windows logs?
+16. FAT Partition can be extend/shrink.(True/False)
+17. Name of Windows kernel
+18. What is virtual memory?
+19. What is user space and kernel space?
+20. What is the use of device manager?

@@ -1,0 +1,35 @@
+Network Fundamental-Assignment2
+2.Give the functions of router.
+3._______ device helps to boosts the incoming weak signal.
+4.Least number of hosts are available in Class ___.
+5. Switch forwards the data on the basis of ________ address.
+6. _______ cable is used to connect Hub with pc.
+7. _______ cable is used to access/configure Router/Switch.
+8. Loopback address are of Class B (True/False)
+9. Give examples of TCP protocols.
+10. Name few L2 devices.
+11. Name few L3 Devices
+12. What is Class E IP range.
+13. Name the layers of TCP/IP Model.
+14. Data translation is done at _________ layer.
+15. _________ provides connection oriented communication.
+16. __________ provides fast/best effort delivery.
+17. ________ & ________ device maintains a MAC table.
+18. 191.0.0.0 is valid ip address or not?
+19. what will be the nw address of 172.16.12.1 ip.
+20. _______ cable used to connect server with router.
+21. Give 4 examples of UDP protocol.
+22. UDP provides best effort fast data delivery (True/False).
+23. POP3 is used for _________ mails
+24. _______ protocol is used for monitoring & collecting network status repots.
+25. HTTPS is also known as ________.
+26. _____ is used to find IP address of given MAC address.
+27. User data is called ____ as Data Link layer.
+28. _____ sub layer is used to identify devices of the network.
+29. ________ is used to detect collisions over the nw.
+30. Switch is _______ device & hub is _______ device.(half duplex/full duplex).
+31. ____ protocol provides a secured access of remote device.
+32. Ack is a concept of _______ protocol (TCP/UDP)
+33. Logical addressing takes place at _____ layer of OSI Model.
+34. DORA stands for _______________.
+35. Network access layer of TCP/IP model is equivalent to ___________ layers of OSI Model.

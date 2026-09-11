@@ -1,0 +1,88 @@
+Windows Assignment-Day2
+Pls Note:
+=========
+Turn Off all unwanted VMS.
+Do Not paste each & every screenshot, Select the screenshots wisely and paste in the answer file(firsname-Assignment1-WindowsFundatmental.docx and save it on CG Laptop. Upload the assignment on given link.
+ 
+1. Create VM with below specifications:
+	1 processor, 5GB RAM, 120GB Disk , Windows Server 2016 Datacenter KMS
+ 
+ 
+2. Configure the Newly created machine as given below
+Task1:
+Machine Name: CG-Server1
+ 
+Task 3:
+IP address: 172.19.10.1
+Subnet Mask:255.255.0.0
+GW:172.19.10.100
+Preferred DNS: 8.8.8.8
+Alternate DNS: 8.8.4.4
+ 
+Task 4:
+Set the System Firewall off.
+ 
+Task5: Verify the same through Server manager page.
+ 
+ 
+Task 6: 
+a. Create windows 10 VM with below specification
+	1 Processor, 2 GB RAM, 50GB disk
+ 
+b. Set the password  and enable administrator account
+c. login as administrator
+ 
+d. Set the hostname as c1
+e. turn off the firewall
+f. Set  the IP as below
+	IP address: 172.19.10.1
+	Subnet Mask:255.255.0.0
+ 
+ 
+========================================================================
+2. Add 2 hard disk on CG-Server1 of size 10GB, 20GB. Create a FAT32 partition of size on Disk1 of size 5GB with the drive letter as f: .Convert the partition to NTFS. verify the same using file explorer. Create a NTFS partition on Disk2 of size 12GB with drive letter as g: . Extend g drive by 2GB, and shrink f drive by 1.5GB. Verify the same using file explorer.
+ 
+3. Demonstrate the Working of Registry with any one example. Verify the same, if it is working.
+ 
+4. Demonstrate the use of Task Manager by creating new process, killing a process. Also show the RAM and CPU consumption by application Server Manager.
+ 
+Event Viewer
+---------------
+5. Demonstrate the use of event viewer with any two examples. Also demonstrate the use of Filter log.
+ 
+1.filter warning logs from System(windows logs)
+2.filter applications logs created in last one hour
+3.create a custom view for
+	event logs: system and application
+	event level: warning and error
+	logs created in last 12 hours
+4.save custom view logs with filename customlogs.evtx
+ 
+ 
+6. 
+Power Management
+------------------
+1.Create a custom power plan with name ServerPlan1 with existing plan balanced
+	1.1 turnoff the display after 15 minutes
+	1.2 power button action-"do nothing"
+	1.3 turn off hard disk after 45 minutes
+
+ 
+7. Add 4 hard disk with a size of 15GB each.
+	Create the Volumes as given below.
+ 
+1. Spanned Volume:	T:    size should be 5.5GB in file explorer
+   				shrink the x drive by 200MB. Verify each using File Explorer.
+ 
+ 
+2 .RAID 0		X:    size should be 4GB in file explorer
+ 
+3. RAID1	Y:    size should be 2.5GB in file explorer, try breaking the mirror and verify if data is still accessible.
+			Repair the mirror by adding another disk to have Mirrored volume.
+ 
+4. RAID5	Z:    size should be 5 GB in file explorer, try failing one of the disk, and verify if data is still 				accessible.
+ 
+ 
+8. Demonstrate the use of Device manager by installing, uninstalling, disabling/enabling sound of system.
+ 
+9. Demonstrate the working of Windows Services with different parameters(Manual/Automatic/disabled/start/stop).
