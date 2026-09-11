@@ -1,0 +1,288 @@
+Registry:		regedit				registry editor
+
+1. The Windows Registry is a critical component of the Windows operating system
+2. Acting as a centralized repository for configuration settings.
+3. It contains information about hardware, software, user preferences, and system settings.
+4. When a program is installed, it typically adds entries to the registry that specify its configuration, file 	locations, and other operational parameters. 
+
+Main components are:
+
+1. Hives: These are the top-level sections of the registry, such as HKEY_LOCAL_MACHINE and HKEY_CURRENT_USER, 	which categorize the data stored within.
+
+2. Keys: These are similar to folders and can contain subkeys and values. Each key can hold various settings  	related to the system or applications.
+
+3. Values: These are the actual data entries within keys, which can be strings, numbers, or binary data.
+
+Registry Labs:
+=============
+Warning:
+Exercise extreme caution when using the Registry Editor. If you edit the registry incorrectly, serious problems might occur that could require a complete reinstall of the operating system and result in data loss.
+
+1. To delete run menu history in Windows 10/server 2016
+
+a. Press Win+R to open the Run window. Type regedit and hit Enter to open the Registry Editor.
+
+b. HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU
+
+c. In the right panel, you will find the entire history. Select all the strings except the Default string and delete them.
+============================================================================================
+2. To start notepad & calculator automatically at user login:
+
+a. Press Win+R to open the Run window. Type regedit and hit Enter to open the Registry Editor.
+b. HKEY_Local_Machine---Software---Microsoft---Windows--Current Version---Run--- Right Click in right pane, new---> String value --np
+c. Right click on np---modify--notepad.exe
+d. Right Click in right pane, new --->String value --calculator.
+e. Right click on calculator---modify--calc.exe
+f. logoff and login again as administrator, notepad and calculator should open automatically.
+
+===================================================================================
+3. To change the appearance of search button on taskbar of Windows 2016:
+
+1. Browse to the following path: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search.
+2. Right Click on Search, select New - DWord Value (32bit)
+3. Enter the name SearchboxTaskbarMode and press enter
+4. Double-click the SearchboxTaskbarMode key and set its value to 0. ...
+5. Click the OK button.
+
+To verify :  Sign out----Sign as administrator and see taskbar for search button
+
+To enable search:
+Double click SearchboxTaskbarMode and then set the Base to Hexadecimal and the Value data to 2. Click OK to save changes.
+
+0 = Hidden 
+1 = Search bar icon
+2 = search bar box.
+=========================================================================
+4. Disabling the Entire control panel:
+
+1. Start the Registry Editor.
+2. Navigate to the path below,
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
+3. Right-click on the empty space and click New > DWORD (32-bit) value.
+4. Name the new DWORD as NoControlPanel.
+5. Right-Click on NoControlPanel > Modify.
+6. Set the Value as 1 to Disable the control panel and 0 to Enable the control panel back.
+7. We can also delete the DWORD to enable the control panel back again.
+
+================================================================================
+5. To disable right click on Desktop:
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\
+From the Edit menu, select New ----Key  ----Explorer
+From the Edit menu, select New - DWord Value
+Enter the name NoViewContextMenu and press enter
+Double click the new value and set the value to 1 and click OK
+Close the registry editor
+Restart the File Explorer/or restart the system to apply the effects.
+You should not able to right Click after reboot. Once verification is over, Delete Dword NoViewContextMenu, then reboot your system. Now Right Click should work
+
+To enable right click of Desktop:
+
+Double click the new value and set the value to 0 and click OK
+Close the registry editor
+Restart the File Explorer/or restart the system to apply the effects.
+
+=========================================================================
+6. Disable Command Prompt for Current User:
+
+Use HKEY_CURRENT_USER (HKCU) to apply a policy for only the logged-in user.
+Steps:
+Open Registry Editor.
+1.	Navigate to:HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\System
+2.	If the key doesn’t exist, create it. RC on Windows, New—Key--System
+3.	RC on System—New--- DWORD (32-bit) Value named:  DisableCMD
+4.	Set its value to 1.
+5.	Verify by Log off and log in again.
+When you open Command Prompt, you’ll see the message:
+"The command prompt has been disabled by your administrator."
+
+To enable cmd, change the value to 0, or delete the DWORD(DisableCMD).
+==================================================================
+Kernel:	NT OS Kernel
+
+1. heart of OS
+2. its a main program of OS
+3. Manages
+		CPU Mgmt
+		Memory Mgmt
+		I/O Mgmt
+		Device Mgmt
+		Process Mgmt
+		Virtual Memory
+			
+Operating system usually uses virtual memory to provide separate address spaces called as User space and Kernel space.
+
+1. Kernel Space		protected memory area for the OS kernel and device drivers
+			CPU executes instructions here (RAM, Devices)
+			Kernel runs in kernel space
+
+2. User Space		CPU executes Process related instructions here
+			Area where user-level applications and utilities run
+			Normal programs run in user space
+
+
+Types of Kernel:
+	1. Monolithic		Windows, Linux
+	2. Microlithic		MINIX 3
+	3. Hybrid		Windows NT, Linux, mac OS
+	4. Exo  Kernel
+	5. Nano Kernel
+
+===================================================================
+Virtual Memory	 (logical RAM)		logical Memory/RAM
+	
+Paging	 is a memory management technique.
+effectively manage & utilize Physical RAM.
+
+
+Pages is of fixed size block of 4MB
+
+
+=================================================
+Working Set: 
+1. A set of data & instruction in RAM--- used by program/process at any given time
+2. It allows program to run smoothly without delay(no need to fetch data from storage).
+3. Collection of pages in memory.	
+
+================================================
+Event Viewer:		run:	eventvwr.msc			
+The (Windows) Event Viewer shows the event logs of the system
+
+Four Windows event log types:
+
+1. System:      contains events related to the system and its components. Failure to load the boot-start driver is an example of a system-level event.
+
+2. Application: Events related to a software or an application.
+		For example, the problem in starting Microsoft PowerPoint comes under the Application log.
+
+3. Security: contain events related to the safety of the system. logon success/failure, object access.
+
+4. Setup:       Setup log contains events that occur during the installation of the Windows operating system
+
+EventID:
+To view/generate log on/ logon/logoff events(incorrect username & password):
+4624		Viewing a Successful Login Event
+4625		Viewing a Failed Login Event
+
+Viewing a Shutdown/Restart Event:
+=================================
+Open Event Viewer.
+Navigate to Windows Logs -> System.
+Filter by Event IDs:
+Right-click on System and select Filter Current Log....
+In the <All Event IDs> field, enter 1074, 6006, 6008, 6005.
+Click OK.
+
+==================================================
+System Log 
+Event ID 1074 (Shutdown/Restart Event):
+
+Event ID 6005 (System Startup):
+		Indicates the system has started up correctly. 
+
+Event ID 6006 (Proper Shutdown):
+		 Records that the system was shut down cleanly and properly
+
+
+Event ID 6008 (Unexpected Shutdown):
+		Indicates that the previous system shutdown was unexpected
+=================================================================================================
+Object Access Event logs:
+4656: event id for failed object access
+4663: event id for successful object access
+
+
+
+
+
+======================================================================
+Power Options:				powercfg.cpl
+
+Sleep :
+======
+1. This choice allows your computer to start up much faster, and you’re instantly back where you left off. 
+2. Use sleep when you’re going to be away from your PC for just a little while, such as: When you leave for lunch of a meeting.
+
+
+
+Hibernate:
+=========
+1.puts your open documents and programs on hard disk, and turn off the computer that uses zero power and would not charge battery. Hibernation is a power-saving state designed primarily for laptops.
+
+2.Windows stores information about your PC's current state in hiberfil.sys when you put your PC into hibernation mode.
+
+
+
+powercfg.cpl
+powercfg -a
+powercfg -h on			to enable hibernate	
+powercfg -h off			to disable hibernate
+
+Sleep Mode							Hibernate Mode
+1.Power usage is low but not zero.			1. Power usage is zero.
+2.Resumption is instant.				2. Resumption is slow.
+3.Ideal for short period of time.			3. Hibernate should be used when the system is idle 								for a long period of time.
+4.The process is saved in RAM Memory.			4. The process is saved in hard disk.
+
+===================================================================================================
+Devices Manager:		devmgmt.msc
+
+It allows users to view and control the hardware attached to the computer. One can update/uninstall/install drivers, disable/enable devices etc.
+
+
+====================================================
+Task Manager---->To see list of processes/services
+
+start a service 		calc.exe
+
+kill a service 			windows explorer
+start a service			explorer.exe
+
+===========================================================================
+Services:
+	1. A service is a small program that usually starts when the Windows operating system loads. 
+	2. You won't normally interact with services like you do with regular programs because they run in the background (you don't see them) 		    and don't provide a normal user interface
+
+
+To set the Startup type of a Windows service to be: 
+1. Automatic: the service starts at boot time. 
+2. Automatic (Delayed Start): the Windows service starts only after the system has loaded all the other services set to start automatically.
+3. Manual: the Windows service starts only when it is needed. 
+4. Disabled: the service never starts, even when its operation is requested by other Windows services or apps.
+
+===================================================================
+How to share a folder:
+1. Create folder ---c:\imp
+2. RC on imp---properties---Sharing----Advanced sharing----share this folder---permissions---everyone--full control--OK--OK--close
+
+To access shared folder:
+Goto client machine---- Open file explorer or run----\\Server1 
+						OR    \\192.168.1.1		(IP of Server)
+
+Hidden Share
+
+on Client: TO access hidden shared folders
+		\\192.168.1.1\imp$
+
+=========================================================================
+
+Device Manager:   devmgmt.msc
+
+1. Device Manager displays information about each device. 
+2. This information includes the device type, device status, manufacturer, device-specific properties etc.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

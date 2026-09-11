@@ -1,0 +1,481 @@
+CSMA/CD & CSMA/CA
+		Carrier Sense Multiple Access/ Collision Detection		LAN
+		Carrier Sense Multiple Access/ Collision Avoidance		Wireless LAN	
+
+Duplex		ability to send & receive
+		Simplex			one sender  one receiver
+		Half Duplex		Both devices can send & receive data, but one at a time
+				examples:	Walkie Talky
+						Hub/Access Point
+						one lane road			
+		
+		Full Duplex		Both devices can send & receive data at a time.
+					Example:  Switch
+						  mobile
+						  Two-Way Lane
+=================================================================================================
+Protocols:		Set of rules  that are used by nw devices for smooth data transmission
+		TCP/IP			Transmission Control Protocol/Internet Protocol
+
+			suite
+TCP  segment/ packet size===1518 Bytes
+
+
+Commonly Used Protocols:
+    Name	Port Num
+1. Telnet	23		Terminal Emulation
+2. FTP		20,21		File Transfer Protocol
+3. TFTP		Trivial FTP
+4. HTTP		80		Hyper Text Transfer Protocol
+5. HTTPS	443		Secured HTTP  (SSL---Secured Socket layer)
+6. SMTP		25		Simple Mail Transfer Protocol
+7. POP3		110		Post office Protocol	
+8. IMAPv4	143		Internet Message Access Protocol
+9. SNMP	        161,162		Simple Network Management protocol
+10. NFS				Network File System
+11. DHCP        67,68		Dynamic Host Configuration protocol
+12. DNS		53		Domain Name System
+13. ARP				Address Resolution Protocol
+14. RARP			Reverse ARP
+15. SSH		22		Secure Shell
+16. ICMP	7		Internet Control Message Protocol
+17. BootP     67,68		BootStrap Protocol
+18. TCP		6		Transmission Control Protocol
+19. UDP		17		User Datagram Protocol
+20. SPX/IPX			Sequential Packet Exchange/Internetwork Packet Exchange
+
+=========================================================================================
+1. Telnet		23			terminal emulation
+			
+			remote access
+			not secure		credentials are sent in plain text format
+			cli access
+
+
+			A				B
+							file1
+							2.2.2.2
+		telnet  2.2.2.2
+		username		abc			
+		pwd			123
+		
+
+2. ssh		22			secured shell		
+
+			remote access
+			cli access
+			secured  access of remote device 
+
+			ssh 2.2.2.2	
+				abc  123		encrypted		
+
+
+3. http		80		Hyper Text transfer Protocol
+
+4. https		443		Secured HTTP
+
+
+5. DHCP		67,68		Dynamic Host Configuration Protocol
+				provides IP address to the DHCP client machine
+					subnet mask
+					gateway add
+					DNS add
+
+
+
+6. SMTP		25		outgoing mail
+7. POP3		110		incoming mails
+8. IMAPv4		143		incoming mails	
+
+9. SNMP		161,162		Simple Network management Protocol
+
+
+
+10. ICMP		utility--->ping		Packet internet gopher		helps to check the connectivity between two or more devices
+
+
+
+11. FTP	   20  data,21  control   File Transfer Protocol
+				is used to upload /download data between server & client
+
+
+			example:	FileZilla
+12. DNS		53			Domain Name System,  internet directory 
+					Resolves / translates domain name into ip address & vice -versa
+
+
+13. ARP            Most IMP Protocol
+				Address Resolution Protocol
+
+			find out/ Resolves given ip address into mac address
+
+	
+pc1		pc2			pc3			pc4
+
+1.0.0.1		1.0.0.2			1.0.0.3			1.0.0.4
+AAA		 BBB			CCC			  DDD
+
+
+pc1----ping----pc3
+
+ping 1.0.0.3
+
+ARP table 			mapping of ip---mac
+1.0.0.3			CCC
+empty
+
+		arp packet		1.0.0.1		1.0.0.3  AAA	ff:ff:ff:ff:ff:ff
+
+
+pc3 will reply		arp reply	1.0.0.3  1.0.0.1  CCC	AAA
+ARP Table
+1.0.0.1		AAA
+
+pc1 will ping packet		1.0.0.1		1.0.0.3   AAA  CCC
+
+arp -a			shows the pc arp table
+
+
+14. RARP
+
+BootP  /DHCP
+
+
+DHCP		(1.0.0.1---1.0.0.50)
+
+BootP
+		1.0.0.1		FFF
+		1.0.0.2		BBB
+
+TFTP		69			Trivial FTP	
+
+					backups			Router/Sw	---TFTP-------->  PC					
+--------------------------------------------------------------------------------------------------------
+
+Networking Devices:		similar nws			40.1.1.1		40.2.2.2
+1. NIC/LAN Card	
+helps your system to connect to the network 
+
+
+2. Repeater:
+Repeaters amplify the received/input signal to a higher frequency domain so that it is reusable, scalable and available.
+
+	
+3. Hub
+Multiple devices can connected by the means of a hub. 
+ Simple to use. 
+ Simply broadcast all incoming data packets on active ports. 
+ Layer 1 device. 
+ Half Duplex device 
+ Slow 
+ Divides the bandwidth if network connection increases
+
+4. Switch:
+Switches are devices that are operating a secondary data link layer in the OSI 
+model. 
+ L2 Device. 
+ Maintains MAC Address table. 
+ First time do frame broadcast, then unicast and/or multicast depending upon 
+the need. 
+ Full Duplex device. 
+ Faster than Hub. 
+ Does not divides the bandwidth if network connection increases
+
+5. Bridge
+
+
+Inter-networking Devices		different nws		40.1.1.1		41.2.2.2
+
+6. Router
+
+		1. L3 device
+		2. Inter-networking device
+		3. connects different networks
+		4. Function of Router
+			a. Inter-network communication
+			b. Path Selection
+			c. Packet Switching
+			d. Packet filtering
+		5. Routing
+		6. Never allow broadcast
+		7. comes with its own IOS(Internetwork OS)
+
+7. BRouter
+8. Firewall
+9. Access Point
+10. Load Balancer
+
+
+
+=============================================================
+Simulator
+
+Cisco Packet Tracer
+BOSON
+GNS
+
+
+=============================================================================
+Router interfaces:
+1. ethernet		e0				10Mbps			LAN port
+2. fast ethernet	fa0/0, fa0/1			100			LAN
+3. gigabit ethernet	gi0/0  gi0/1			1Gbps			LAN
+4. serial 		s0/0,  s0/0/0						WAN interface (Internet)
+5. Console port
+6. Aux port
+7. BRI
+9. PRI
+
+
+
+
+Bridge
+7. BRouter		Combination of Router+Bridge
+8. Firewall
+9. Access Point
+10. Load Balancer
+
+============================================================
+Crimping 
+
+is process of Twisted Pair cable with Connectors(RJ-45).
+
+Straight Through Cable:
+=======================
+
+		pc---switch
+		pc---hub
+		switch---Router
+
+First End						Second End
+1. Orange White Tx---------------------------	Rx  1. Orange White
+2. Orange       Tx---------------------------	Rx  2. Orange
+3. Green White  Rx----------------------------- Tx  3. Green White
+4. Blue           -----------------------------     4. Blue
+5. Blue White     -----------------------------     5. Blue White
+6. Green        Rx----------------------------- Tx  6. Green
+7. Brown White    -----------------------------     7. Brown White
+8. Brown          -----------------------------     8. Brown
+
+1		1
+2		2
+3		3
+6		6
+
+
+Cross-Over Cable:
+=======================
+pc-pc
+		hub--hub
+		sw---sw
+		Router---router
+		pc----router
+
+First End						Second End
+1. Orange White ---------------------------	  1. Green White
+2. Orange       ---------------------------	  2. Green
+3. Green White  -----------------------------     3. Orange White
+4. Blue           -----------------------------   4. Blue
+5. Blue White     -----------------------------   5. Blue White
+6. Green       -----------------------------      6. Orange
+7. Brown White    -----------------------------   7. Brown White
+8. Brown          -----------------------------   8. Brown
+
+
+1		3
+2		6
+3		1
+6		2
+
+
+Rolled Over Cable/Console Cable:
+				is used to access/configure Routers/Switches
+
+1		8
+2		7
+3		6
+4		5
+5		4
+6		3
+7		2
+8		1
+=====================================================================================
+Subnet Mask:		is used to differentiate between Nw bits and host bits
+
+Class A		n.h.h.h		255.0.0.0		/8
+Class B		n.n.h.h		255.255.0.0		/16
+Class C		n.n.n.h		255.255.255.0		/24
+
+===========================================================================================
+Collision Domain & Broadcast Domain:
+
+Collision Domain is a logical nw where data packet may collide with one another, if sent on shared medium.
+		eg: Hub, Repeater
+
+
+Broadcast Domain: is a logical nw where data sent by one device will be delivered to all other devices over the nw.
+
+
+HUB
+			CD		1
+	
+			BD		1
+
+
+Switch/Bridge		CD		number of active ports==num of collision domain
+			BD		1 B'cast domain
+
+
+
+Router			CD		number of active ports==num of collision domain
+	
+			BD	        number of active ports==num of B'cast domain	
+
+
+=====================================================================================================================
+Firewall:
+1. Monitors traffic: 
+Firewalls inspect network packets.
+
+ 
+2. Blocks or allows traffic: 
+Based on these rules, the firewall decides whether to permit the traffic to pass or to deny it. 
+
+Types of firewalls
+Hardware-based: Dedicated hardware appliances that provide a physical barrier for a network. 
+Software-based: Programs installed on individual computers or servers. 
+Cloud-based: Virtual firewalls or firewall-as-a-service (FWaaS) solutions hosted in the cloud. 
+======================================================================================================
+OSI Model Open System Interconnection:
+
+		is a reference model/conceptual model, that represents how network communication works
+
+Introduced by ISO in 1977:   International Organization for Standardization and was implemented in 1984
+
+The upper layers of the OSI model are
+Application Layer L7   users works at this layer
+				Http https ftp telnet smtp pop3 imap dns dhcp tftp  snmp BootP
+
+Presentation Layer L6		Data translation, Encryption, decryption, Compression/decompression, defines file format
+				.jpg, .txt ,gif, tiff, .rtf
+
+					Hello	-----------------> ASCII
+	
+Session Layer L5
+Transport 	L4
+Network		L3
+Data Link 	L2
+Physical	L1
+
+=====================================================================================
+Transport 	L4			TCP (6)  UDP(17)   SPX Sequential Packet Exchange
+1. end to end delivery
+2. flow control
+3. Reliable and Unreliable data delivery
+4. Error correction
+
+
+
+telnet   23/tcp
+ssh	22/tcp
+smtp	25/tcp
+pop3	110/tcp
+dns	53/tcp
+http	80/tcp
+https	443/tcp
+ftp	20,21/tcp
+
+
+dhcp	67.68/udp
+dns	53/udp
+snmp	161,162/udp
+tftp	69/udp
+
+
+Network Layer:  L3
+
+		Router, Brouter (Bridge+Router), L3 Switch
+
+		IPv4, IPv6 EIGRP, OSPF, RIP, ARP, RARP etc
+
+
+
+		1. Routing
+		2. Logical Addressing			(add source ip and destination ip)
+
+		3. finds MAC ADD of IP Add 
+
+========================================================================
+Data Link Layer		L2		Switch, Bridge, NIC 
+
+			1. LLC			Logical Link Control
+
+				a. LCP		link control protocol
+				b. NCP		network control protocol
+			2. MAC			Media Access Control
+
+
+1. Framing		(add source MAC Add & destination MAC add)
+2. Error Detection	FCS(Frame Check Sequence/CRC)			
+3. Translates data into bits.
+
+
+
+===================================================
+Physical Layer		L1		Hub, Repeater, Cables, Connectors
+					Topology
+
+					Voltages
+
+			1. Sends bits/Bytes over the nw
+
+==============================================================================
+DOD Model/TCP/IP Model: has 4 layers
+
+	Department of Defense
+
+TCP/IP Model has 4 layers
+1.Process/Application 
+2. Host to Host
+3. Internet 
+4. Network Access
+
+
+
+
+Layer Name					PDU(Protocol Data Unit)
+=============					=========================
+Application presentation session			Data
+Transport						Segment
+Network							Packet
+DLL							Frame
+Physical						Bits
+
+================================================================
+Proxy Server
+
+1. Proxy helps in fast access to the data that has been accessed very often.
+2. Saves Bandwidth.
+3. Proxy server is used to encrypt your web requests.
+4. Proxy server is used to control and monitor how their employees or kids use the internet. 
+
+Types of Proxy Servers:
+
+1. Reverse Proxy Server:
+=======================
+1. It accepts requests from clients and forwards them to the appropriate server. 
+   It also receives responses from the server and sends them back to the client.
+
+2. A forward proxy is the designated exit point for network users seeking to connect with resources outside their   private network.
+
+
+A forward proxy sits between a client and the internet
+
+A reverse proxy sits between a client and a server.
+
+A forward proxy is primarily used to provide privacy to the client and bypass network restrictions. 
+
+A reverse proxy is used mainly to improve the server’s performance, security, and scalability.	
+
+
+

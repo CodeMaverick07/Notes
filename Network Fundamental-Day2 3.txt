@@ -1,0 +1,474 @@
+Protocols:		Set of rules  that are used by nw devices for smooth data transmission
+		TCP/IP			Transmission Control Protocol/Internet Protocol
+
+		TCP/IP is Protocol suite(0-65535)
+					0-1023 are commonly used Protocols
+TCP  packet size===1518 Bytes
+
+TCP does not resend the entire stream or all segments.
+It only retransmits the specific missing segments that were lost, using sequence numbers to identify and recover exact gaps
+
+Commonly Used Protocols:
+    Name		Port Num
+1. Telnet  tcp		23		Terminal Emulation
+2. FTP     tcp		20,21		File Transfer Protocol
+3. TFTP	   udp		69		Trivial FTP
+4. HTTP	   tcp		80		Hyper Text Transfer Protocol
+5. HTTPS   tcp		443		Secured HTTP  (SSL---Secured Socket layer)
+6. SMTP	   tcp		25		Simple Mail Transfer Protocol
+7. POP3	   tcp		110		Post office Protocol	
+8. IMAPv4  tcp		143		Internet Message Access Protocol
+9. SNMP	   UDP 		161,162		Simple Network Management protocol
+10. NFS	  				Network File System
+11. DHCP   UDP    	67,68		Dynamic Host Configuration protocol
+12. DNS	   tcp/udp	53		Domain Name System
+13. ARP					Address Resolution Protocol
+14. RARP				Reverse ARP
+15. SSH	    tcp         22		Secure Shell
+16. ICMP   tcp/udp       7		Internet Control Message Protocol
+17. BootP    udp	67,68		BootStrap Protocol
+18. TCP			6		Transmission Control Protocol
+19. UDP			17			User Datagram Protocol
+20. SPX/IPX				Sequential Packet Exchange/Internetwork Packet Exchange(was used in Novell 						Netware OS)
+
+
+1.0.0.0		network address
+1.0.0.1
+
+1.255.255.254
+1.255.255.255	 broadcast address
+
+
+
+1.0.0.5			1.0.0.1----1.255.255.254
+
+packet		source ip   dest ip
+		1.0.0.5		1.255.255.255
+
+========================================================================================
+1. Telnet	23		Terminal Emulation / telecommunication nw
+
+			
+			pc1	------------>	remote machine(Server)
+				cmd
+					telnet 	ip of remote machine
+						credentials: username/pwd
+							      john/123456
+			used for remote access
+			cli access
+			sends credentials in clear text format
+			not secured means of remote access
+=====================================================================================================
+ssh		22
+
+
+		pc1------------->	remote machine(Server)
+				cmd
+					ssh 	ip of remote machine
+						credentials: username/pwd
+								john/123456
+			used for remote access
+			cli access only
+			sends credentials in encrypted format
+			Secured means of remote access
+
+===============================================================================================
+
+
+3. FTP	   20  data,21  control
+				is used to upload /download data between server & client
+
+
+			example:	FileZilla
+==================================================================================================
+4. DNS		53		Resolves / translates domain name into ip address & vice -versa
+
+1. Translates domain name into ip add & vice-versa
+
+2. DNS acts as the Internet’s directory. 
+
+3. Since humans find it easier to remember words than long strings of numbers, we typically use website URLs when browsing. 
+
+4. However, computers don’t understand URLs directly—they require the numerical IP address of the web server. 5. This is where DNS comes in, it translates domain names into IP addresses, and vice versa, enabling users to connect to websites using user-friendly URLs, without knowing their ip address.
+
+
+=========================================================================================
+5. ICMP				ping is utility/command of icmp.
+
+
+6. HTTP/HTTPs  80/443
+
+7. POP3		110	incoming mails
+
+8. IMAPv4	143	incoming mails
+
+9. DHCP	   67,68			Provides IP Address dynamically to the DHCP Clients
+
+						Subnet Mask
+						Gateway/ Router add
+						DNS Server
+						WINS Server
+						Hostname
+DHCP Works on DORA principle		
+DORA Process:
+1. Discover
+2. Offer
+3. Request
+4. Ack
+===============================================================================================
+
+SMTP		25		Simple Mail Transfer Protocol		for outgoing mails
+
+
+
+SNMP	161,162		Simple Network Management Protocol	 for monitoring/reporting NW traffic
+
+
+ARP            Most IMP Protocol
+				Address Resolution Protocol
+
+			find out/ Resolves given ip address into mac address
+
+
+	pc1			pc2			pc3		pc4
+	AAA			BBB			CCC		DDD
+	2.0.0.1			2.0.0.2			2.0.0.3		2.0.0.4	
+
+	
+on PC1:	ping 2.0.0.3
+
+ARP			look into local cache
+
+
+2.0.0.1		2.0.0.3  AAA	ff:ff:ff:ff:ff:ff
+
+PC3:
+
+		ARP 		2.0.0.3    2.0.0.1    CCC    AAA
+
+
+PC1		local cache		2.0.0.3   CCC
+
+
+ICMP
+		2.0.0.1   2.0.0.3   AAA  CCC
+
+A		1
+B		2
+C
+D
+======================================================
+1.0.0.100
+.200
+
+============================================================================
+Network Devices				connection between similar networks
+
+
+				11.1.2.3			11.4.5.6
+1. NIC/LAN Card		Network Interface Card
+			connects your system to the network.
+2. Repeater		Repeats incoming signals/boosts the weak signals so that signal can travel 			further	
+3. Hub			connect multiple device together in a nw.
+				4ports, 8 ports & 16 Ports
+4. Switch
+5. Bridge
+
+Inter-Networking Devices			12.0.0.1			13.0.0.1
+1. Router		
+2. Gateway
+3. L3 Switch
+4. Firewalls
+5. Brouter
+6. Load Balancer
+7. Modem
+======================================
+
+1.Proxy Servers
+
+
+
+
+
+
+
+
+
+Functions of Switches:
+1. Address Learning
+2. Filter/Forward Decision
+3. Loop Avoidance
+
+
+
+Bridge:			is almost similar to Switch
+			it also maintains a MAC Table
+
+			2 ports, 4 ports
+
+			connect two or more lan segments
+
+
+
+
+
+
+
+
+IDS/IPS
+
+
+Router:			
+		Inter-networking Devices
+		is used to connect different networks
+		L3 Device
+		Full Duplex
+
+		Cisco Juniper, 3COM, DLINK, Huawei, TPLink
+
+	Functions of Router
+		1. Internetwork Communication
+		2. Path Selection
+		3. Packet Switching
+		4. Packet Filtering
+
+		Router never allows the broadcast.
+
+==============================================================================
+1. OSI Model
+2. TCP/IP Model
+3. Cisco Model
+
+OSI Model:		Open System Interconnection
+
+			ISO 		International Organization for Standardization
+
+			started 1977----1984
+		reference model----> general guidelines---> how data can be transmitted from source to destination via wired/wireless medium
+7 Layers
+Upper
+1. Application  L7			user  works at this layer.
+
+				http, https, ftp, tftp, smtp, pop3, imapv4, dhcp, dns, telnet, ssh, 				bootP, NFS(Linux/Unix)
+
+
+
+2. Presentation L6		data translation, encryption /decryption, compression/decompression,
+				file format
+
+					.jpg		
+					.gif		
+					.mp3
+					.avi
+					.png
+	
+3. Session Layer   L5				authentication & authorization		
+						dialog control
+						modes of communication
+						
+
+4 Transport Layer	L4			MLS	(Multi Layer Switch)
+
+						TCP UDP, SPX
+					
+				
+				abc			97,98,99
+				ASCII  (American Standard Code For Information Interchange)
+					A	65
+					B	66
+					a	97
+					b	98
+	1. end to end data delivery
+	2. Flow Control
+	3. Error Correction
+	4. Reliable & Un-reliable connection
+
+
+3. Session	L5
+4. Transport	L4
+Lower
+5. Network	L3
+6. Data link	L2
+7. Physical	L1
+
+
+
+
+
+
+
+
+
+
+			111100011111000000011111			24bits
+
+
+				compressed
+				2
+			1	4					7 bits
+			0	3
+			1	5
+			0	7
+			1	5
+
+
+=============================================================
+Network Layer:  L3
+
+		Router, Brouter (Bridge+Router), L3 Switch
+
+		IPv4, IPv6 EIGRP, OSPF, RIP, ARP, RARP etc
+
+
+
+		1. Routing
+		2. Logical Addressing			(add source ip and destination ip)
+
+		3. finds MAC ADD of IP Add 
+
+========================================================================
+Data Link Layer		L2		Switch, Bridge, NIC 
+
+			1. LLC			Logical Link Control
+
+				a. LCP		link control protocol
+				b. NCP		network control protocol
+			2. MAC			Media Access Control
+
+
+1. Framing		(add source MAC Add & destination MAC add)
+2. Error Detection	FCS(Frame Check Sequence/CRC)			
+3. Translates data into bits.
+
+
+
+===================================================
+Physical Layer		L1		Hub, Repeater, Cables, Connectors
+					Topology
+
+					Voltages
+
+			1. Sends bits/Bytes over the nw
+
+Layer Name					PDU(Protocol Data Unit)
+=============					=========================
+Application presentation session			Data
+Transport						Segment
+Network							Packet
+DLL							Frame
+Physical						Bits
+
+================================================================
+Crimping 
+
+is process of Twisted Pair cable with Connectors(RJ-45).
+
+Straight Through Cable:
+=======================
+First End						Second End
+1. Orange White Tx---------------------------	Rx  1. Orange White
+2. Orange       Tx---------------------------	Rx  2. Orange
+3. Green White  Rx----------------------------- Tx  3. Green White
+4. Blue           -----------------------------     4. Blue
+5. Blue White     -----------------------------     5. Blue White
+6. Green        Rx----------------------------- Tx  6. Green
+7. Brown White    -----------------------------     7. Brown White
+8. Brown          -----------------------------     8. Brown
+
+1		1
+2		2
+3		3
+6		6
+
+
+Cross-Over Cable:
+=======================
+First End						Second End
+1. Orange White ---------------------------	  1. Green White
+2. Orange       ---------------------------	  2. Green
+3. Green White  -----------------------------     3. Orange White
+4. Blue           -----------------------------   4. Blue
+5. Blue White     -----------------------------   5. Blue White
+6. Green       -----------------------------      6. Orange
+7. Brown White    -----------------------------   7. Brown White
+8. Brown          -----------------------------   8. Brown
+
+
+1		3
+2		6
+3		1
+6		2
+
+
+Rolled Over Cable/Console Cable:
+				is used to access/configure Routers/Switches
+
+1		8
+2		7
+3		6
+4		5
+5		4
+6		3
+7		2
+8		1
+
+Proxy Server
+
+1. Proxy helps in fast access to the data that has been accessed very often.
+2. Saves Bandwidth.
+3. Proxy server is used to encrypt your web requests.
+4. Proxy server is used to control and monitor how their employees or kids use the internet. 
+
+Types of Proxy Servers:
+
+1. Reverse Proxy Server:
+=======================
+1. It accepts requests from clients and forwards them to the appropriate server. 
+   It also receives responses from the server and sends them back to the client.
+
+2. A forward proxy is the designated exit point for network users seeking to connect with resources outside their   private network.
+
+
+A forward proxy sits between a client and the internet
+
+A reverse proxy sits between a client and a server.
+
+A forward proxy is primarily used to provide privacy to the client and bypass network restrictions. 
+
+A reverse proxy is used mainly to improve the server’s performance, security, and scalability.	
+
+
+
+
+
+
+192.168.1.0
+R0 192.168.1.1		255.255.255.0
+pc 192.168.1.2		255.255.255.0
+
+192.168.2.0
+R0 192.168.2.1		255.255.255.0
+R1 192.168.2.2		255.255.255.0	
+
+192.168.3.0
+R1		192.168.3.1	  255.255.255.0
+Server		192.168.3.2      255.255.255.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			

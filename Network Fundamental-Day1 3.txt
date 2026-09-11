@@ -1,0 +1,709 @@
+Cisco Certification
+ICND1			50% 		CCENT (Cisco Certified Entry Level NW Technician)
+ICND2			50%		CCNA	
+OR
+CCNA		Cisco Certified Network Associate
+				23000/-	exam cost
+				825/1000
+				90mins
+				44 qs
+				single ans/multiple ans
+				drag n drop
+				lab configuration
+				Troubleshooting qs
+
+Pearson VUE		offline/online
+
+NW Fundamental
+
+Network:  Connection between two or more devices.
+
+	two ways:
+		wired			guided medium					speed
+		wireless		un guided medium
+In Network, 
+
+1. terminal/pc
+2. Nodes
+3. End devices
+4. Server, Client, peer
+5. host
+6. Workstation
+
+
+Two computers(LAN):
+
+Hardware Requirement:
+1. Cable
+2. LAN Card
+3. connector
+
+4. Hub/Switch		optional (if more than two devices)
+5. Router		internet
+
+
+Software Reqd:
+1. LAN Driver
+2. TCP/IP
+==========================================================================
+Types of Network:
+1. 	 LAN (CAN, PAN/TAN, SAN)			Intranet
+		Local Area Network
+		Campus Area Network
+		Personal Area Network
+		Tiny Area Network
+		Storage Area Network
+
+1.5	 MAN	Metropolitan Area NW     network formed between 2 cities(within   80 miles) 
+
+2.	 WAN	Wide Area NW	
+				its a Network of Networks	
+			 	also known as Internet
+				computers are connected to each other worldwide
+
+
+How internet works:
+
+
+
+
+
+
+
+15.230.203.2
+
+Number Systems		Base Value		Total Count
+1. Binary		2			0, 1
+2. Decimal		10			0-9
+3. Octal		8			0-7
+4. Hexa-Decimal		16			0-9, A-F
+
+Decimal			Binary	
+0			00000000
+1			00000001
+2			00000010
+3
+4
+5			00000101
+6
+7
+8
+9
+10		
+11
+12
+13
+14
+
+
+
+19
+20
+Decimal To Binary Conversion:
+		 2^7	2^6	2^5	2^4	2^3	2^2	2^1	2^0
+					
+		128	64	32	16	8	4	2	1
+
+0		0	0	0	0	0	0	0	0
+
+15		0	0	0	0	1	1	1	1	
+
+
+
+75		0	1	0	0	1	0	1	1
+
+
+122		0	1	1	1	1	0	1	0	
+
+127		
+
+225
+
+255		1	1	1	1	1	1	1	1
+
+
+
+
+
+
+
+127 -  01111111		
+225 -  11100001
+255 -  11111111
+
+
+
+(127)10------------->(01111111)2
+
+
+(0---255)	
+
+
+
+
+8 bits				
+
+		abc 		
+
+Binary------------Decimal
+(11100111)2-------------(?)10
+
+128+64+32+0+0+4+2+1=231
+
+
+(00011111)2------->(31)10
+======================================================================
+
+Decimal			Hexa-Decimal
+0-9			0-9,A-F
+0			0
+1			1
+2			2
+3			3
+4			4
+5			5
+6			6
+7			7
+8			8
+9			9
+10			A
+11			B
+12			C
+13			D
+14			E	
+15			F
+16			10
+17			11
+18			12
+19			13
+20			14
+			
+
+
+			19
+			1A
+
+
+			1F
+			20
+			
+
+
+			2F
+			30
+
+			3F
+
+
+
+
+			90
+			9F
+
+
+			A0
+
+			AF
+
+			F0
+
+
+255			FF
+
+
+		
+
+
+Decimal-------->Hexa-Decimal
+1.(50)10-------->(32)16
+			
+
+2. (100)10------>(64)16
+3. (75)10-------->(4B)16
+Hexa-Decimal---Decimal
+1. (176)16-------------(?)10
+
+
+			176
+				16^2+16^1+16^0
+				256*1+16*7+1*6
+				256+112+6====374
+
+						
+1. Binary--------		Dec		----------Hexa Decimal
+    00111100			60			3C		
+
+
+			8 4 2 1		8 4 2 1
+			
+			0 0 1 1		1 1 0 0
+	
+			3		   C
+
+
+11100111		1 1 1 0		0 1 1 1	
+			  E		  7
+
+
+
+
+10001111		1 0 0 0		1 1 1 1
+			  8	 	  F
+
+===========================================================================================
+Cables:
+1. Co-axial Cable
+2. Twisted Pair Cable
+3. Fibre Optics
+
+
+1.  Co-axial Cable		10mbps				BNC Connector(Bayont Neil Concelman)
+			Dish tv, CCTVs camera, Networking	
+Below are Co-axial Cable Types
+		Thinnet				Thicknet
+		10Base2				10Base5
+
+		10Mbps				10Mbps
+		Baseband Transmission	
+		200Mtrs(185Mtrs)		500Mtrs
+
+
+Baseband & Broadband
+
+ 2. Twisted Pair Cable  most commonly used cable in Computer networks
+
+					100mtrs
+		two Types
+			1. UTP		Unshielded TP
+			2. STP		Shielded TP	
+
+			
+			Two Types of Twisted pair		    connector names
+	nw		8 wires			4 pairs			RJ 45		Registered Jack
+
+	nw/telephone	4 wires			2 pairs			RJ 11		
+
+
+
+Why cables are in twist form		to avoid cross talk
+
+
+
+Categories of TP:
+Cat 1			used in Telephone lines			1Mbps			
+
+Cat 2			used in Token Ring			4Mbps
+
+Cat 3			used in Ethernet 			10Mbps
+
+Cat 4			used in Token Ring			16Mbps
+
+Cat 5			used in Ethernet			100Mbps
+
+Cat 5e			used in Ethernet			1000Mbps (1 Gbps)
+
+Cat 6			used in Ethernet			10Gbps
+
+Cat 7			used in Ethernet			10Gbps
+
+3. Fiber Optics:
+
+1. long Distance Data transmission
+2. High Speed Data Transmission
+3. costly
+4. Fiber optic cables are immune to EMI because they transmit data using pulses of light through glass or plastic, not electrical signals). 
+
+
+=======================================================================
+Network Topology :  Network Layout/Design  how cables are connected between the devices.
+
+1. Physical
+		a. Bus
+		b. Ring
+		c. Dual Ring 		FDDI: Fiber Distributed Data/Dual Interface
+		d. Star
+		e. Mesh		24*7    no nw failure
+		f. Hybrid
+2. Logical:		how data is  transferred from one end to another.	
+
+
+n====pc
+
+
+			pc  7
+
+				n(n-1)/2
+				7*6/2	==21 cables are needed.
+
+
+=======================================================
+CSMA/CD & CSMA/CA
+		Carrier Sense Multiple Access/ Collision Detection		LAN
+		Carrier Sense Multiple Access/ Collision Avoidance		Wireless LAN	
+
+	Duplex		ability to send & receive
+		Simplex			one sender  one receiver
+		Half Duplex		Both devices can send & receive data, but one at a time
+				examples:	Walkie Talky
+						Hub/Access Point
+						one lane road			
+		
+		Full Duplex		Both devices can send & receive data at a time.
+					Example:  Switch
+						  mobile
+						  Two-Way Lane
+	
+==================================================================================
+IP Address & Mac Address:
+IP Address: 
+	1. is unique identification of a device over the nw.
+	2. Logical Address/temporary.
+
+Versions of IP Address:
+	1. IPv4		32 bits/ 4 Bytes		1.1.1.1			Decimal numbers
+	2. IPv6	        128 bits	abcd:efab:1111:2222:4444:3333:1100:5790  Hexa-Decimal format
+
+Types of IP Address:
+	1. Public IP
+	2. Private IP		
+
+Methods of Assigning IP address:
+	1. Static		manual ip assignment
+	2. Dynamic		through protocol(DHCP)
+		1. Ipconfig
+		2. ipconfig /all
+====================================================================
+
+Mac Address:(Media Access Control)
+1. is unique identification of a device over the nw.
+MAC address is also known as
+		Physical Address
+		Hardware Address
+		Ethernet Address
+		
+2. 48 bits	/6 Bytes
+3. Associated with NW Device (LAN Card) given by Manufacturer.
+4. Hexa-decimal format
+5. Permanent Address
+				00:1a:bb       				 :23:67:90
+				   24					    24
+				OUI
+				(Organizationally Unique Identifier	    interface ID
+
+
+Intel
+Intel
+Intel
+To Check Mac Address:
+1. getmac
+2. ipconfig  /all
+
+Run Menu: ncpa.cpl			to see nw list
+
+==============================================================
+IMP
+Classes of IP Address:	used in ethernet technology		
+A	0-127		(1-126)		0--Default routing, 127---Loopback Address  (Self Test Address)
+				to check, whether TCP/IP Stack is installed/working properly or not
+				
+				127.0.0.1
+
+				ping 127.255.255.3
+
+B	128-191
+C	192-223
+==================================================================================
+D	224-239		Multicasting  (Used by devices to communicate)
+				225.6.7.8
+E	240-255			R & D Purpose US Govt
+
+ping:  Packet Internet Gopher	 is used to check the connectivity between devices
+
+=================================================
+
+Unicast:		one to one	
+Multicast:		one to many not all
+Broadcast:		one to all
+
+			102.3.4.5	decimal
+			131.45.67.89
+			00000010.00000011.00000100.00000101
+
+				220.220.220.220
+==========================================================================
+Class A			8.8.8.8			32bits
+			N.H.H.H
+		
+			nw==8
+			Host==24
+
+
+Class B			8.8.8.8
+			N.N.H.H
+			
+		
+			nw==16
+			Host==16
+
+
+
+Class B			8.8.8.8
+			N.N.N.H
+				
+			Nw==24
+			Host==8
+
+===================================================
+
+2^0==1
+2^1==2
+2^2==4
+
+
+
+
+
+2^8===256
+
+
+
+2^16==65536
+
+
+
+2^24==16777216
+
+=====================================================
+Rough Value:
+Class A			8.8.8.8			32bits
+			N.H.H.H
+		
+			nw==8			2^8===256
+			Host==24		2^24===16777216
+
+
+Class B			8.8.8.8
+			N.N.H.H
+			
+		
+			nw==16			2^16===65536
+			Host==16		2^16===65536
+
+
+
+
+Class C			8.8.8.8
+			N.N.N.H
+				
+			Nw==24				2^24====16777216
+			Host==8				2^8===256
+
+=========================================================
+			128	64	32	16	8	4	2	1
+
+Class A		1-126
+
+1		00000001			0  leading bit		
+126		01111110
+
+Class B		128-191
+
+128		10000000			10	
+191		10111111
+
+
+Class C		192-223	
+192		11000000			110
+223		11011111
+================================================================
+Final Values:		
+			Total NWs			Total Host/NW
+
+Class A			8.8.8.8			32bits
+			N.H.H.H
+		
+			nw==8
+				1C		7UC
+				2^7===128			XXX
+
+				10000000
+				128-1==127		XXX
+				127---------loopback
+				127-1====126NW
+
+			2^24===16777216-2===16777214		(all zeros and all 1's not allowed)
+
+
+Class B			8.8.8.8
+			N.N.H.H
+			
+		
+			nw==16	
+				2C		14UC
+					2^14===16384	NW
+		
+			Host==16	2^16====65536-2==65534		
+
+
+
+
+Class C			8.8.8.8
+			N.N.N.H
+				
+			Nw==24	
+				3C		21UC
+					2^21==2097152  NW
+			Host==8		2^8===256-2===254				
+
+
+===================================================
+Class		NW			hosts/NW
+Class A		126			16777214			
+Class B		16384			65534
+Class C		2097152			254
+==================================================
+
+Subnet Mask:  helps to identify/differentiate between NW bits & Host Bits
+
+Class A		23.4.5.6			255.0.0.0
+		N.H.H.H
+Class B		140.10.10.1			255.255.0.0
+		N.N.H.H
+Class C		192.168.1.1			255.255.255.0
+		N.N.N.h
+
+
+
+Class A		1's NW
+pc1				pc2
+1.0.0.1				1.0.0.2	
+255.0.0.0			255.0.0.0
+
+Class B		140.10's NW
+pc1				pc2
+140.10.2.3			140.10.4.5
+
+
+Class C		192.168.10's NW
+pc1				pc2
+192.168.10.3			192.168.10.4
+
+======================================================================
+Class A			1.0.0.1---------126.255.255.254
+1's NW
+1-126
+
+1.0.0.0		
+1.0.0.1
+1.0.0.2
+
+
+
+1.255.255.254
+1.255.255.255			
+
+
+
+
+2's NW
+
+2.0.0.0
+2.0.0.1
+
+
+
+2.255.255.254
+2.255.255.255
+
+
+
+126's NW
+
+126.0.0.0
+126.0.0.1
+
+
+
+126.255.255.254
+126.255.255.255
+==============================================
+Class B		128.0.0.1----------------191.255.255.254
+128-191
+
+128.0.0.0
+128.0.0.1
+
+
+128.0.255.254
+128.0.255.255
+
+
+128.1.0.0		128.2.0.0			128.255.0.0			191.255.0.0				
+
+
+
+128.1.255.255		128.2.255.255							191.255.255.255
+====================================================================================
+Class C		192--223		192.0.0.1----------223.255.255.254
+
+
+192.0.0.0	x	192.0.1.0					223.255.255.0
+	1								223.255.255.1
+
+	254									   .254
+192.0.0.255	x	192.0.1.255					223.255.255.255
+
+
+=============================================================================================
+
+4.1.1.1	  valid			A	
+
+00000001.00000001
+
+
+128.0.0.1			255.255.0.0
+
+=============================================================
+pc1					pc2				pc3
+223.4.6.6				223.4.6.8			223.4.6.7		
+
+
+223.255.255.254
+
+============================
+OSI Model
+NW Devices
+Protocols
+LAB
+=====================================
+Protocols:		Set of rules  that are used by nw devices for smooth data transmission
+		TCP/IP			Transmission Control Protocol/Internet Protocol
+
+			suite
+TCP  packet size===1518 Bytes
+
+Commonly Used Protocols:
+    Name	Port Num
+1. Telnet	23		Terminal Emulation
+2. FTP		20,21		File Transfer Protocol
+3. TFTP		69		Trivial FTP
+4. HTTP		80		Hyper Text Transfer Protocol
+5. HTTPS	443		Secured HTTP  (SSL---Secured Socket layer)
+6. SMTP		25		Simple Mail Transfer Protocol
+7. POP3		110		Post office Protocol	
+8. IMAPv4	143		Internet Message Access Protocol
+9. SNMP	        161,162		Simple Network Management protocol
+10. NFS				Network File System
+11. DHCP        67,68		Dynamic Host Configuration protocol
+12. DNS		53		Domain Name System
+13. ARP				Address Resolution Protocol
+14. RARP			Reverse ARP
+15. SSH		22		Secure Shell
+16. ICMP	7		Internet Control Message Protocol
+17. BootP     67,68		BootStrap Protocol
+18. TCP		6		Transmission Control Protocol
+19. UDP		17		User Datagram Protocol
+20. SPX/IPX			Sequential Packet Exchange/Internetwork Packet Exchange
+
+
+

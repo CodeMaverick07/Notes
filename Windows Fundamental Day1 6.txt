@@ -1,0 +1,526 @@
+Windows Booting Process: A process of starting computer(initializing OS) is called booting process.
+========================
+Types of booting: Cold Booting	-- system was off, and then powered on
+		  Warm Booting	-- system is running state, and you restarted it due to some reason.
+
+Booting Process Steps:
+----------------------
+Power On
+POST (Power-On Self-Test)
+BIOS/UEFI
+Bootloader
+Windows Boot Manager
+Windows OS Loader
+Kernel Initialization
+Session Manager
+Winlogon
+User Logon
+User Profile Load
+Startup Programs
+
+
+1. Power On:
+
+2. When you turn on your computer, the power supply sends power to all components.
+POST (Power-On Self Test):
+
+3. The BIOS/UEFI performs a POST to check the hardware components (CPU, RAM, etc.) are functioning correctly.
+BIOS/UEFI Initialization:	Unified Extensible Firmware Interface
+
+BIOS/UEFI firmware is loaded and initializes system hardware.
+It locates the boot device (HDD, SSD, USB, CD/DVD etc.) containing the operating system.
+
+4.Boot Loader Execution:
+
+The BIOS/UEFI hands over control to the boot loader (Windows Boot Manager) located on the boot device.
+
+
+5.Windows Boot Manager (bootmgr):
+
+The boot manager is loaded and it reads the Boot Configuration Data (BCD) to determine the operating system to boot.
+
+6.Winload.exe:
+
+Windows Boot Manager loads winload.exe, which is the Windows OS loader.
+
+7.Kernel Loading:
+Kernel is an imp component of every OS, heart of an OS.
+manages 
+CPU mgmt.
+Memory mgmt.
+I/O mgmt.
+Process mgmt.
+devices mgmt.
+
+winload.exe loads essential drivers and the Windows kernel (ntoskrnl.exe) into memory.
+
+
+8.Hardware Abstraction Layer (HAL):
+
+HAL (hal.dll) is loaded to provide a layer between the hardware and the software.
+
+
+9.System Registry Loading:
+
+The system registry is loaded into memory.
+
+
+10.Session Manager Initialization (smss.exe):
+
+The Session Manager process starts and initializes system sessions, loads the Windows subsystem, and configures the environment for the user sessions.
+
+
+11.Winlogon and LogonUI:
+
+winlogon.exe starts and loads the login screen (LogonUI), waiting for user credentials.
+
+
+12.User Logon:
+
+The user enters their credentials, and if authenticated, the user profile is loaded.
+
+
+13.Desktop Environment:
+
+The Windows desktop environment and shell (explorer.exe) are started, allowing user interaction with the system.
+Once these steps are completed, the system is ready for use.
+=======================================================================================================
+
+Booting Process – Windows Server 2016 with BIOS Firmware
+1.	Power On / POST (Power-On Self Test)
+	a. System powers on, BIOS initializes CPU, memory, and hardware components.
+	b. BIOS checks for bootable devices in the configured boot order (HDD, SSD, DVD, PXE, etc.).
+
+
+2.	MBR (Master Boot Record) Execution
+	BIOS loads the first sector (512 bytes) of the boot disk into memory.
+	MBR contains:
+		a. Boot loader code.
+		b. Partition table.
+		c. MBR code passes control to the Volume Boot Record (VBR) of the active partition.
+
+3.	Bootmgr (Windows Boot Manager)
+		The MBR locates and starts Bootmgr.exe.
+	Bootmgr is responsible for:
+		a. Reading the BCD (Boot Configuration Data) store.
+		b. Presenting the boot menu (if multiple OS/boot entries exist).
+
+4.	BCD (Boot Configuration Data) Processing 
+		a. Bootmgr reads BCD store (located in \Boot\BCD on system reserved partition).
+		b. It determines which OS to boot and passes instructions accordingly.
+
+5.	Winload.exe (Windows OS Loader)
+		Bootmgr loads Winload.exe, which is responsible for:
+				a. Loading the kernel (Ntoskrnl.exe).
+				b. Loading HAL (Hardware Abstraction Layer).
+				c. Loading essential boot-class drivers.
+				d. Loading system registry hive.
+
+6.	Kernel Initialization (Ntoskrnl.exe)
+		a. Initializes memory manager, scheduler, and device drivers.
+		b. Starts the Session Manager Subsystem (smss.exe).
+
+7.	Session Manager Initialization (smss.exe)
+		a. Loads system environment variables.
+		b. Starts Wininit.exe (Windows Initialization process).
+
+8.	Wininit.exe Initialization:
+	It launches:
+		a. Services.exe (Service Control Manager).
+		b. Lsass.exe (Local Security Authority Subsystem).
+		c. Winlogon.exe (handles user logon).
+
+9.	Logon Screen (Winlogon.exe)
+		a. Displays logon UI.
+		b. User authentication occurs via Lsass.
+		c. After login, Windows Server 2016 desktop or Server Manager loads.
+Summary:
+=======
+POST → MBR → Bootmgr → BCD → Winload.exe → Ntoskrnl.exe → Smss.exe → Wininit.exe → Services.exe + Lsass.exe + Winlogon.exe → Logon Screen
+
+=========================================================
+
+MS-DOS	--CLI	
+
+
+CLI	---command line interface
+
+GUI  
+
+Client-OS
+win1
+win2
+win3
+win3.11  
+
+win95  GUI
+win98
+WinXP	
+WinME	Millenium Edition
+Win Vista		
+Win7 
+Win8
+Win8.1
+Win10
+Win11
+
+
+Server OS:
+1.Windows NT 3.5
+2.Windows NT 4.0		Win95
+3. Windows Server 2000		win98
+4.Windows Server 2003		XP
+5. Windows Server 2008		Win7	
+6. Windows Server 2012		Win8/8.1
+7. Windows Server 2016		Win10
+8. Windows Server 2019		Win11
+9. Windows Server 2022		Win11
+10. Windows Server 2025		Win11
+
+
+
+MCSA		MS Certified System Associates
+
+
+Virtual Machine: is a logical computer that uses/ shares a physical resources to work with the help of Hypervisor(Virtualization).
+
+When we install Windows OS, by default it is a part of Workgroup.
+
+
+Workgroup					domain
+peer to peer network				Client Server Network 
+
+To set the firewall:
+run  firewall.cpl
+
+
+To set the ip address:
+run   ncpa.cpl
+
+On Windows 10 VM:
+==================
+1. turn off the firewall	firewall.cpl
+2. set the ip			ncpa.cpl
+3. verify thru cmd		ping 192.168.100.1
+4. Change the hostname		file explorer----This PC---Settings----Change Settings----Change--
+
+
+
+Editions of Server 2016/2022
+============================
+1. Essential	25 users / 50 devices
+2. Standard	provides all the features of Server OS, it supports virtualization(but only 2VMs)
+3. DataCenter   provides all the features of Server OS, it supports virtualization(unlimited).
+
+4. Datacenter(Azure Edition): Available with Server 2022--helps you use the benefits of the cloud to keep your 					VMs up to date with minimize downtime
+===============================================================
+Min Hardware Requirement:
+========================
+CPU		1.4GHz  or above
+RAM		512MB RAM  (Core)  or 2GB RAM (GUI/Desktop Experience)
+Hard Disk       32GB Free Space
+
+
+Minimum RAM Requirement for Server 2022:
+CPU		1.4GHz  or above
+RAM		512MB (installation not for actual load), recommended minimum 1 GB for Server Core  and 2 GB 		for Server with Desktop Experience
+Hard Disk       32GB Free Space
+
+
+Editions of Windows 10
+======================
+1.  Home      you cannot users, cannot join this machine to domain
+2.  Pro
+3. Enterprise   
+4. Mobile
+5. Education
+
+Min Hardware Requirement:
+========================
+CPU		1GHz  or above
+RAM		1GB RAM  (x86)  or 2GB RAM (x64)
+Hard Disk       16GB (x86)  or 20GB  (x64)
+
+===========================================================
+
+Create Virtual machine of Server 2016
+
+CPU/Processor			1
+vCPU				1
+RAM 				4GB
+Disk				100GB disk
+==================================================================
+Hostname:	Server1
+Firewall:	OFF
+IP Settings:
+		IP Add: 		192.168.1.1
+		Subnet Mask:		255.255.255.0
+		Default Gateway:	192.168.1.50
+		Preferred DNS:		192.168.1.100
+		Alternate DNS:		192.168.1.200
+==========================================================================
+Create Virtual machine of Win 10
+CPU/Processor			1
+vCPU				1
+RAM 				2GB
+Disk				60GB disk
+
+
+Hostname:	Client1
+Firewall:	OFF
+IP Settings:
+		IP Add: 		192.168.1.2
+		Subnet Mask:		255.255.255.0
+		Default Gateway:	192.168.1.50
+		Preferred DNS:		192.168.1.100
+		Alternate DNS:		192.168.1.200
+
+
+to enabling administrator account on win10
+run----lusrmgr.msc				local users & groups
+
+
+or  file explorer---- this pc---rc---Manage----Local Users & groups
+
+
+1. Turn off the firewall:
+run		firewall.cpl
+
+2. To set the ip address:
+run		ncpa.cpl
+				192.168.1.2
+				255.255.255.0
+						ok
+
+3. To change the hostname:
+		file explorer---- this pc---Right Click---Properties--- Rename This PC (Advanced)----change---
+		computer name:		Client1
+							ok
+
+To apply the effect--->restart the vm
+
+cmd----whoami	---shows the currently logged-in user name.
+	
+==============================================================================
+Disk Management:  
+
+Hard disk Partitioning Style types:
+
+1. MBR		Master Boot Record
+		of size 2TB or less
+		Partitions		4
+		Track0  Sector1	is the address of MBR
+		Size of MBR is 512 Bytes
+		Stores partition information and boot loader information in a one sector(Track 0 Sector1).
+
+2. GPT GUID PT	Globally Unique Identifier partition table
+
+		Support hard drive size of more than 2TB upto 9.4ZB
+		Partitions support---		128
+		works with modern UEFI systems.
+
+
+=========================================================================
+MBR			to open disk mgmt.
+				run	diskmgmt.msc	
+
+Types of Disk
+1. Basic
+		create partitions	----------- 4 
+Primary partition	maximum 4 primary partitions can be created in basic disk
+
+Primary partition   3
+Extended Partition  1
+		Logical drives   n numbers of drives can created
+
+0 P		1 Extended		no
+
+1 P						yes
+3 P		1 Extended		yes
+
+
+
+shrink/extend
+=======================================================================================================
+File System:
+		
+1. Index of an operating system
+2. A file system is the method Windows uses to store, organize, manage, and retrieve files and folders on storage devices
+3. It provides a hierarchical structure of files and directories.
+
+Types of files system:
+=====================
+1. FAT         FAT8   FAT12     FAT16    FAT32
+2. NTFS
+3. ReFS
+4. ExFAT
+
+FAT16:		 File Allocation Table 16
+====
+1. Maximum Volume Size: Typically up to 2 GB (some implementations support up to 4 GB)
+2. Simple and easy to implement	
+
+
+	
+FAT32:  File Allocation Table 32
+=====
+1. Lightweight and simple
+2. Supported by Windows, Linux, macOS, cameras, gaming consoles, and USB devices.
+3. Maximum file size: 4 GB.
+4. Maximum Partition size 32GB.
+5. Easy implementation.
+6. Does not support advanced security features such as file permissions and encryption.
+	
+
+NTFS (New Technology File System) is the default file system in modern Windows because it provides:
+=================================
+1. Supports  upto 2TB partition size 
+2. File and folder permissions
+3. Encryption (EFS)
+4. Compression
+5. Disk quotas
+6. Large file and volume support
+7. Better reliability and recovery through transaction logging.
+
+ReFS	Resilient File System:
+=============================
+
+1. Developed by Microsoft.
+2. Provide data integrity, scalability, and protection against data corruption.
+3. Commonly used in Newer Windows Server and enterprise storage environments.
+4. Supports very large volumes and files.
+5. Best for automatic corruption detection and repair.
+
+
+
+ExFAT	Extended FAT:
+====================
+
+1. Designed for USB drives, SD cards, memory cards, and external hard drives.
+2. Supports files larger than 4 GB, unlike FAT32.
+3. Compatible with Windows, macOS, and many other devices.
+4. Optimized for flash storage devices
+
+Type 			FAT32				NTFS 				ReFS 
+
+Introduced		Windows 95		Windows NT			Windows Server 2012
+Maximum File Size	4 GB			16 TB+ (Windows implementation)	35 PB (Petabytes) theoretical
+Maximum Volume		2 TB			256 TB+				35 PB theoretical	
+Security Permissions	Not Supported		Supported (ACLs)		Supported
+Encryption (EFS)	No			Yes				No EFS
+Compression		No			Yes				No
+Disk Quotas		No			Yes				No
+Journaling		No			Yes				Integrity streams
+Error Detection		Basic			Good				Excellent
+Compatibility		Windows, Linux, macOS 	Mainly Windows			Newer Windows OS version
+
+
+
+============================================================================================
+create two partitions
+
+1. FAT32		5G			f:		FAT32
+2. NTFS			35G			N:		NTFS
+
+
+Conversion of FAT32 ------------> NTFS
+
+open cmd (Run as Administrator)
+
+	convert  f:   /fs:ntfs
+		enter label		fat32
+
+Verify from file explorer:
+			f drive is now converted to NTFS
+
+
+conversion from NTFS----> FAT32 is not possible 
+================================================================================
+2. Dynamic Disk
+
+contains volumes
+
+5 types of volumes
+
+Non Fault Tolerance volumes:
+1. Simple		1 Hard disk 		extend/shrink
+2. Spanned		min 2 hard disk  max 32		extend/shrink
+	
+		disk 1		3GB		3GB
+		disk 2		4GB		3GB		s:  6GB  extend by 500M		s: 6.5GB
+
+
+
+3. Striped (RAID 0)	min 2 hard disk      max 32	  no extend/shrink
+		
+		disk 1		2G
+		disk 2		2G			t:  4G
+
+Fault Tolerance Volumes:
+4. Mirrored (RAID 1)	Min 2		Max  2
+			disk 1		1G 
+			disk 2		1G 		M: 1G    1G is used to keep duplicate copy of data
+
+5. RAID-5		
+		Redundant Array of Independent Disk/Inexpensive disk
+		min 3		max 64	
+		disk 1  3G
+		disk 2	3G
+		disk 3	3G			R:  6G	    3G	is used for keeping parity bits
+	
+
+
+Ex-OR	Gate
+
+0	0	0
+0	1	1
+0	0	1
+1	1	0
+
+
+		disk1		disk4			disk3
+		1001		1100			parity
+
+		1		1			0
+		0		1			1
+		0		0			0
+		1		0			1
+
+Perform the following tasks:
+
+1. Create simple volume on disk1	200MB		g:(200)	simple		verify from file explorer
+2. Create spanned volume as below
+			disk 1		50MB
+			disk 2		250MB		s:	Spanned	   extend disk1 by 200MB, & verify 							(500MB)			from file explorer
+
+3. Create striped volume as below
+			disk 1		300MB
+			disk 2		300MB		t: (600MB)	Striped	   Verify from file explorer
+
+4. Create Mirrored volume as below
+			disk 1		150MB
+			disk 2		150MB		M: (150MB)	Mirrored    Verify from file explorer, 									store files in M:
+
+			Then use Break Mirror option on disk1, & verify the same in file explorer, you should 			get two simple volumes with label Mirrored
+
+5. Create RAID-5 volume as below
+			disk 1		1G
+			disk 2		1G		R:2G	Verify from file explorer, store files, then 
+			disk 3		1G			make disk2 offline, and verify data from 								explorer, again make disk2 online, and 									reactivate disk2, finally RAID-5 should show 3. Device Manager		devmgmt.msc
+
+			it is used to view, enable disable devices,  update drivers of device etc
+
+=============================================================================
+Task Manager(taskmgr):
+
+1. is used to view the list of processes running (Foreground/Background processes).
+2. Can be used to view System performance like CPU, Memory, Disk, Nw etc.
+3. Can be used to start/end the processes. 
+
+			kill the process windows explorer.
+		To start it again, file menu---Run new task---explorer.exe
+=================================================================================
+Service Management:  
+	run	services.msc
+1. Services are running in the background, does not require any human intervention.
+2. Services are managed by operating system by default.
