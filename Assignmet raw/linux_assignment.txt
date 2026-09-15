@@ -1,0 +1,52 @@
+Assignment1-Day1
+Create a Linux VM with name <yourlastname_last3digitsofEMPid> with below specifications
+		1 Processor, 2GB RAM, 110GB Hard disk.
+		Create 3 partitions as
+		/		40G
+		/boot		1G
+		Swap		4G
+ 
+1. Show the list of currently logged in users
+2. command to see the current cursor position is _________.
+3. __________command show the name of OS?
+4. What is name of Linux Kernel?
+5. What is the name of Linux BootLoader?
+6. Who is the founder of Linux?
+7. In Linux, everything is considered as file, Yes/NO.
+8. Name of the superuser is Linux is ________
+9. ________ folder is the home folder for root user.
+10. __________ folder is the home for other users
+11.________ folder contains CPU & RAM info.
+12. command to see the current position in Linux
+13. What is the full form of GNU/GPL.
+14. ______ command to clear the screen
+15. __________ command is used to see list of last 8 commands used on the terminal
+16. _______ command is used to create user Mary.
+17. _______ command is used to detailed listing of /boot folder
+18. _______ command is used to rename /data folder as _____ /notes.
+19. create a folder structure as given below.
+20. What is gnome?
+			/
+			Corp
+	 _______________|_________________________________
+	 |			  |			 |
+	Prod			Sales			HR
+	  |			 |			 |
+	Laptop		     profit.docx	  hr-user.txt
+	  |
+__________________ 
+|		  |
+hp		dell.txt
+ 
+1. Create the above structure
+2. copy Laptop folder to sales folder.
+3. rename hr-user.txt to HR-USER.txt.
+4. move profit.docx of Sales to HR folder.
+5. Create 5 files under HR folder with name emp1.txt....emp5.txt
+6. Append data in emp1.txt  as below
+		My name is emp1
+7. Verify the data of emp1 file
+8. Add 4 lines of data in file emp2.txt using gedit command 
+9. Show the first 7 lines of /root/install.log
+10.Show the last 2 lines of emp2.txt.
+

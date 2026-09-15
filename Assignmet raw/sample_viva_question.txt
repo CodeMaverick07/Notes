@@ -1,0 +1,72 @@
+Sample Viva Questions:
+ 
+What is RAM & ROM
+What is SMPS
+What are the examples of Input & Output devices
+What is microprocessor
+What is cache memory. types of cache memory.
+Examples of Input/Output devices
+Types of Printers
+Types of Scanners
+Full form of CISC/RISC
+Types of Hard Disk
+What is the use of BIOS
+Types of ROM
+Difference between DRAM & SRAM  (2 points)
+What are the examples of Secondary storage devices
+=====================================================
+What is Router
+What are different layers of OSI & TCP/IP Model
+Range of IP classes
+Difference between IP add & MAC address
+What is Switch 
+difference between TCP & UDP
+examples of networking & internetworking devices
+Examples of TCP protocols
+Examples of UDP Protocols 
+What is protocol?
+What is topology? types of topologies
+Types of cables 
+Cat of Twisted pair cables
+Half & Full Duplex?
+=================================================================
+Define Server & client
+What is the hardware requirement for Server 2016 & Win10
+What is the use of event viewer
+What is the use of task manager
+How to change the hostname in Server OS
+What is service? 
+What is MBR & GPT
+How many partitions we can have in any system(MBR)
+How many partitions we can have in any system(GPT)
+What is the size of MBR
+What is virtual memory
+What is basic disk(types of partitions), and Dynamic disk(types of Volumes)
+What are the examples of Fault tolerance volumes
+What is the full form of RAID
+How many hard disks are needed for Mirrored volume
+Command to convert FAT32 into NTFS
+Full form of FAT NTFS ExFAT & ReFS
+Difference between FAT32 & NTFS
+==================================================
+What are the features of Linux
+What is the name of Linux Kernel
+what is grub
+what are the phases of Booting Process in Linux
+Name the first process of Linux
+Give some commands of folder
+Name few Folders of /
+Give some commands of file
+Command to see the run level file
+name some file editors
+command to save & exit in vi editor
+command to exit without saving
+command to see current working directory	
+use of run level 1
+use of run level 3
+use of run level 5
+ways to get help in Linux
+use of sort, head & tail.
+ways to Logoff, shutdown & restart the system.
+What is hard link & soft link?
+ 
