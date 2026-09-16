@@ -1,0 +1,496 @@
+Linux Fundamental---2 Days
+
+
+1 Linux is an OS
+2. Secured OS.
+3. CLI + GUI.
+4. Open Source OS
+5. Linux is case sensitive 
+6.   free OS
+7. Founder of Linux--- Linus B Torvalds
+
+RHCSA	RedHat Certified System Administrator	
+RHCE	Engineer
+
+anaconda is a Linux Installer  helps in Linux OS setup
+
+GNU GPL	GNU is not Unix  General Public License
+HW Requirement:
+
+CPU		1CPU   1vCPU		
+
+RAM		4GB   (512MB)
+
+Hard Disk	100GB  (20GB)
+
+=========================================================
+Linux Installation methods:
+1. GUI				 kbd+mouse	
+2. CLI(Text based)	         kbd
+3. Network (Kickstart)		
+
+================================================================
+Partitions of Linux   100G
+1. /         Mount Point 		70GB		P
+2. /boot				1GB		P
+3. swap(Virtual Memory)			4GB		P
+-------------------------------------------------------------------
+4. /home		optional
+5. /usr
+6. /var
+
+
+
+There are two types of desktops
+1. GNOME(default)-----> GNU network object model environment
+2. KDE---->K desktop environment
+
+
+$---standard/normal user
+#---root/super user
+
+useradd u1
+useradd u2
+
+proc
+
+contains kernel, cpu, ram modules/details
+
+SELinux---- Security Enhanced Linux   like a firewall
+
+usr---- contains files related to DHCP/DNS/RAS/www etc
+
+Var--- variable ----> values who keeps on changing
+======================================================================
+folder related commands
+
+1. ls			list of folders/files
+2. ll			long listing
+3. ls   -l		long listing
+4. ls   -a              list all the folders/files(hidden)
+5. ls   -r		list in reverse order
+6. ls   -F		Appends indicators to entries (/ for directories)		
+
+~   tilde		(home folder)
+
+
+
+absolute path 
+
+relative path
+
+/]#cd opt			relative path
+
+home]#cd /opt			absolute path
+
+
+==================================================================
+GRUB	Grand Unified Boot Loader		is Linux boot loader
+
+Init		initialization		is a first process of Linux  
+
+						 process id of init is 1
+
+vmlinuz			is Linux kernel
+
+
+bin			binary			contains command run by user(standard)
+sbin			super binary		contains command run by root
+root						root's home folder
+home						is a home folder for all the standard users
+etc						like control panel (hostname, ip, system configuration)
+dev			device			contains device files (storage files, CPU, RAM, terminals)
+var			variable		contains values which are keeps changing 
+usr			server related conf files		DNS DHCP,RAS
+SELinux			Security Enhanced Linux		contains a security policy(firewall)
+boot						contains booting files
+Lost+Found
+proc			process			it is virtual file system, contains kernel, cpu RAM 							info
+mnt							for mounting partitions
+misc							for mounting partitions
+media							for mounting partitions
+net			network				for sharing data over the nw
+opt
+tmp						contains temporary file
+lib						contains library files (32bits)
+lib64						contains library files (64bits)
+
+==============================================================================================
+a									z
+
+c--z			24		24 partitions
+
+
+mounting		dumping/deploying partition in the form folder
+
+
+
+
+
+To create a folder hello world
+#mkdir "hello world"
+To delete a folder hello world
+#rmdir hello\ world/
+========================================================
+
+ctrl+alt+f1 +fn			GUI
+ctrl+alt+f2 + fn		tty2				+fn is optional(based on hw arch)
+
+
+
+
+ctrl+alt+f6 +fn			tty6
+
+
+who		shows the list of users logged in on diff terminals
+who -r		shows current run level
+clear			clears the screen
+
+==============================================
+Ways to logout
+
+1. ctrl+d
+2. exit
+3. logout
+
+====================================================
+ways to shutdown:
+
+1. halt
+2. poweroff
+3. init  0
+4. shutdown  -h  now			immediately halt
+5. shutdown  -h  2  "tea time"		will shutdown after 2 mins
+				ctrl+c		to cancel the scheduled shutdown
+====================================================
+ways to restart system:
+
+1. reboot
+2. reboot  -f				force restart
+3. init  6
+4. shutdown  -r  now			immediately restart
+5. shutdown  -r  2  "tea time"		will restart after 2 mins
+
+		ctrl+c		to cancel the scheduled restart
+
+=============================================================
+To change system date using cli
+
+date  mmddhourminyear.sec
+
+=========================================================================
+
+Navigation in Linux
+
+
+cd  ..		to come out of current folder
+~		tilde   (represents home folder of a current user)
+
+
+absolute path
+
+relative path
+aim is to goto peers folder
+
+/] cd /etc/ppp/peers				absolute
+
+ppp]#cd peers					relative
+
+ppp]# cd			will take to root directory
+
+=========================================================================
+ways to take help in Linux			imp
+
+1. man   ls			#manual pages	
+		q to quit
+
+2. whatis    ls
+3. ls  --help
+4. man -f  ls			(similar to whatis)
+5. info
+
+==================================================================
+Working with folders/directories
+1. #mkdir			to create new directory
+2. #cp	-r			to copy a directory
+3. #mv				to rename/move directory
+4. #rm  -rf 				to remove/delete directory
+5. #rmdir			to remove/delete empty directory
+
+/
+hw
+	cpu
+		intel
+			i5
+				2nd-gen
+
+# mkdir  -p  /hw/cpu/intel/i5/2nd-gen			-p  parent dir
+# ls -R	 /hw
+						to see directory structure
+
+OR
+
+tree  /hw
+
+===============================================================================================
+To install tree command
+1. insert RHEL 7.9 dvd
+2. goto terminal-----
+#df  -h	
+#cd /run/media/root/RH............../Packages				pls use tabs to get complete names, do not type 									complete words
+#rpm   -ivh   tree............						use tab key to get complete name
+
+verify
+	#tree  /root  
+====================================================================================	
+#Create the below structure, perform the given tasks.
+					 /
+					sports
+				football		cricket			tennis
+				 fifa			    ipl			  ATP
+
+1. rename fifa as FIFA
+2. copy football folder to /boot
+3. remove FIFA folder from football folder
+#ls -R  /sports
+
+#mkdir /sports
+#cd /sports
+#mkdir football cricket  tennis
+#cd footbal
+#mkdir fifa
+#cd ..
+#cd cricket
+#mkdir ipl
+#cd ..
+#cd tennis
+#mkdir ATP
+
+#ls -R  /sports			to verify
+1. rename fifa as FIFA------->  #cd  /sports/football
+				#mv fifa  FIFA
+2. copy football folder to /boot--------> cp -r  /sports/football   /boot
+3. remove fifa folder from football folder----> rm  -rf /sports/football/FIFA
+				#ls -R  /sports			to verify
+
+
+
+
+
+==========================================================================
+Working with files in Linux:
+1. touch				it will create a blank file
+		cd
+	~]# touch 1   2  3
+
+to create test1--------test20.txt files on Desktop:
+
+	#cd /root/Desktop
+	#touch test{1..20}.txt
+	#rm -f test{1..20}.txt
+	
+2. cat				is used to view contents of a file/ create file/ append file contents
+cat>f1.txt
+hello
+hi
+bye
+ctrl+d			to save
+#cat  f1.txt		view
+
+to append the file		>>
+cat>>f1.txt
+shazia
+ctrl+d
+#cat f1.txt
+
+if file exists and again if you create f1.txt, it will overwrite the the previous file
+=====================================================================
+Linux File editors
+1. nano
+2. vi/vim
+3. emacs
+4. gedit		(graphical file editor)		can be used to create, view, modify the file contents
+
+
+to view the file contents
+cat				suitable for files with less num of lines
+head			
+	#cd
+	#head  install.log			will show first 10 lines of a file  10--default value
+	#head -n 3 install.log			shows first 3 lines of a file
+		or
+	#head -3 install.log
+	
+tail
+	#tail install.log			will show last 10 lines of a file
+
+	#tail -n 3 install.log			shows last 3 lines of a file
+		or
+	#tail -3 install.log
+
+
+less			shows file content pagewise, can scroll up/down
+	press q to quit
+more			shows file content pagewise, can scroll down using enter, but cannot scroll up
+	press q to quit
+
+==================================================================
+working with grub		grub.conf	
+
+/etc/grub.conf				path
+
+OR
+
+/boot/grub/grub.conf			actual
+================================================================
+To change the Grub timeout value & Title:
+#gedit /boot/grub/grub.conf
+         OR
+#gedit /etc/grub.conf
+
+timeout=20
+
+
+Title   My Linux Server
+
+save the file
+
+To verify:
+#reboot
+
+=======================================================================
+sort command		is used to sort data in ascending & descending order
+
+#cat>numbers.txt
+3
+123
+45
+79
+54
+100
+78
+
+ctrl +d			to save
+
+to sort numbers in ascending
+
+#sort -n  numbers.txt				-n-----> numeric sort
+
+
+to sort numbers in descending order
+#sort -nr  numbers.txt				-r----> reverse sort
+
+#cat>months.txt
+Dec
+Feb
+Apr
+Nov
+May
+Sep
+Mar
+
+ctrl+d
+
+#sort -M months.txt				-M---> month sort
+
+=====================================================================
+device files:  are stored in /dev
+Types of Devices:
+1.	Character devices: transmits data char by char. eg keyboard, mouse
+2.	Block devices: transmits blocks of data. Faster than character devices. eg USB, DVD-ROMs, Hard drives.
+
+#ll /dev
+
+Types of Files:
+1.Regular files (-): It contain programs, executable files and text files.
+2.Directory files (d): It is shown in blue color. It contain list of files.
+3.Special files:
+	o Block file (b)
+	o Character device file (c)
+	o Named pipe file (p): Pipes are unnamed objects created to allow two processes to communicate. One process reads and the other process writes to the pipe file. This unique type of file is also called a first-in-first-out (FIFO) file.
+	o Symbolic link file (l)
+	o Socket file (s): A socket is a special file used for inter-process communication, which enables communication between two processes.
+
+===============================
+Hard Link & Soft Link
+Links are created to have exact replica between two files.
+
+There are two types of links.
+1. Hard Link
+2. Soft Link
+
+1. Hard Link:
+a. A hard link is an identical replica of the original file.
+b. Both files (the hard link and the original file) will have the same inode number.
+c. A hard link is another file that directly references the same data on disk as the original. 
+d. The key advantage: deleting the original doesn’t break the hard link—the data remains accessible.
+
+
+To create Hard link:
+
+mkdir  links
+cd links
+links]#cat>h1.txt
+		this is demo of hard link
+	ctrl+d
+links]# ln h1.txt   h2.txt
+
+links]# ll
+links]#  ls -i		-i  to see the inode number,  inode number is a location of a file
+
+Verify the content of h2.txt
+			cat h2.txt
+
+delete orginal file
+		#rm -f h1.txt
+Still second file is accessible
+		
+		#cat h2.txt
+
+2. Soft Link:
+a. A soft link, also known as a symbolic link.
+b. Functions similarly to a shortcut or pointer to a file.
+c. A soft link is a file that points to another file, similar to a Windows shortcut.
+c. It is not an exact replica of the file, but rather a pointer to the original.
+d. The inode values of a soft link to a file and the real file will be different. 
+e. You will not be able to access the contents of the soft link if you remove the actual file. 
+
+To create Soft Link:
+links]#cat>s1.txt
+		this is demo of soft link
+	ctrl+d
+links]# ln  -s  s1.txt   s2.txt				-s for soft link
+
+links]# ll
+
+links]#  ls -i		
+two different inode numbers  for s1 & s2
+
+Verify the content of s2.txt
+			#cat s2.txt
+
+delete orginal file
+		#rm -f s1.txt
+s2 file will become inaccessible
+		#ll				shows red color broken link
+		#cat s2.txt
+			will give error---no such file/directory
+
+==========================================================
+pipeline	|
+
+1. The input of first command will be given as input to the second command.
+2. Combining multiple commands.
+
+cat /root/install.log
+
+
+
+
+
+
+
+
+
+
+
