@@ -1,0 +1,522 @@
+==========================================================================
+Working with files in Linux:
+1. touch				it will create a blank file
+		cd
+	~]# touch 1   2  3
+
+to create test1--------test20.txt files on Desktop:
+
+	#cd /root/Desktop
+	#touch test{1..20}.txt
+	#rm -f test{1..20}.txt
+	
+2. cat				is used to view contents of a file/ create file/ append file contents
+cat>f1.txt
+hello
+hi
+bye
+ctrl+d			to save
+#cat  f1.txt		view
+
+to append the file		>>
+cat>>f1.txt
+shazia
+ctrl+d
+#cat f1.txt
+
+if file exists and again if you create f1.txt, it will overwrite the previous file
+=====================================================================
+Linux File editors
+1. nano
+2. vi/vim
+3. emacs
+4. gedit		(graphical file editor)		can be used to create, view, modify the file contents
+
+
+to view the file contents
+cat				suitable for files with less num of lines
+head			
+	#cd
+	#head  install.log			will show first 10 lines of a file  10--default value
+	#head -n 3 install.log			shows first 3 lines of a file
+		or
+	#head -3 install.log
+	
+tail
+	#tail install.log			will show last 10 lines of a file
+
+	#tail -n 3 install.log			shows last 3 lines of a file
+		or
+	#tail -3 install.log
+
+
+less			shows file content page-wise, can scroll up/down
+	press q to quit
+more			shows file content page-wise, can scroll down using enter, but cannot scroll up
+	press q to quit
+=================================================================
+sort command		is used to sort data in ascending & descending order
+
+#cat>numbers.txt
+3
+123
+45
+79
+54
+100
+78
+
+ctrl +d			to save
+
+to sort numbers in ascending
+
+#sort -n  numbers.txt				-n-----> numeric sort
+
+
+to sort numbers in descending order
+#sort -nr  numbers.txt				-r----> reverse sort
+
+#cat>months.txt
+Dec
+Feb
+Apr
+Nov
+May
+Sep
+Mar
+
+ctrl+d
+
+#sort -M months.txt				-M---> month sort
+
+=====================================================================
+device files:  are stored in /dev
+Types of Devices:
+1.	Character devices: transmits data char by char. eg keyboard, mouse
+2.	Block devices: transmits blocks of data. Faster than character devices. eg USB, DVD-ROMs, Hard drives.
+
+#ll /dev
+
+Types of Files:
+1.Regular files (-): It contain programs, executable files and text files.
+2.Directory files (d): It is shown in blue color. It contain list of files.
+3.Special files:
+	o Block file (b)
+	o Character device file (c)
+	o Named pipe file (p): Pipes are unnamed objects created to allow two processes to communicate. One process reads and the other process writes to the pipe file. This unique type of file is also called a first-in-first-out (FIFO) file.
+	o Symbolic link file (l)
+	o Socket file (s): A socket is a special file used for inter-process communication, which enables communication between two processes.
+
+===============================
+Hard Link & Soft Link
+Links are created to have exact replica between two files.
+
+There are two types of links.
+1. Hard Link
+2. Soft Link
+
+1. Hard Link:
+a. A hard link is an identical replica of the original file.
+b. Both files (the hard link and the original file) will have the same inode number.
+c. A hard link is another file that directly references the same data on disk as the original. 
+d. cannot link directories.
+e. Saves disk space.
+f. Faster data access than soft link.
+
+
+To create Hard link:
+
+mkdir  links
+cd links
+links]#cat>h1.txt
+		this is demo of hard link
+	ctrl+d
+links]# ln h1.txt   h2.txt
+
+links]# ll
+links]#  ls -i		-i  to see the inode number,  inode number is a location of a file
+
+Verify the content of h2.txt
+			cat h2.txt
+
+delete original file
+		#rm -f h1.txt
+Still second file is accessible
+		
+		#cat h2.txt
+
+2. Soft Link:
+a. A soft link, also known as a symbolic link.
+b. Functions similarly to a shortcut or pointer to a file.
+c. A soft link is a file that points to another file, similar to a Windows shortcut.
+c. It is not an exact replica of the file, but rather a pointer to the original.
+d. Inode number will be different
+e. You will not be able to access the contents of the soft link if you remove the actual file.
+f. Can be used to linked directories.
+g. Slower data access than hard link
+
+To create Soft Link:
+links]#cat>s1.txt
+		this is demo of soft link
+	ctrl+d
+links]# ln  -s  s1.txt   s2.txt				-s for soft link
+
+links]# ll
+
+links]#  ls -i		
+two different inode numbers  for s1 & s2
+
+Verify the content of s2.txt
+			#cat s2.txt
+
+delete orginal file
+		#rm -f s1.txt
+s2 file will become inaccessible
+		#ll				shows red color broken link
+		#cat s2.txt
+			will give error---no such file/directory
+
+==========================================================
+pipeline	|
+
+1. The input of first command will be given as input to the second command.
+2. Combining multiple commands.
+
+# ls | grep root
+#ls | wc -l 
+#cat /root/install.log | less
+#cat /root/install.log | sort
+
+# cat file2.txt | uniq
+
+#cat /root/anaconda-ks.cfg  | head -7 | tail -2
+
+
+================================================================
+vi/vim editor:		(visual improved)   to create a new/view/modify file.
+=============
+Modes of vi
+1. Command mode			to cut/copy/paste/search/delete data (default)
+2. Insert mode			to insert/write data in a file
+3. Exit mode(last line mode)	to save/quit/search/replace/exit
+
+#vimtutor		to get help about vi editor
+
+esc:w			write/save the file content
+esc:wq			save and exit	
+or
+esc:x			save and exit	
+
+esc:q!			quit without saving	
+
+esc:se nu				to generate line numbers
+esc:set nonumber			to remove line numbers
+
+gg				jump to first line
+shift+g				jump to last line
+
+escdd		delete a line of cursor position
+esc10dd		delete 10 lines from cursor position
+escdw		delete word
+
+To search a string in a file
+
+esc:/string
+		n for moving to next occurrence of a string
+
+To copy a word in vi editor
+
+escyiw
+
+y==yanked
+i==insert
+w==word
+	
+Navigation using characters in vi editor:
+========================================
+
+						k (to move one line up)
+		(to move left)	h							l  (to move right side)
+
+						j  (to move one line down)
+
+esc 1 yy		to copy one line from cursor position
+esc 3 yy		to copy 3 lines from cursor position
+
+
+bring your cursor new line
+
+esc p				to paste
+
+
+
+1. create a new file with name   videmo.txt
+		
+			this is vi demo file
+			we are learning vi editor commands
+			there are 3 modes
+			insert
+			command
+			exit
+		
+			
+
+2. 	save and exit	the editor
+
+3.	open file again, and delete first two lines
+
+4.	quit without saving and then verify the content
+5. 	copy last 4 lines and paste thrice at the end of the file.
+
+To generate a line number	
+		esc: se nu
+
+To remove the line numbers
+	esc: set nonumber
+	
+To search a string		esc:/string   (esc:/second)
+		press n to go to next occurrence of the string if any
+
+Whenever you make a search, it will highlight those matching words. to remove highlighting, 
+	esc:nohlsearch
+
+x can be used to act as a delete button. Keep the cursor from where you want to delete and press x
+X can be used to act as a backspace button. Keep the cursor at the end of a word and press X
+
+To copy from Windows file to vim editor file:
+===========================================
+shift + fn + insert
+=====================================================================================
+To search for a word (all occurrences and replace with another word
+		esc:%s/originalword/newword/g			g for global change
+
+
+esc2yy   to copy lines from cursor position
+
+
+
+come to new line
+escp			to paste
+
+#vimtutor
+======================================================
+Working with run levels/targets in RHEL7
+
+ To check the default run level/target name
+	#systemctl get-default
+
+ To get the default run level
+	#systemctl set-default  <target name>
+===========================================================
+Commonly used targets:
+
+ 0 (Halt): poweroff.target			
+ 1 (Single-user): rescue.target
+ 3 (Multi-user, CLI): multi-user.target
+ 5 (Multi-user, GUI): graphical.target
+ 6 (Reboot): reboot.target
+    Emergency shell
+ 
+a. To verify the current default boot state (runlevel)
+	#ls -lt /etc/systemd/system/default-target
+
+b. To see all active Targets: 
+	#systemctl list-units --type=target or runlevel
+
+c. To see all active/inactive loaded Targets: 
+	#systemctl list-units  --type=target  --all
+
+
+
+d. Set Default Target (Permanent): 
+	#systemctl set-default multi-user.target
+		or
+	#systemctl set-default graphical.target
+
+e. To change Target (Temporary): 
+	#systemctl isolate multi-user.target
+
+
+=============================================
+Working with GRUB--->Grand Unified Bootloader
+
+1. Grub is software that manages the startup process of a Linux based computer 
+2. It displays a menu allowing users to select between different OS/Kernel.
+3. As per the choice/selection, it will load respective kernel and initramfs in the RAM.
+4. In case of no selection, GRUB will loads the default OS kernel after 5 seconds.
+5. Also it transfer the control of hardware to that respective kernel.
+
+1. /etc/default/grub----> Main file for modifying timeout, default OS, and kernel command-line parameters.
+2. /boot/grub2/grub.cfg---->Final configuration file
+3. /etc/grub2.cfg	----------> linked file to /boot/grub2/grub.cfg
+
+GRUB2 Bootloader Timeout & Title
+
+1. vim /etc/default/grub
+
+	GRUB_TIMEOUT=15
+
+#Change this line
+	GRUB_DISTRIBUTOR="MyRHEL7"
+
+esc:x
+
+
+2. Regenerate the GRUB Configuration:
+
+	#grub2-mkconfig -o /boot/grub2/grub.cfg
+
+3. To Verify:
+
+	#reboot
+===========================================================================
+If the default target (runlevel) in RHEL 7 is set to poweroff.target (#systemctl set-default  poweroff.target)
+
+1. Reboot the system.
+
+2. Press any key on the GRUB boot menu, press  e to edit.
+
+3. Find the line that starts with linux or linuxe16--->goto end of the line using end button(after UTF-8)---type 	systemd.unit=rescue.target
+
+4. Press Ctrl+X or F10 to boot., if message like press ctrl+D comes, simply provides root's pwd.
+
+5. Verify the default target
+	#systemctl get-default
+
+7. Set the default target:
+	#systemctl set-default multi-user.target
+		or
+	#systemctl set-default graphical.target	
+8. To verify
+	#reboot
+
+=============================================================================
+Root password recovery:  allows you to reset the root's pwd:
+
+1. Reboot your system. 
+2. On the GRUB menu screen, press e to edit the default boot entry.
+3. Locate the line beginning with linux16 & navigate to the end of this line(using end button), after UTF-8, type   	rd.break
+
+
+4. Press Ctrl+x to boot the system in emergency shell, provide root's pwd.
+
+5. The root filesystem is mounted as read-only. Remount it with write permissions using:
+	#mount | grep /sysroot
+	#mount -o remount,rw /sysroot
+
+6. Switch to the root environment by running:
+	#chroot /sysroot
+
+7.Reset Password:
+	#passwd root
+
+
+8. To prevent authentication failures due to SELinux, ensure the filesystem is relabeled on boot. Or else SELinux will prevent the access to system as we used rd.break, and did pwd resetting.
+	#touch /.autorelabel
+
+The touch /.autorelabel command creates an empty, hidden file named .autorelabel in the root directory. 
+9.	#exit
+10. 	#exit
+
+==============================================
+To secure grub (with password);
+
+1. 	#grub2-setpassword
+2. 	#grub2-mkconfig -o /boot/grub2/grub.cfg			# to regenerate main grub configuration
+3. To Verify:
+
+	#reboot
+
+
+To remove grub password:
+1. delete user.cfg from /boot/grub2 folder.
+	#rm -f /boot/grub2/user.cfg
+	#reboot
+
+
+===========================================================================
+Booting Process of Linux (RHEL7):
+
+
+Power ON → POST (BIOS/UEFI) → GRUB2 Boot Loader → Kernel + Initramfs → systemd (PID 1) → Target Services Start → Login Prompt
+
+
+
+P = Power ON
+B = BIOS/UEFI + POST
+G = GRUB2
+K = Kernel
+I = Initramfs
+S = Systemd + Services
+L = Login Prompt
+
+
+1. Power ON:
+============
+	1. Press the power button.
+	2. The computer receives power and starts.
+
+
+2. BIOS/UEFI Checks Hardware (POST):
+====================================
+	1. BIOS/UEFI checks whether hardware is working properly:
+		RAM
+		CPU
+		Keyboard
+		Hard Disk
+This is called POST (Power-On Self-Test).
+
+3. Boot Loader (GRUB2) Starts:
+=============================
+	1. BIOS/UEFI finds the boot loader.
+	2. In Linux, the boot loader is usually GRUB2.
+	3. GRUB2 displays the boot menu and selects the Linux kernel.
+
+
+4. Kernel Loads:
+===============
+	1. GRUB2 loads the Linux Kernel into memory.
+	2. The kernel is the heart of the operating system.
+	3. It starts controlling the hardware.
+
+
+5. Initramfs Loads:
+==================
+	1. A temporary file system called initramfs is loaded into RAM.
+	2. It contains drivers required to access the real root filesystem.
+	3. After finding the actual filesystem, control is transferred to it.
+
+6. systemd (PID 1) Starts:
+=========================
+	1. The kernel starts systemd.
+	2. systemd is the first process and has PID 1.
+	3. It manages all services and startup tasks.
+
+7. Services Start:
+=================
+	1. Essential services are started:
+	2. Network service
+	3. Firewall
+	4. SSH
+	5. Database services
+	6. Other background services
+	7. System prepares itself for users.
+
+8. Login Prompt Appears:
+=======================
+	1. CLI login screen or GUI login screen is displayed.
+	2. User can enter username and password and start working.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
