@@ -1,0 +1,276 @@
+Autonomous System (ASN)-----A group of Routers under single Administrative control
+
+IANA Internet Assigned Numbering Authority ---IPs  & ASN
+=============================================================================================
+EIGRP			VVIMP
+
+1.Enhanced Interior Gateway Routing Protocol
+Cisco Prop
+2. AD Value 90 & 170
+3. Supports VLSM
+4. classless RP
+5. Cisco Prop RP 
+6. Best IGP RP because of working features
+7. Supports IP subnet Zero
+8. Hybrid (Adv. DVRP)
+9. Multicast address as 224.0.0.10
+10. Triggered Update
+11. Incremental Update
+12. Metrics: BW, Delay of Line, Load, MTU, Reliability
+13. Conditions for neighborship relationship
+
+			1. AS number should match
+			2. Hello and ACK should receive
+			3. Metric should be same
+14. hello packets are sent after every 5 secs (keep alive packets)  224.0.0.10
+
+15. supports auto & manual summarization
+
+Types of EIGRP Tables:
+1. Routing table:  best path   sh ip route eigrp
+2. neighbor table: neighbor infn
+3. topology table: alternate best path infn is kept in topology table		(6 alternate best path is kept)
+
+
+16. EIGRP uses DUAL		Diffusing update algorithm
+
+17. Types of EIGRP Packets:
+		hello & ack  		neighbor discovery /recovery  reliable packet
+		route update		contains routing info
+		query and reply		neighbor discovery /recovery	 query packets--multicast, reply--unicast	
+
+18. EIGRP uses RTP  Reliable Transport protocol	
+19. Hop count: 100 max  255
+
+
+EIGRP K Metrics:
+K Value		Component		Description
+K1		Bandwidth		Lowest bandwidth of route
+K2		Load			Worst load on route based on packet rate
+K3		Delay			Cumulative interface delay of route
+K4		Reliability		Worst reliability of route based on keep alive
+K5		MTU			Smallest MTU in path [Not used in route calculation]
+
+
+#sh ip protocols
+
+K1 (Bandwidth):			 1
+K2 (Load):  			 0
+K3 (Delay): 			 1 
+K4 (Reliability): 		 0
+K5 (MTU):	 0
+
+Successor Route:  best path to reach destination nw (routing table)
+Feasible successor: Alternate best paths to reach destination(topology table)
+Feasible Distance: total distance from source to destination
+Reported Distance/AD(Advertised Distance):  total distance from next hop till destination nw is called RD or AD (Advertised Distance)
+
+Routing with EIGRP
+
+on First Router:
+#sh ip route
+#conf t
+config# router eigrp 1				# 1--->AS number  (any number between 1-65535)
+config-router# network 5.0.0.0
+config-router# network 6.0.0.0			
+config-router# network 192.168.1.0
+config-router# network 192.168.1.96
+config-router# no auto-summary
+config-router# end
+# sh ip route eigrp
+
+on Second Router:
+#sh ip route
+#conf t
+config# router eigrp 1
+config-router# network 192.168.1.96
+config-router# network 192.168.1.32
+config-router# network 192.168.1.128
+config-router# no auto-summary
+config-router# end
+# sh ip route eigrp
+
+on Third Router:
+#sh ip route
+#conf t
+config# router eigrp 1
+config-router# network 192.168.1.128
+config-router# network 192.168.1.64
+config-router# no auto-summary
+config-router# end
+# sh ip route eigrp
+
+
+=====================================================================================
+Loopback Interface:  is a logical interface
+
+
+conf t
+int lo0
+ip add 5.0.0.1 255.0.0.0
+
+exit
+int lo1
+ip add 9.0.0.1 255.0.0.0
+
+exit
+config#router eigrp 10
+		network 5.0.0.0
+		 network 9.0.0.0
+
+		do sh ip route
+
+
+		goto pc5		ping 9.0.0.1
+					ping 5.0.0.1   
+
+============================================================================
+OSPF Open Shortest Path First
+
+
+1. Example of LSRP(dynamic routing protocol)
+2. Classless RP
+3. AD value:110
+4. manual Summarization
+5. Open Standard RP  (cisco & non cisco)
+6. supports VLSM
+7. works on the concepts of area (dividing large internetworks into small internetworks)
+8. Hop count= unlimited
+9. Dr. Dijkstra Algorithm
+10. Supports Ipv4 & IPv6 too
+
+11. supports multi-vendor routers
+12. consumes huge amount of CPU and RAM power.
+13. Hello packets and ack  
+14. Multicast address as 224.0.0.5 & 224.0.0.6
+15. triggered update (incremental update)
+16. Condition for neighborship
+		1. Area id should be same
+		2. authentication pwd
+		3. hello & dead interval should be same
+
+17. Metric: cost (1/BW)
+
+18. LSA-Link State Advertisement is used by OSPF  --- LSA are data packets to exchange network topology information with other areas.
+
+
+The command to display OSPF neighbors on a Cisco device is 
+
+	# show ip ospf neighbor
+
+R1								R2
+
+10.0.0.0/8						20.0.0.0/8
+172.16.0.0/16						192.168.1.0/24
+
+process id is local to ospf router
+
+R1
+config # router ospf	1					10
+config-router)# network 10.0.0.0    0.255.255.255   area  0
+config-router)# network 172.16.0.0    0.0.255.255   area  0
+config-router)# do sh ip route ospf
+
+
+R2
+config # router ospf	50					
+config-router)# network 20.0.0.0    0.255.255.255   area  0
+config-router)# network 192.168.1.0    0.255.255.255   area  0
+config-router)# do sh ip route ospf
+
+
+======================================================================================
+on First Router:
+#sh ip route
+#conf t
+config# router ospf  5				
+config-router# network 5.0.0.0    0.255.255.255 area 0
+config-router# network 6.0.0.0	  0.255.255.255 area 0
+config-router# network 192.168.1.0    0.0.0.31 area 0
+config-router# network 192.168.1.96   0.0.0.3 area 0
+config-router# end
+# sh ip route ospf
+# sh ip ospf int s0/0
+
+on Second Router:
+#sh ip route
+#conf t
+config# router ospf 10
+config-router# network 192.168.1.96   0.0.0.3 area 0
+config-router# network 192.168.1.32  0.0.0.31 area 0
+config-router# network 192.168.1.128  0.0.0.3 area 0
+config-router# end
+# sh ip route ospf
+
+on Third Router:
+#sh ip route
+#conf t
+config# router ospf 15
+config-router# network 192.168.1.128  0.0.0.3 area 0
+config-router# network 192.168.1.64   0.0.0.31 area 0
+config-router# end
+# sh ip route ospf
+
+
+OSPF Hello & Dead interval timers:
+
+
+Default Timer values
+Hello		10 secs
+Dead 		40 secs
+To verify OSPF status(adjacency and timers) of s0/0
+#sh ip ospf int s0/0
+
+To change hello interval of s0/0 of first router:
+
+config# int s0/0
+	ip ospf hello-interval 30
+
+now adjacency will be removed, because hello timers are now different between two OSPF speaking routers(connected point-point)
+Again set the timer value back to 10
+config# int s0/0
+	# ip ospf hello-interval 10
+
+now adjacency will be formed
+==============================================================================
+Redistribution between IGPs: Redistribution means routing between different IGPs, Injecting routes of one routing protocol into other
+
+Redistribution  between
+1. RIP-EIGRP
+2. EIGRP-OSPF
+3. OSPF- RIP
+
+
+on Redistribution router
+router rip
+redistribute eigrp 200 metric 3
+exit
+
+router eigrp 200
+redistribute rip metric 1 1 1 1 1
+	OR
+redistribute rip metric  500   0   255    1     1500
+		         bw  dly  rel   load    MTU
+
+
+do sh ip route
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

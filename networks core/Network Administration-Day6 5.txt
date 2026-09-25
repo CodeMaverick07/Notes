@@ -1,0 +1,448 @@
+RIP-OSPF:
+==========
+
+Redistribute RIP Routes in to OSPF:
+
+r2(config)#router ospf 5
+
+r2(config-router)#redistribute rip metric 50000 subnet
+		OR
+r2(config-router)#redistribute rip
+r2(config-router)#exit
+
+r2(config)#do write
+
+
+Redistribute OSPF Routes into RIP:
+r2(config)#router rip
+
+r2(config-router)#redistribute ospf 5 metric 3
+
+=======================================================================
+Redistribute OSPF into EIGRP:
+r2(config)#router eigrp 200
+r2(config-router)#redistribute ospf 3 metric 1 1 1 1 1
+
+Redistribute EIGRP into OSPF:
+r2(config)#router ospf 3
+r2(config-router)#redistribute eigrp 200 metric 50000 subnet
+		OR
+r2(config-router)#redistribute eigrp 200
+======================================================================================================
+Access Control List:
+		Controlling the nw traffic passing through the router
+		it is like a firewall
+
+		Incoming/Inbound Traffic
+		Outgoing/Outbound Traffic
+
+Types of ACL
+1. Standard
+2. Extended 
+
+Ways to configure ACL
+
+1. Numbered ACL
+		a. Standard		1-99				extended range	1300-1999	
+		b. Extended		100-199						2000-2699
+		
+2. Named ACL
+		a. Standard
+		b. Extended
+
+
+Rule: Permit Statements should be written after All Deny Statements.
+
+access-list 140 deny host 192.168.1.2    host 192.168.1.3
+access-list 140 deny host 192.168.1.4    host 192.168.1.5
+access-list 140 permit ip any any
+
+
+========================================================
+
+Numbered ACL---Standard
+
+Standard ACl:
+1. preferably configured on Destination router.
+2. can read / specify only source address.
+3. can block entire network, cannot be used to block specific ip/port/service.
+
+
+Extended ACL:
+1. preferably configured on source router.
+2. can read both source address & destination address
+3. can be used to block specific ip, entire network, port/service.
+
+Standard numbered ACL (creating rules):
+======================================
+config# access-list 1 deny host 192.168.1.2				explicit deny
+	access-list 1 permit any		   			router will do implicit deny for all the traffic
+
+
+
+to apply a acl rule: 									explicitly allow
+ config# int s0/0
+       # ip access-group 1 IN 
+
+			OR
+
+to apply a acl rule: 								
+ config# int fa0/0
+       # ip access-group 1 OUT
+============================================================
+Extended Numbered ACL:
+pc0(10.0.0.2/24)---not ping --pc3 (10.0.1.2/24)		
+
+To configure Extended ACL:
+=========================
+config# access-list 120 deny ip host 10.0.0.2 host 10.0.1.2
+config# access-list 120 permit ip any any
+config# int fa0/0
+	ip access-group 120 in
+	do show access-list
+
+	go to pc0-----cmd------ping 10.0.1.2		(no pinging)
+
+
+===================================================================================================
+Extended ACL:
+1. preferably configured on source router.
+2. can read both source address & destination address
+3. can be used to block specific ip, entire network, port/service.
+
+===================================================================================================================
+LAB1: Standard ACL
+pc0(192.168.1.2)------->pc1(192.168.1.34)
+Middle Router:
+==============
+create	ACL rule		config# access-list 5  deny host 192.168.1.2		#explicit deny
+											#implicit deny
+				config# access-list 5 permit any			#explicit allow
+				
+	to apply rule		#int fa0/0
+				# ip access-group 5  OUT
+
+	
+
+			
+To remove ACL:			# conf t
+				config# no access-list 5
+					# int fa0/0
+=============================================================================================================
+
+icmp  ping 
+ip	all services(complete block)
+tcp	80
+udp
+				#no ip access-group 5 out
+
+LAB2: Extended ACL
+pc0(192.168.1.2)---ping---->pc1(192.168.1.34)
+			
+Source Router(First):
+			config# access-list 110 deny icmp host 192.168.1.2   host 192.168.1.34
+			config# access-list 110 permit ip any any
+
+			config# int fa0/0
+			      # ip access-group 110 in
+
+				or
+			config# int s0/0
+				# ip access-group 110 out	
+
+To remove ACL
+
+			config# no access-list 110
+			config# int fa0/0
+			      # ip access-group 110 in
+
+
+======================================================================================================================	
+LAB3: Extended ACL	  block laptop user from sales dept ---->not to access web service--->http/https(80/443)-->tcp	
+Block pc
+			
+Source Router(Sales Users Router):
+			config# access-list 130 deny tcp host 192.168.1.46 host 192.168.1.4 eq 80
+				#access-list 130 permit ip any any
+			
+				#int fa0/0
+				#ip access-group 130 in
+				#do sh access-list
+			
+
+
+
+======================================================================================================================	
+LAB4: Extended ACL  block entire sales dept users(192.168.1.32/28)---->not to access web service(192.168.1.4)--->http/https(80/443)-->tcp	
+Block pc
+			
+Source Router(Sales Users Router):
+			config# access-list  130  deny  tcp   192.168.1.32   0.0.0.15   192.168.1.4   0.0.0.0   eq 80
+				#access-list 130 permit ip any any
+			
+				#int fa0/0
+				#ip access-group 130 in
+				#do sh access-list
+======================================================================================================
+
+
+192.168.1.1		host
+
+access-list 30 deny  host 192.168.1.1
+
+or
+access-list 30 deny  192.168.1.0  0.0.0.255			0--exact match, 255 --- any
+
+
+R1
+
+192.168.1.2  D
+192.168.2.1  A
+192.168.1.4  D
+192.168.5.2  A
+192.168.1.1  D
+
+172.16.0.1	A
+172.16.0.255	A
+
+
+
+
+172.16.0.1		0.0.0.0
+
+access-list  15 deny  172.16.96.0    0.0.3.255
+
+
+172.16.96.0		0-255
+172.16.97.0
+172.16.98.0
+172.16.99.0
+
+
+172.16.97.250		D
+172.17.97.250		A
+172.16.100.250		A	
+172.18.97.250		A
+
+
+access-list  15 deny  172.16.128.0    0.0.15.255
+
+172.16.128.0
+
+
+
+
+
+
+
+172.16.143.0
+
+
+access-list  15 deny  172.16.1.0    0.0.0.15
+
+
+172.16.1.1	D
+172.16.1.5	D
+172.16.1.15	D
+172.16.1.16	A
+173.16.1.1
+
+==========================================================================
+LAB5: Extended ACL  block entire Prod dept users(192.168.1.0/28)---->not to access FTP service(192.168.1.66)--->tcp(20 & 21)
+			
+Source Router(Prod Users Router):
+			config# access-list  150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+				#access-list 150 permit ip any any
+			
+				#int fa0/0
+				#ip access-group 150 in
+				#do sh access-list
+======================================================================================================================
+LAB6: Extended ACL     block all the services for prod users for network (192.168.1.32/28) & block entire Prod dept 					users(192.168.1.0/28)---->not to access FTP service(192.168.1.66).
+
+
+			config# access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+				# access-list   150  deny  ip  192.168.1.0   0.0.0.15  192.168.1.32 0.0.0.15
+				# access-list 150 permit ip any any
+
+				#int fa0/0
+				#ip access-group 150 in
+				#do sh access-list
+
+
+======================================================================================================================
+LAB7: Extended ACL	Permit statement LAB
+
+
+Web Server 192.168.1.4		permit		pc2	192.168.1.35			explicit allow
+===============================================================================================											implicit deny (all services)
+
+
+
+2. Named ACL
+		a. Standard		
+
+		b. Extended
+				access-list
+
+
+Advantages of Named ACL
+1. No need to remember ACL range values
+2. Allow to remove any ACL statement, unlike numbered ACL.
+3. Use of name while writing ACL rules helps to identify the purpose of rule easily.
+
+
+
+
+access-list  	extended  deny  sales   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+
+access-list  	150  deny  tcp   192.168.196.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+
+no access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+access-list  	150  deny  tcp   192.168.1.0   0.0.0.15   192.168.1.66   0.0.0.0   eq ftp
+
+
+========================================================================================
+LAB1: Named Standard ACL------->destination
+pc0(192.168.1.2)------->pc1(192.168.1.34) 35 46
+Middle Router:
+==============
+
+	config# ip access-group  standard  block-pc0
+	(config-std-nacl)# deny host 192.168.1.2
+			      # permit any
+				exit
+			config# int fa0/0
+			# ip access-group block-pc0 out
+			#do show access-list
+
+To remove:
+
+	config# ip access-group  standard  block-pc0
+	(config-std-nacl)# no deny host 192.168.1.2
+			      #no  permit any
+				exit
+			config# int fa0/0
+			# no ip access-group block-pc0 out
+			#do show access-list
+
+
+
+===============================================================================
+Named ACL--Extended:
+====================
+PC0   XX  PC2  (192.168.1.2 should not ping with 192.168.1.34)
+
+On Source Router:
+(config)#ip access-list extended block-pc0
+(config-ext-nacl)#deny ip host 192.168.1.2 host 192.168.1.34
+(config-ext-nacl)#permit ip any any
+(config-ext-nacl)#exit
+(config)#int fa0/0
+(config-if)#ip access-group block-pc0 in
+(config-if)#end
+#show access-lists
+==========================================================================
+NAT	Network Address Translation		service/protocol--- Translates Private IP Add into Public IP Add and vice-versa
+
+IANA---->IPs & ASN 
+
+	Private IP 						Public IP
+1.	local address					1. Global address
+2.	unregistered add				2. registered address
+3.	used in LAN(inside Organization) 		3. used over internet
+4.	free of cost					4. buy ip from ISP
+5. 	cannot carry data over internet			5. send data over internet
+
+
+A 10.0.0.0--10.255.255.255				A	1-126
+
+B 172.16.0.0-172.31.255.255				B	128-191
+
+C 192.168.0.0-192.168.255.255				C	192-223
+
+Types of NAT
+
+1.Static					one to one mapping  (one pvt ip---one pub ip)		
+2.Dynamic					dynamic mapping of pvt ip with public ip
+3.PAT (NAT with Overload)			Multiple pvt ip ---one public ip
+	Port Address translation
+
+================================================================================================
+
+2^32============= IPv4
+
+Adv of NAT
+1. Saves the available IP Address (IPv4)
+2. Enhances security
+
+Disadvantages:
+1. NAT address translation leads to delay in data transmission.
+2. All routers should support NAT who are used in Network.
+
+1. Static					one-to one mapping
+2. Dynamic					Pvt IPs are dynamically mapped with available public add
+3. PAT (NAT with Overload)			multiple pvt add----->mapped with one or more public add
+
+===================================================================================
+Static NAT Configuration:
+
+On ISP Router: static Routing
+config# ip route 200.0.0.0 255.255.255.252 s0/0
+
+
+ON NAT-Router: Default Routing
+config# ip route 0.0.0.0 0.0.0.0 s0/0/1
+
+ON NAT-Router:
+config# int fa0/0
+	ip nat inside			#to translate Public IP into Pvt IP
+	exit
+config# int s0/0/1
+	ip nat outside			#to translate Pvt IP into Public IP
+	exit
+config# ip nat inside source static 192.168.1.66 200.0.0.1
+config# ip nat inside source static 192.168.1.67 200.0.0.2
+
+To verify NAT Table:
+do show ip nat translations
+
+To remove Static NAT entries:
+============================
+config# int gi0/0
+	no ip nat inside			
+	exit
+config# int s0/0/1
+	no ip nat outside			
+	exit
+config# no ip nat inside source static 192.168.1.66 200.0.0.1
+config# no ip nat inside source static 192.168.1.67 200.0.0.2
+
+
+

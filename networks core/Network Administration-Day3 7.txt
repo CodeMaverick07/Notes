@@ -1,0 +1,160 @@
+Half & Full Duplex communication
+
+
+pc---pc			Full Duplex
+pc---switch		Full Duplex
+pc---router		Full Duplex
+pc---Hub		Half Duplex
+Switch---hub		Half Duplex
+Router--Switch		Full Duplex
+===============================================================
+Default Routing:
+1. Default routing is used in a stub nw. A network with one entry/exit point.
+
+2. Default routing is used, when you are working with multiple unknown networks.
+3. When Default routing is configured, if router receives any unknown packet(whose entry is not available in the routing table, router will simply transfer/forward the packets towards exit interface, so that it can be delivered to connected ISP.
+4. Special kind of static Routing.
+5. Default routing is used, when destination networks are unknown, & need to be redirected to other router(instead of dropping an unknown packet).
+3. represented by S*
+
+4.command to configure Default Routing:
+
+		1.using next hop ip:
+		  ==================
+		config# ip route 0.0.0.0 0.0.0.0 1.1.1.1
+			#do show ip route
+			
+			OR
+
+		2.using self exit:
+		  ==================
+		config# ip route 0.0.0.0 0.0.0.0 s0/0
+			#do show ip route
+
+Default Routing can be done in 2 ways
+1. self exit
+2. Next hop
+
+Banners   show a welcome message to the connected users
+
+1. motd:		Message of the day
+2. login:
+
+
+config# enable secret sec@123
+	line vty 0 4
+		password 123
+		login
+		exit
+config# banner  motd  # Have a nice day # 
+		config# end		to go to privilege mode
+		config# exit		to go to user execution mode
+			
+
+config# banner  login  # Hope, you are going to enjoy our services # 
+
+
+==============================================================================
+
+Types of Router/Switch Passwords
+1. Normal 					to secure privilege mode
+							config# enable password nor@123				no enable password
+								exit
+								exit
+								>enable
+								password:
+				
+2. Secret/encrypted			to secure privilege mode
+								config# enable secret sec@123			no enable secret
+								exit
+								exit
+								>enable
+								password:
+
+3. Console					to secure console mode (user exec mode pwd)
+							config# line conole 0
+							config-line)#password con@123						no password
+									 #login								no login
+										#end
+										#exit
+										
+										password:
+4. Aux					to secure aux mode
+									config# line aux 0
+							           config-line)#password aux@123
+									            #login
+										       #end
+										      #exit
+										
+										     
+5. Telnet					to protect telnet access
+									config# line vty 0 4
+							           config-line)#password tel@123
+									            #login
+										       #end
+									goto any pc---cmd
+										>telnet 192.168.1.1
+										password
+												      	
+To manually encrypt passwords (normal, console, aux, telnet):
+
+config# service password-encryption
+	#end
+	#sh run				to verify
+
+
+
+=======================================================================================
+Startup-config backup & restore (saved configuration)
+1. connect a server machine to Router(10.0.0.1/8)
+2. assign ip of same nw(eg:10.0.0.2/8)
+
+3. ping server with router
+4. on Router:	to take backup
+	hostname Mumbai
+	Mumbai#copy run start
+		#copy start tftp
+					10.0.0.2
+					press enter(to use default filename)
+	 
+To restore:
+	#erase start		to delete saved configuration
+	#copy tftp start
+			10.0.0.2
+			Mumbai-confg
+			enter (to continue with default name)
+			
+==========================================================================================
+Router password Recovery:
+
+			router 		config# enable secret sec@123
+							#end
+							#write
+
+							#reload
+							#enable
+							it will ask for password
+to recover the pwd:
+		goto physical tab---power off/on
+
+		goto cli tab---ctrl+c
+		rommon1>?
+		rommon2>confreg 0x2142			to change configuration register value for password 								recovery(this will skip the step of reading nvram)
+		rommon3>boot
+				Basic Setup ..... n
+		Router>en
+			config# copy start run
+				#no enable secret				to remove pwd
+				#config-register 0x2102		 to set the configuration register value back to normal mode.
+				#end
+				#write
+				#reload
+
+				No password will be asked for privileged mode.
+
+
+
+
+
+
+

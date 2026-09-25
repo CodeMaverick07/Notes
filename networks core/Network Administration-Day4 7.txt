@@ -1,0 +1,351 @@
+Router IOS Backup and Restore:
+
+Flash memory holds IOS of router/switches
+
+#show flash
+	copy IOS filename
+
+#copy flash tftp
+		10.0.0.2
+		paste filename
+
+		enter to go with default filename
+
+		Backup done
+
+To Restore
+#del flash
+		paste filename
+		confirm---enter
+#reload
+
+rommon1>?
+	2>tftpdnld
+	IP_ADDRESS=10.0.0.1
+	IP_SUBNET_MASK=255.0.0.0
+	DEFAULT=GATEWAY=10.0.0.1
+	TFTP_SERVER=10.0.0.2
+	TFTP_FILE=paste filename
+
+		>tftpdnld
+		y
+	>boot
+Restore done
+
+===========================================================================================================
+Secured Shell			22/tcp  Application
+
+			is used to access remote device securely.
+
+Steps to configure ssh:
+
+config# hostname Mum
+config# ip domain-name abc.com					//setting the domain name
+config# Crypto key generate rsa
+				  [512]:enter
+config# username john password ssh@123
+config# line vty 0 4
+config-line)#transport input ssh
+config-line)# login local
+
+		
+		#end
+#write
+
+To verify:
+Goto pc
+	cmd
+		ssh -l john 10.0.0.1				//ip of router
+
+		password:123		
+
+=======================================================================
+DHCP: Dynamic Host Configuration Protocol:
+				67,68/UDP
+
+				assigns IP to clients dynamically
+
+				subnet mask, dns address, router address
+
+DHCP works on the process of DORA	
+
+			ip given by dhcp is a temporary ip
+
+
+
+
+
+Router:
+
+conf t
+config#hostname DHCP-Router
+config#ip  dhcp pool corp
+config-dhcp)#domain-name  corp.com
+config-dhcp)#network 192.168.100.0 255.255.255.0
+config-dhcp)#default-router 192.168.100.100
+config-dhcp)#dns-server 192.168.100.50
+config-dhcp)#end
+#sh ip dhcp binding						//shows the mapping of ip given to the dhcp clients
+
+
+===================================================================
+FTP		File Transfer Protocol		20,21/tcp		Application Layer
+			helps to upload & download files
+
+
+==================================================================================================
+DNS:	Domain Name System		53/tcp & UDP
+			resolves domain name to ip address & vice-versa
+
+
+=======================================
+SMTP & POP3		SMTP---25/tcp  		Outgoing Mails   
+			POP3---110/tcp   	Incoming mails
+			IMAPv4---143/tcp   	Incoming mails
+
+
+
+Dynamic Routing:
+
+Routing Protocols are responsible for searching available nws, defining best path.
+
+1. less burden on Administrator
+2. More overhead on Router's CPU & Memory.
+3. Less secure.
+4. Suitable for large internetworks.
+
+IRP								ERP
+
+Interior Routing Protocol				Exterior RP
+
+IGP								EGP
+
+Interior Gateway Protocol				Exterior GP
+ROUTING is DONE WITHIN A DOMAIN			ROUTING IS DONE BETWEEN A DOMAINS
+eg: RIP IGRP EIGRP OSPF IS-IS				BGP  (Border Gateway Protocol)
+
+										
+IGP:								AD Value
+RIP	Routing Information Protocol				120
+OSPF:  Open Shortest Path First					110
+IGRP:  Interior Gateway Routing Protocol			100
+EIGRP:  Enhanced IGRP						Internal-90, External-170
+IS-IS:  Intermediate System-Intermediate System		         115
+
+===================================================================
+AD values:		V IMP
+
+Administrative Distance Value		 Its a ranking given by Cisco to each routing protocol that defines the trustworthiness of each routing protocol
+
+	Rank can be 0-255		lower the value, highest the trust worthiness
+
+When multiple routing protocols are configured on router, then router will consider routing protocol on the basis of their AD value, and will keep the routing updates of the best Routing protocol in table. 
+
+
+RA	----		RB 	------				RC
+
+
+Names						AD Values
+Static (directly connected)			0
+Static (Next Hop)				1
+RIP						120
+IGRP						100
+EIGRP				internal	90
+				external	170
+
+OSPF						110
+IS-IS						115
+
+
+
+
+=================================================================================================
+
+Types of Dynamic Routing:
+1.DVRP: Distance Vector Routing Protocol			RIP, IGRP
+2.LSRP:Link State RP						OSPF, IS-IS
+3.Hybrid (Advanced DVRP)--> (DVRP+LSRP)					EIGRP
+
+
+
+Working of DVRP: each router exchanges routing table infn with each other periodically.
+
+	R1 RIP		-------				R2	RIP	--------		R3  RIP
+	c  10.0.0.0 fa0/0				c  30.0.0.0 fa0/0			c 50.0.0.0 fa0/0
+	c  20.0.0.0 s0/0				c  20.0.0.0 s0/0			c 40.0.0.0 s0/1
+	R (R2) 30.0.0.0					c  40.0.0.0  s0/1			R (R2) 10.0.0.0
+	R  (R2) 40.0.0.0				R (R1) 10.0.0.0				R  (R2) 20.0.0.0
+	R  (R2) 50.0.0.0				R (R3) 50.0.0.0				R  (R2) 30.0.0.0
+
+	R2    30.0.0.0					
+	     						     
+	      40.0.0.0
+
+		10.0.0.0/8				10.0.0.0/8
+		20.0.0.0/8				20.0.0.0/8
+
+
+		10.0.0.0/30				10.0.0.0/30
+		20.0.0.0/30				20.0.0.0/30
+
+the process of sharing routing table is called convergence
+
+
+
+Classful Routing						Classless Routing
+1. While sending periodic updates, it sends
+ only Network Information, not the 				1. Sends both nw and subnet mask infn
+	subnet mask infn				
+2. 	Does not support VLSM					2. supports VLSM
+3. 	No ip subnet zero support				3. Supports IP subnet zero
+4. 	eg. RIPv1 & IGRP					4. eg. RIPv2 EIGRP, IS-IS, OSPF, BGP
+
+
+
+200.0.0.0/26		255.255.255.192
+X				X
+0	64	128		192
+1	65			193
+
+62	126
+63	127	191		255
+
+================================================================================================
+
+
+		convergence		process of exchanging routing tables  after every 30secs--- slow
+
+					
+==========================================================================================
+Routing Metrics: Routing Metric is a value used by a routing protocol to determine the best path to a destination network 				when multiple routes are available.
+
+
+1. Hop Count			Number of routers a packet passes through
+2. Bandwidth			Link speed; higher bandwidth is preferred
+3. Delay of line		Time taken for packet transmission(from source to destination)
+4. Cost				Administrative value assigned to links
+5. Reliability			Stability of a link		255/255--->reliable link
+6. Load				Current traffic utilization on a link,1/255-->less traffic,255/255-->100% traffic congestion
+
+
+7. MTU (Maximum Transmission Unit)  Max Ethernet frame size can be  1518 bytes, that can be transmitted over a network 					    without segmentation.			
+
+1. RIP			Hop Count
+2. IGRP & EIGRP		Bandwidth + Delay (Composite Metric)
+3. OSPF & IS-IS		Cost (based on bandwidth)
+=============================================================================================================
+
+RIP:
+1. Routing Information Protocol.
+2. Metrics: Hop Count
+3. Maximum Hop count==15
+4. small internetworks
+5. Dynamic Routing Protocol
+6. AD value 120
+7. Works on Bellman Ford algorithm
+8. RIPv1 & RIPv2
+10. example of DVRP
+11. slow convergence
+12. 520/UDP
+13. Supports Auto summarization
+14. Periodic updates after every 30 seconds
+
+RIPv2 Multicast Address---224.0.0.9
+
+
+			RIPv1						RIPv2
+1.	RIPv1 is a Distance-Vector Routing protocol.		RIPv2 is also Distance-Vector Routing Protocol.
+2.	It can supports class full network only.		It can support class full and classless networks.
+3.	It does not support for authentications.		It support for authentications.
+4.	It hop count limit is 15.				It hop count limit is 15.
+5.	Does not support for VLSM and discontinuous networks.	It supports for VLSM and discontinuous networks.
+6.	It is less secure.					It is more secure.
+7.	RIPv1 uses Broadcast traffic for updates.		RIPv2 uses Multicast traffic for updates.
+8.	The routing update address used for Broadcast		The routing update address used for Multicast is 224.0.0.9.
+	 is 255.255.255.255.	
+9.	RIPV1 does not provide trigger updates.			RIPv2 provides trigger updates.
+10.	RIPV1 does not send a subnet mask to the routing table.	RIPv2 sends subnet mask to the routing table.
+11.	RIPv1 doesn’t support manual route summarization.	RIPv2 supports manual route summarization.
+12.	Does not support Classless Inter-Domain Routing (CIDR) 	RIPv1 supports Classless Inter-Domain Routing (CIDR). 
+
+
+RIP has four timers update, invalid, hold down and flush timer,
+
+1. Update Timer (30 seconds): The interval at which the router sends its full routing table to neighbors.
+
+2. Invalid/Timeout Timer (180 seconds): If no update is received for a route within this time, the route is considered invalid, and the metric is set to 16.
+
+3. Hold-down Timer (180 seconds): Prevents a router from accepting less favorable, unstable routes for a specific period after a route is marked invalid.
+
+4.Flush Timer (240 seconds): The time before an invalid route is completely removed from the routing table
+
+
+
+R1			R2			R3			R15		R16			R50			R100
+10			10			10			10		unreachable		
+
+R1  -------->			R2	s1 -------->				s1 R3
+Routing table
+
+c 70.0.0.0 f			c 30.0.0.0 f					c 50.0.0.0 f
+c 20.0.0.0 s0			c 20.0.0.0 s0					c 40.0.0.0 s1
+30 40 50			c 40.0.0.0  s1
+
+				R1 10.0.0.0					R2 30.0.0.0
+				R3 50.0.0.0					R2 20.0.0.0
+	R2								R2 10.0.0.0			user 10.0.02
+				
+
+
+hold
+10.0.0.2
+user1 ping 50.0.0.2
+
+
+R1		R2					R15     R16					R100
+							data    unreachable
+RIPv2
+First Router:
+============
+	#sh ip route
+	#conf t
+	config# router rip		
+		# network 192.168.1.0
+		# network 192.168.1.80
+		# version 2
+		# do sh ip route
+
+Middle Router:
+=============
+	#sh ip route
+	#conf t
+	config# router rip		
+		# network 192.168.1.32
+		# network 192.168.1.80
+		# network 192.168.1.84
+		# version 2
+		# do sh ip route
+Last Router:
+============
+	#sh ip route
+	#conf t
+	config# router rip		
+		# network 192.168.1.64
+		# network 192.168.1.84
+		# version 2
+		# do sh ip route
+
+============================================================================
+How to remove routing rip:
+============================
+
+config# no router rip
+========================================================
+Timers of RIP	(seconds)
+1. Route Update Timer		30
+2. Invalid Timer		180	
+3. Hold-down Timer		180
+4. Flush Timer			240
+
+
+
