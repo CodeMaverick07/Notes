@@ -1,0 +1,684 @@
+Classful Network:
+Uses default subnet mask /8, /16, or /24..
+
+Classless Network:
+Allows networks to use custom subnet masks, making more efficient use of IP addresses  /25 , /26, /28, /29, /30 etc.
+=========================================================================================
+
+
+CLSM / FLSM & VLSM
+
+Constant Length Subnet Mask/ Fixed LSM  	using same subnet mask throughout the nw regardless of IP requirement
+
+Variable Length Subnet Mask			different subnet mask in the network as per the IP requirement
+
+						reduces the wastage of IP Addresses.
+
+FLSM (Fixed Length Subnet Mask)
+	a. Same subnet mask for all subnets
+	b. Equal number of hosts
+	c. Simple but wastes IP addresses
+
+VLSM (Variable Length Subnet Mask)
+	a. Different subnet sizes based on needs
+	b. Efficient IP usage
+	c. Flexible & used in modern networks
+
+===========================================================================================================
+
+Working with VLSM:
+
+TO calculate subnet & IP addresses, we need to arrange IP requirement list from High value to low value.
+
+Dept		IP Requirement
+Sales		64
+IT		40
+HR		30
+Admin		 25
+Finance		 12
+WAN 1		 2
+
+/25    128	126
+/26	64	 62
+/27     32	  30
+/28     16	  14
+/29      8	   6
+/30      4         2
+
+1. Sales		 64			(192.168.100.1----------192.168.100.126)
+		192.168.100.0/25
+			255.255.255.128
+			256-128==128
+
+			
+192.168.100.0		192.168.100.128
+192.168.100.1
+
+
+
+192.168.100.126
+192.168.100.127
+
+======================================================================================================
+2. IT		40					(192.168.100.129--192.168.100.190)
+
+
+
+		192.168.100.128/26		
+			255.255.255.192
+			256-192==64
+
+
+192.168.100.128		192.168.100.192
+192.168.100.129
+
+
+
+192.168.100.190
+192.168.100.191
+
+===========================================================================================
+3. HR		 30					(192.168.100.193---192.168.100.222)
+		
+		192.168.100.192/27
+			255.255.255.224
+				256-224==32
+
+
+192.168.100.192		192.168.100.224
+192.168.100.193
+
+
+
+192.168.100.222
+192.168.100.223
+===================================================================
+4. Admin		 12				(192.168.100.225---192.168.100.238)
+
+
+		192.168.100.224/28
+			255-240==16
+
+192.168.100.224		192.168.100.240
+192.168.100.225
+
+
+192.168.100.238
+192.168.100.239
+
+
+
+====================================================================
+5. Finance		 3				(192.168.100.241---192.168.100.246)
+
+			192.168.100.224/29
+				255.255.255.248
+					256-248==8
+
+192.168.100.240		192.168.100.248
+192.168.100.241
+
+192.168.100.246
+192.168.100.247
+
+=======================================================================
+6. WAN 1		 2				(192.168.100.249--------192.168.100.250)
+			192.168.100.248/30
+				255.255.255.252
+					256-252==4
+
+
+192.168.100.248			192.168.100.252	
+192.168.100.249
+
+192.168.100.250
+192.168.100.251
+
+
+========================================================================================
+7. WAN 2		 2				(192.168.100.253--------192.168.100.254)
+		
+				192.168.100.252/30
+
+
+
+
+
+
+192.168.100.252		
+192.168.100.253
+
+192.168.100.254
+192.168.100.255
+
+R-A			Summary Address--->	10.0.0.0/8			R-B
+
+10.0.0.0/16		0 0000001					
+10.1.0.0/16
+10.2.0.0/16
+10.3.0.0/16
+10.4.0.0/16
+10.255.0.0/16		1 1111111
+===============================================================================================================
+
+CSMA/CD			Carrier Sense Multiple Access/Collision Detection		wired LAN   half/full duplex
+CSMA/CA			Carrier Sense Multiple Access/Collision Avoidance		WLAN		half duplex
+
+
+
+
+
+Duplex Modes:
+PC-PC				full duplex
+PC-Switch			FD
+Switch-Switch			FD
+Switch-Router			FD
+Router-Router			FD
+Hub-Hub				HD
+Switch-Hub			HD
+PC-Hub				HD
+
+================================================================================================
+Collision Domain & Broadcast Domain:
+
+Collision Domain: A logical network where data packets can collide with each other when sent on shared medium. eg HUB
+
+Broadcast Domain: is a logical network where data sent by one device will be delivered to all other devices over that network.  example--Switch, Bridge
+
+
+
+HUB			how many collision Domains			1 Collision Domain
+			how many B'cast domains				1 B'cast Domain
+
+Switch			how many collision Domains			Number of active port= number of Collision Domain
+			how many B'cast domains				1 B'cast Domain
+
+
+Bridge			how many collision Domains			Number of active port= number of Collision Domain
+			how many B'cast domains				1 B'cast Domain
+		
+
+Router			how many collision Domains			Number of active port= number of Collision Domain
+			how many B'cast Domains				Number of active port= number of B'cast Domain
+		
+================================================================================================
+
+
+Router Internal Components and Router Booting process:
+1. ROM		POST, Mini IOS, Boot Loader, ROMMON (ROM Monitor---troubleshooting mode)
+2. DRAM		Dynamic RAM		volatile RAM		temporary storage  			 running-config
+3. NVRAM	Non-Volatile RAM	like Hard disk			permanent storage  (configuration files)   startup-config
+4. Flash	Non-Volatile Memory	contains IOS		
+5. Motherboard (Circuit Board)
+
+
+Router Booting Process:
+
+1. ROM----POST   (detects/check hardware available in a router, whether they are functional or not?)
+2. Boot Loader----- look for IOS in  Flash	if available then it be copied into DRAM
+						if not then  it will look for TFTP server (for IOS)
+						if no tftp server available then router will enter into ROMMON mode
+
+
+3. Once IOS is available, it will be loaded into DRAM.
+4. Boot Loader will look for Saved configuration in NVRAM, if available----then file will be copied into DRAM
+							   if no file available ---then it will enter into setup mode
+
+
+		Configuration Register Value:  0x2102			Normal mode
+					       0x2142			password recovery mode
+
+
+=================================================================================================
+Interfaces of Router:
+1. Console Port				to access/configure  Switches/Routers		RJ-45
+
+2. Aux Port	(old router)		 to connect modem/to access/configure  Switches/Routers
+3. Ethernet Interface					LAN Interface
+			ethernet (e0)			10Mbps		RJ-45
+			fast ethernet (fa0/0)		100Mbps		RJ-45
+			gigabit ethernet (gi0/0)	1Gbps		RJ-45
+4. Serial Interface	s0/0  or s0/0/0			WAN interface	
+
+5. PRI/BRI		Primary Rate Interface/Basic Rate Interface  (old router    RJ-45)
+
+		Landline		56Kbps
+		special phone line	ISDN		128kbps
+
+
+
+
+hyper-terminal		
+
+Router Prompts/ modes
+Router>			user execution mode
+
+		show, enable, disable, ping
+
+2. Router#			Privilege mode
+
+			show, enable, disable, ping, delete, copy
+
+
+3. Router(config)#		Global Configuration mode
+				global settings
+
+
+4. Router(config-if)#		interface mode
+				Assign ip address, shutdown/no shutdown
+
+
+5. Router(config-line)#		Line mode
+
+					telnet, ssh, password
+
+
+
+5. Router(config-router)#		routing configuration
+
+
+change the hostname of a router:
+===================================
+#conf t
+config# hostname Mumbai
+config# exit
+
+
+===========================================================================================================
+First Router:
+
+Router>enable
+Router# configure terminal
+Router(config)# interface fastethernet0/0
+Router(config-if)#ip address 10.0.0.1 255.0.0.0
+Router(config-if)#no shutdown							#to enable interface
+Router(config-if)#exit								#to exit from current mode
+Router(config)# interface serial0/0/0
+Router(config-if)#ip address 140.10.0.1 255.255.0.0
+Router(config-if)#no shutdown
+Router(config-if)#end
+Router# show running-config							# to see DRAM configuration
+Router# show ip interface brief							# to see interface summary in tabular format
+
+goto pc0 / pc1
+	click on desktop --- command prompt-
+		 
+					c:\>ping 10.0.0.1			ping to gateway(should ping)
+					c:\>ping 10.0.0.3
+					c:\>ping 140.10.0.1			ping to serial interface(should ping)
+
+Second Router:
+Router>enable
+Router# configure terminal
+Router(config)# interface fastethernet0/0
+Router(config-if)#ip address 20.0.0.1 255.0.0.0
+Router(config-if)#no shutdown							
+Router(config-if)#exit								
+Router(config)# interface serial0/0/0
+Router(config-if)#ip address 140.10.0.2 255.255.0.0
+Router(config-if)#no shutdown
+Router(config-if)#clock rate 64000						#to set the clock rate between two routers. In packet tracer
+Router(config-if)#end	or ctrl+z						  clock rate command is optional.
+Router# show running-config							#shows the DRAM configuration							
+Router# show ip interface brief							
+
+
+
+
+Basic Commands:
+show startup-config				#shows saved configuration data(NVRAM)
+write
+copy running-config startup-config
+show clock					#shows router's clock
+clock set 12:15:30 23 Sep 2025		#to set router's date & time
+show version					#shows hw, software , firmware details, also it shows configuration register information(value)
+
+
+
+8. show ip protocols				#shows routing protocol details
+9. show protocols				#shows Ip configuration of interfaces
+10. show history				#shows last 10 previously used commands
+11. show terminal				#shows terminal setting details
+12. show flash					# shows flash details(IOS filename, size etc)
+13. del flash					#to delete Flash memory information
+14. erase startup-config			#to delete saved configuration
+
+15. description		Admin to understand the use / purpose of the links
+
+		config# int fa0/0
+				description " this is LAN link for HR Dept"
+=====================================================================================================
+IP Routing:
+The process of transferring packets from source to destination through inter-network
+it consists of two phases
+		1. Identify the available networks in the topology, and define the best path to reach to that destination.
+		2. Transferring the packets over the defined path.
+
+
+Types of Routing:
+Static Routing
+Default Routing
+Dynamic Routing
+		
+Static Routing:
+	a. Routing is done manually by Administrator.
+	b. Suitable for small internetworks
+        c. More secure of routing.
+        d. more burden will be on admin, less on Router's CPU & RAM
+
+					
+Static Routing can be done in 2 ways
+		1. Next Hop
+		2. Self Exit
+
+IP Routing:
+
+Routing: is a process of transferring packets from source to destination through an internetwork
+
+It consist of two tasks:
+1. searching for the available nws & defining best path.
+2. forwarding the packets over the defined path.
+
+
+Types of Routing
+1. Static
+2. Default
+3. Dynamic
+
+Types of Routing:
+1. Static 
+				1. Administrator is responsible to define paths to reach to different nws
+				2. More workload on administrator
+				3. Less burden on Router's CPU and RAM (usage)
+				4. More secure
+				5. Administrator should have complete knowledge of internetwork topology
+				6. Suitable for small internetworks
+				7. Change in any nw leads to redefine entries in all routers for that nw.
+
+Static routing can be done in 2 ways
+1. Self exit method(directly connected)
+2. Next Hop Method
+
+Next Hop Method:
+		
+		#conf t
+		config# ip route   <unknown nw>   <subnet mask>   <next hop ip>
+
+Self exit method(directly connected)
+		#conf t
+		config# ip route   <unknown nw>   <subnet mask>   <Self Serial interface name>
+
+
+To remove Static Routing:
+
+conf t
+config# no ip route  <unknown nw>   <subnet mask>   <next hop ip>
+
+
+
+Day2:
+========================================================================================================
+
+Router:		L3 device,  comes with its IOS
+		never allow B'cast (by default), which helps reduce unnecessary network congestion.
+			1. Internetwork comm
+			2. Path Selection
+			3. Packet Switching
+			4. Packet Filtering
+
+			Routing
+
+========================================================================================================
+
+Router's Internal Components:
+
+ROM					POST, Boot loader, Mini IOS,  ROMMON  (ROM Monitor)
+DRAM		Dynamic RAM		temporary memory	contains running configuration  (running-config)
+NVRAM	Non-Volatile RAM	Permanent memory	contains saved configuration	(startup-config)	
+Flash				permanent memory	contains IOS of router
+Circuit Board
+CPU
+configuration-register
+
+
+
+
+Router modes
+Router>?		user execution mode			ssh telnet enable disable  ping exit
+	enable
+Router#?		privilege mode				copy ping, show delete 						configure terminal
+Router(config)#?	Global configuration mode		hostname, to do global configuration in the router
+	interface fastethernet0/0
+3. Router(config-if)#?	interface mode
+			ip address 10.0.0.1   255.0.0.0
+		
+   Router(config-if)#	 no shutdown					to enable the port
+
+
+4. Router(config-line)#		line mode
+5. Router(config-router)#	routing mode
+				
+
+
+			int serial0/0/0
+			clock rate ?
+
+
+
+	exit			interface
+	exit			global
+	#show running-config
+	#show ip interface brief   or    #sh ip int bri
+
+
+
+
+
+
+
+First Router:
+=============
+Basic Setup Mode: no
+Router>enable
+Router# configure terminal						#to enter into global conf mode
+Router(config)# interface fastethernet0/0				#to enter into interface mode			
+Router(config-if)# ip address 10.0.0.1 255.0.0.0	
+Router(config-if)# no shutdown						#to enable to interface
+Router(config-if)# exit							#to exit from current mode
+Router(config)# interface serial0/0/0
+Router(config-if)# ip address 32.0.0.1 255.0.0.0
+Router(config-if)# no shutdown
+Router(config-if)# end							#to jump to privilege mode		
+Router# show running-config						# to view running configuration (DRAM)
+Router# show ip interface brief						# to view interface/ip status (tabular format)		
+
+
+Middle Router:
+=============
+Basic Setup Mode: no
+Router>enable
+Router# configure terminal						
+Router(config)# interface fastethernet0/0				
+Router(config-if)# ip address 172.16.0.1 255.255.0.0
+Router(config-if)# no shutdown						
+Router(config-if)# exit							
+Router(config-if)# ip address 32.0.0.2 255.0.0.0
+Router(config-if)# no shutdown
+Router(config)# interface serial0/0/1
+Router(config-if)# ip address 34.0.0.1 255.0.0.0
+Router(config-if)# no shutdown
+Router(config-if)# clock rate 64000
+Router(config-if)# end							
+Router# show running-config						
+Router# show ip interface brief						
+
+
+Last Router:
+=============
+Basic Setup Mode: no
+Router>enable
+Router# configure terminal
+Router(config)# interface fastethernet0/0
+Router(config-if)# ip address 192.168.0.1 255.255.255.0
+Router(config-if)# no shutdown
+Router(config-if)# exit
+Router(config-if)# ip address 34.0.0.2 255.0.0.0
+Router(config-if)# no shutdown
+Router(config-if)# end
+Router# show running-config
+Router# show ip interface brief
+
+
+====================================================================
+
+basic commands
+#show running-config		or #show run 	shows the running configuration (DRAM--temp data)
+2. #show ip interface brief	shows the ip and interface status in tabular format
+3. #show clock			shows router's clock
+4. #show terminal
+5. #show history
+6. #show startup-config	   or	#show start	shows the saved configuration  (NVRAM)
+7. #copy running-config   startup-config		copying from DRAM to NVRAM
+	#copy run start
+
+
+8.  #write	
+	#wr
+
+To set hostname of router
+	#conf t
+	config# hostname  Mumbai
+
+
+#show run		
+#show start
+
+
+9.reload		reboot the router
+
+10. show flash			shows the router IOS details
+	
+11. erase startup-config		to delete the saved configuration
+
+12. show version			shows hw, software firmware and configuration register details
+==================================================================================================
+
+Routing:	v imp
+	Routing is a process of transferring packets from source to destination through  an internetwork.
+	It consists of two tasks
+			a. Searching for the available networks and defining the best path
+			b. forwarding packet on the defined paths.
+
+Routing can be done in 3 ways 
+
+Static
+Dynamic
+Default
+
+
+Static Routing:		
+	a. Self exit method/ directly connected  (preferred method)
+	b. Next hop method
+
+			1. administrator is responsible for searching nws and defining paths
+			2. good for small internetworks
+			3. Adding or removing network is time consuming process
+			4. More secure
+			5. more burden on administrator, less on router's CPU/RAM
+			6. Administrator should have complete knowledge of entire nw topology	
+
+
+
+Static Routing using Next hop method:
+
+Mumbai:
+
+#show ip route
+#conf t 
+Format:		#ip route  unknown nw	subnet mask		next hop ip
+config# ip route 172.16.0.0    255.255.0.0 		32.0.0.2		   
+config# ip route 192.168.0.0   255.255.255.0        	32.0.0.2    
+config# ip route 34.0.0.0      255.0.0.0		32.0.0.2
+
+	# do show ip route					#do -->	allowing you to run privilege mode command from any mode
+
+
+C  10.0.0.0/8
+C  32.0.0.0/8
+S  172.16.0.0	
+S  192.168.0.0
+S  34.0.0.0
+
+===================================================================================
+Middle Router:
+=============
+
+>enable
+Pune# show ip route
+
+	C	172.16.0.0
+	C	32.0.0.0
+	C	34.0.0.0
+
+
+unknown		10.0.0.0
+		192.168.0.0
+
+#conf t
+config# ip route  10.0.0.0  255.0.0.0   32.0.0.1
+config# ip route  192.168.0.0  255.255.255.0   34.0.0.2
+config# do show ip route
+
+C	172.16.0.0
+C	32.0.0.0
+C	34.0.0.0
+S	10.0.0.0
+S	192.168.0.0
+
+Last Router:
+===========
+#conf t
+config# ip route  10.0.0.0  255.0.0.0   34.0.0.1
+config# ip route  172.16.0.0  255.255.0.0   34.0.0.1
+config# ip route  32.0.0.0  255.0.0.0   34.0.0.1
+
+config# do show ip route
+
+=======================================================================================
+Static Routing using Self Exit method:
+
+Format:			#ip route  unknown nw	subnet mask		self exit interface name
+
+Mumbai Router:
+==============
+
+#show ip route
+#conf t					
+config# ip route 172.16.0.0    255.255.0.0  s0/0/0		
+config# ip route 192.168.0.0   255.255.255.0  s0/0/0        	
+config# ip route 34.0.0.0      255.0.0.0     s0/0/0	
+config# do show ip route
+
+	
+Pune Router:
+===========
+#conf t
+config# ip route  10.0.0.0  255.0.0.0         s0/0/0
+config# ip route  192.168.0.0  255.255.255.0  s0/0/1
+config# do show ip route
+
+BLR Router:
+===========
+#show ip route
+#conf t
+config# ip route 172.16.0.0    255.255.0.0  s0/1
+config# ip route 10.0.0.0      255.0.0.0    s0/1
+config# ip route 32.0.0.0      255.0.0.0    s0/1
+config# do show ip route
+
+goto Pcs, check the connectivity between PCs
+
+
+==================================================================
+	
+goto Pcs, check the connectivity between PCs
