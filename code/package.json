@@ -10,6 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "cli-table3": "^0.6.5"
+    "cli-table3": "^0.6.5",
+    "docx": "^9.7.2"
   }
 }
