@@ -1,0 +1,36 @@
+Sample Questions
+1. what is Route Summarization
+2. What is FLSM/VLSM
+3. What is STP?
+4. What is hub, switch & router
+5. What is OSI Model and it layers
+6. What is protocol? use of DNS, DHCP, ARP, ICMP, HTTP,HTTPS, POP3, SMTP, IMAP etc, port numbers of most commonly used protocols
+7. What is routing, types of routing?
+8. Importance of AD value
+9. what is AS number
+10. what is RIP, EIGRP & OSPF. (atleast 4 points of each)
+11. what is ACL, types of ACL
+12. what is NAT, types
+13. Range of Standard & Extended ACL
+14. AD values of RIP OSPF EIGRP IS-IS Static 
+15. What is Vlan, VTP
+16. What is DTP
+17. What is Inter-vlan communication, types of Inter-VLAN communication
+18. What is ISL & Dot1q
+19. difference between TCP & UDP
+20. what is subnetting & Route Summarization
+21. What is IP address and MAC Address
+22. What is IP class range
+23. What is Loopback address
+24. What is Loopback interface
+25. Difference between Classful & Classless Routing
+26. Difference between RIPv1 & RIPv2
+27. Multicast address used by RIPv2, EIGRP and OSPF
+28. Subnet mask of Class A, B & C
+29. What are the examples of Routing Metrics
+30. Explain Booting Process of Router
+31. Use of NVRAM, DRAM & Flash
+32. Different Configuration Register values
+33. Difference between PVT & Public IP
+34. Range of Pvt & Public IP
+35. Types of VTP Modes
