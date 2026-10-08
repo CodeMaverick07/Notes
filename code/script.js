@@ -49,6 +49,18 @@ function buildTeams(names, teamCount) {
   return teams;
 }
 
+// Buddy mode: groups of 2. If the count is odd, the leftover person joins the last pair (a trio).
+function buildPairs(names) {
+  const shuffled = shuffle(names);
+  const pairs = [];
+  for (let i = 0; i < shuffled.length; i += 2) pairs.push(shuffled.slice(i, i + 2));
+  if (pairs.length > 1 && pairs[pairs.length - 1].length === 1) {
+    const last = pairs.pop();
+    pairs[pairs.length - 1].push(...last);
+  }
+  return pairs;
+}
+
 // ---------- Terminal table (compact width, full horizontal lines between every name) ----------
 function wrapToTwoLines(name) {
   const words = name.split(" ");
@@ -81,6 +93,22 @@ function printTerminalTable(teams) {
 
   console.log("\n" + table.toString() + "\n");
   console.log("Team sizes:", teams.map(t => t.length).join(", "));
+}
+
+function printPairsTable(pairs) {
+  const memberCols = Math.max(...pairs.map(p => p.length));
+  const head = ["Pair", ...Array.from({ length: memberCols }, (_, i) => `Buddy ${i + 1}`)];
+  const table = new Table({
+    head,
+    style: { head: [], border: [] },
+    colWidths: [8, ...Array(memberCols).fill(32)],
+    wordWrap: true
+  });
+  pairs.forEach((p, i) => {
+    table.push([String(i + 1), ...Array.from({ length: memberCols }, (_, m) => p[m] || "")]);
+  });
+  console.log("\n" + table.toString() + "\n");
+  console.log(`Total pairs: ${pairs.length}` + (memberCols > 2 ? " (last group is a trio)" : ""));
 }
 
 // ---------- Word document ----------
@@ -159,17 +187,96 @@ function generateDocx(teams, teamCount, outputPath) {
   });
 }
 
+function generateDocxPairs(pairs, outputPath) {
+  const memberCols = Math.max(...pairs.map(p => p.length));
+  const TABLE_WIDTH = 9360;
+  const NUM_W = 900;
+  const memberW = Math.floor((TABLE_WIDTH - NUM_W) / memberCols);
+  const colWidths = [NUM_W, ...Array(memberCols).fill(memberW)];
+  const totalWidth = colWidths.reduce((a, b) => a + b, 0);
+  const border = { style: BorderStyle.SINGLE, size: 4, color: "000000" };
+  const borders = { top: border, bottom: border, left: border, right: border };
+
+  const cell = (text, width, header = false) => new TableCell({
+    width: { size: width, type: WidthType.DXA },
+    borders,
+    shading: header ? { type: ShadingType.CLEAR, fill: "D9D9D9" } : undefined,
+    margins: { top: 100, bottom: 100, left: 100, right: 100 },
+    children: [new Paragraph({
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text, bold: header, size: 20 })]
+    })]
+  });
+
+  const headers = ["Pair", ...Array.from({ length: memberCols }, (_, i) => `Buddy ${i + 1}`)];
+  const headerRow = new TableRow({
+    tableHeader: true,
+    children: headers.map((h, i) => cell(h, colWidths[i], true))
+  });
+  const bodyRows = pairs.map((p, r) => new TableRow({
+    children: [
+      cell(String(r + 1), colWidths[0]),
+      ...Array.from({ length: memberCols }, (_, m) => cell(p[m] || "", colWidths[m + 1]))
+    ]
+  }));
+
+  const doc = new Document({
+    sections: [{
+      properties: {
+        page: {
+          size: { width: 12240, height: 15840 },
+          margin: { top: 1440, bottom: 1440, left: 1440, right: 1440 }
+        }
+      },
+      children: [
+        new Paragraph({
+          heading: HeadingLevel.HEADING_1,
+          alignment: AlignmentType.CENTER,
+          children: [new TextRun({ text: "Buddy Pairs" })]
+        }),
+        new Paragraph({ text: "" }),
+        new DocxTable({
+          width: { size: totalWidth, type: WidthType.DXA },
+          columnWidths: colWidths,
+          rows: [headerRow, ...bodyRows]
+        }),
+        new Paragraph({ text: "" }),
+        new Paragraph({
+          children: [new TextRun({
+            text: `Total pairs: ${pairs.length}` + (memberCols > 2 ? " (last group is a trio)" : ""),
+            italics: true, size: 18
+          })]
+        })
+      ]
+    }]
+  });
+
+  return Packer.toBuffer(doc).then(buffer => fs.writeFileSync(outputPath, buffer));
+}
+
 // ---------- Run ----------
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
-rl.question("How many teams do you want? (Enter 4 or 5): ", async (answer) => {
-  const teamCount = parseInt(answer.trim(), 10);
+rl.question("Enter 4 or 5 for teams, or 'b' for buddy pairs: ", async (answer) => {
+  const input = answer.trim().toLowerCase();
 
-  if (teamCount !== 4 && teamCount !== 5) {
-    console.log("Invalid input. Please enter 4 or 5.");
+  if (input === "b" || input === "buddy") {
+    const pairs = buildPairs(names);
+    printPairsTable(pairs);
+    const outputPath = "Buddies.docx";
+    await generateDocxPairs(pairs, outputPath);
+    console.log(`Word document saved as: ${outputPath}`);
     rl.close();
     return;
   }
+
+  const teamCount = parseInt(input, 10);
+
+  if (teamCount !== 4 && teamCount !== 5) {
+    console.log("Invalid input. Please enter 4, 5, or b.");
+    rl.close();
+    return;
+  }s
 
   const teams = buildTeams(names, teamCount);
 
