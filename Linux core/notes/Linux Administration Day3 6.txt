@@ -1,0 +1,732 @@
+#vim /etc/motd			after-login  message
+
+	################
+	 Welcome All
+	################
+
+esc:wq
+
+
+
+#vim /etc/issue		pre-login message
+
+Authorized access only!!!!!!!
+esc:wq
+
+
+#reboot   
+
+open  any CLI (for example --tty2) terminal to see pre-login message
+
+==================================================================================================
+alias		creating a shortform of commands
+
+
+#alias			to see all the available aliases
+To create a new alias (temporary alias):
+#alias m='mkdir'
+#alias c='clear'
+
+#alias
+
+To create a permanent alias:
+#cd
+~]#vim   /root/.bashrc
+
+i  for insert
+
+
+
+alias c='clear'
+alias p='pwd'
+alias m='mkdir'
+esc:wq				to save & exit
+
+
+To apply the effect:
+#reboot
+or 
+#logout
+
+Login with root
+#alias
+
+==============================================================
+Bash Profile:	.bash_history, .bash_logout, .bash_profile, .bashrc  are user specific bash files.
+
+
+1. /root/.bashrc		is used to set umask values, aliases permanently.
+
+2. /root/.bash_history		this file contains all the  history of commands used by root user
+
+				# cat /root/.bash_history
+
+3. /root/.bash_profile		can be used to run scripts/commands automatically after user login
+				
+				# vim /root/.bash_profile
+				Goto last line and type
+				pwd
+				cal
+				date
+				ls
+				esc:x		to save
+
+			To verify:
+				#su -l root				mentioned commands will be executed on every boot
+
+
+				
+
+4. /root/.bash_logout		specify the commands in this file that you want to run at every logout
+			
+				# vim /root/.bash_logout
+				passwd
+				
+				esc:x		to save	
+				
+				#exit		to logout from terminal
+
+				User will be prompted to reset pwd at every logout
+
+
+5. /etc/motd			After login messages, to display greetings after logging in
+
+				#vim /etc/motd
+							########################
+								Welcome ALL
+							########################
+				To view the effect, goto cli terminal and login with root
+
+
+6. To display pre-login message:
+		
+			# vim /etc/issue
+			Authorized Access Only!!!!!
+			Reserved for IT-Managers.................
+			
+			esc:x
+
+			To apply the effect---
+			# reboot
+==================================================================================================================
+Permissions in Linux: controlling access of folder/file:
+
+folder----- d
+file------  -
+
+ls -l
+
+root logged in
+
+		mkdir  /test
+		touch  /f1
+
+
+	owner		root
+	owner		root
+
+
+		/test
+
+		owner     group		others
+
+		root	   root		rest of the users
+
+
+
+groupadd it
+		u1 u2
+	folder		
+		read			ls	
+		write			mkdir  rmdir 
+		execute			cd /test
+
+	file
+
+		read			cat less 
+		write			create, delete modify
+		execute			applicable for executable files	
+
+ways to work with permissions:
+1. numeric:			numbers to change		
+2. symbolic:			characters to change permission				
+
+	read	4
+	write	2
+	exec	1
+
+chmod command is used to change the permission of a folder/file:
+to give no access to others for exam folder
+
+		#chmod  750  /exam
+		#ls -ld  /exam
+
+
+to give full access to others for exam folder:
+		#chmod 757 /exam
+		#ls -ld   /exam
+
+chown: change owner is used to change the own of a folder/file.
+chgrp: command in Linux is used to change the group ownership of a file or directory.
+
+
+
+file			touch a.txt
+
+		root		root		others
+		rwx		r-x		r-x
+
+
+read		cat a.txt  
+
+write		create new file, modify, read
+
+execute		not applicable for regular files
+
+			script file, setup files
+
+
+drwxr-xr-x	root		root		4096				exam
+-rw-r--r--	root		root		1				a.txt
+
+d  ---folder
+-  --regular 
+
+
+
+
+d  rwx   r-x     r-x	root		root		4096				exam
+     ow	  g	  o
+      7   5       5
+
+
+
+
+
+-  rw-   r--   r--	root		root		1				a.txt
+    6     4    4
+
+
+Note: chgrp & chown commands can only be run by root user.
+
+to give no access to others for exam folder
+==========================================
+chmod:  is used to change the permission of a folder/file.
+
+		chmod  750  /exam
+		ls -ld  /exam
+
+
+to give full access to others for exam folder:
+=============================================
+		chmod 757 /exam
+		ls -ld   /exam
+
+================================================================
+chgrp:		change group
+
+d  rwx   r-x     r-x	root		root		4096				exam
+
+
+To change group for exam folder as Linux(b1,b2) and assign full access to the folder:
+===================================================================================
+#groupadd Linux
+#useradd -G Linux b1
+#useradd -G Linux b2
+#passwd b1
+#passwd b2
+
+#chgrp  Linux    /exam			this will change owner's group as Linux
+#chmod 775  /exam
+ls -ld   /exam
+
+Open new tab
+su - b1
+cd /exam
+
+
+
+d  rwx   rwx     r-x	root		Linux		4096				exam
+
+============================================================
+chown		change owner		to change the owner of the folder/file
+
+d  rwx   rwx     r-x	root		Linux(b1,b2)		4096				exam
+
+
+#chown tommy  /exam
+ls -ld   /exam
+
+
+d  rwx   rwx     r-x	tommy		Linux(b1,b2)		4096				exam
+
+=====================================================================================================
+1.create users
+	mina  tina  rina  lina   hina  ram
+2. reset the pwd of all above users
+
+3. login as mina user and create a folder songs
+
+4. Set the below permissions for songs folder
+
+	1. tina,rina--------- full access
+	2. lina		-----read & exec
+	3. rest of the users-----no access			
+		
+login as mina:
+mina@S1~]$mkdir songs
+/home/mina/songs
+mina@S1~]$ls   -ld   songs
+		d  rwxrwxr-x	mina		mina		songs
+
+
+root]#groupadd  frnds
+     #usermod -G frnds  tina
+     #usermod -G frnds  rina
+
+
+root]#chown  lina  /home/mina/songs
+root]#chgrp frnds /home/mina/songs
+root]#chmod  570   /home/mina/songs
+     #ls    -ld    /home/mina/songs
+
+	d  r-xrwx---	lina		frnds		/home/mina/songs
+	
+=================================================================================================
+Permissions can be assigned in two ways:
+1. numeric method		r==4, w==2, x==1
+2. symbolic method		+ (adding), -(removing), =(replacing)
+
+ow	-- u		
+gr	-- g
+others	-- o
+
+current permission---->		drwxr-xr-x   root		root					reports
+==================
+				required		others--no access
+
+Numeric way to change permission:
+				#chmod 750 /reports
+	
+Symbolic way to change permission:
+				#chmod   o-rx  /reports
+
+					
+	current			root		root		rwxr-xr-x			reports
+	required				ow-rx, gr----, others--  fc
+
+
+				chmod  u-w,g-rx,o+w   		/reports
+				chmod u=rx,g=---,o=rwx		/reports
+
+
+	required	ow gr others --->  fc
+			chmod ugo=rwx  /reports
+			chmod a=rwx /reports
+				
+
+
+
+===============================================================================
+to create a root user (shona)
+useradd -u 0 -g 0 shona
+
+id shona
+=======================================================================================================
+Special Permission
+1. Sticky Bit			1		t		applicable only on others(o)
+2. SUID	Set UserID		4		s		applicable only on owner(u)
+3. SGID Set GroupID		2		s		applicable only on group(g)	
+
+
+
+1. sticky bit		
+
+	If we set the sticky bit on a directory, a file/folder under this directory can be deleted/renamed/moved only by either the owner of the file/directory or the root user. Sticky bit will restrict rest of the users from renaming/deleting/moving existing files/folders, however they can work on their own data.
+
+To set sticky bit:
+================
+		1.#chmod 1777  /reports
+
+			or
+		2.#chmod o+t  /reports
+To verify:
+==========	ls -ld /reports
+
+		drwxrwxrwt		root		root			reports
+
+To remove sticky bit:
+===================
+		1.#chmod 0777  /reports
+
+			or
+		2.#chmod o-t  /reports
+
+
+============================================================================================================
+2. SUID	(Set user ID):	4		s			working on owner(u) 
+
+A file with SUID always executes as the user who owns the file, regardless of the user passing the command. Any user can use the command set with SUID bit, even though user is not the owner of the command.
+
+#ll  /usr/bin/passwd		SUID bit is set on passwd, because of this, all the users can execute this command, although root is owner.
+
+		#rwsrwxrwx		root			root		/usr/bin/passwd
+
+To set SUID bit:
+================
+		1.#chmod 4777  /usr/bin/passwd
+
+			or
+		2.#chmod u+s  /usr/bin/passwd
+To verify:
+==========	#ll  /usr/bin/passwd
+
+		drwsrwxrwx		root		root			/usr/bin/passwd
+
+To remove SUID bit:
+===================
+		1.#chmod 0777  /usr/bin/passwd
+
+			or
+		2.#chmod u-s  /usr/bin/passwd
+========================================================================================
+ 
+3. SGID  (Set Group ID):		2		s			working on groups(g)
+
+If the SGID bit is set on any directory, all subdirectories and files created inside will get the same group ownership as the main directory, it doesn't matter who is creating it
+
+
+To set SGID bit:
+================
+		1.#chmod 2777  /reports
+
+			or
+		2.#chmod g+s  /reports
+To verify:
+==========	#ls -ld  /reports
+
+		drwxrwsrwx		root		root			reports
+
+login as user1:
+		$cd /reports
+
+		$touch a.txt b.txt
+
+		$ls -ld  /reports
+
+		-rwxrwxr--	user1		root			a.txt
+		-rwxrwxr--	user1		root			b.txt
+
+as above, owner is user1, as he logged in and created files, but duo to SGID bit is set, group ownership is retained to root only.
+
+To remove SUID bit:
+===================
+		1.#chmod g-s  reports
+
+==========================================================================================================
+ACL in Linux	related to permissions
+setfacl		setting acl / permission of folder/file
+getfacl		to verify  ACL permissions of folder/file
+
+
+#mkdir  /demo
+
+drwxr-xr-x		root		root		demo
+
+
+to assign explicit permission for group user-admin---> no access
+		setfacl -m group:user-admin:---   /demo
+		getfacl /demo
+
+to assign explicit permission for Terry--->read,exeute
+		setfacl -m user:Terry:rx  /demo
+		getfacl /demo
+
+to assign explicit permission for smith--->Full access
+		setfacl -m u:smith:rwx   /demo
+		getfacl /demo
+
+to remove the explicit permission for user smith
+		setfacl -x u:smith /demo
+		getfacl /demo
+
+
+to remove all the explicit permission from the /demo
+		setfacl -b /demo
+		getfacl /demo
+
+
+
+========================================================================================================
+Networking in Linux:
+1. To see ip add
+#ifconfig
+# ifconfig ens33
+# ip add show
+# ip add show | grep ens33
+
+
+IP addressing in RHEL 7 is primarily managed via NetworkManager
+
+IP address can be set using
+
+1. nmcli ---------->command-line tool
+2. nmtui  --------->Text User Interface
+3. Using Main configuration file --->configuration files in /etc/sysconfig/network-scripts/ifcfg-ens33
+
+
+To assign ip address temporarily, Changes made with ip are lost after reboot.
+
+	#ip addr add 192.168.1.10/24 dev ens33
+
+
+1. To view ip address:
+	1. #ifconfig
+	2. #ifconfig ens33
+	3. #ip a
+	4. #ip a  s
+
+2. Identify the connection name:
+	#nmcli connection show
+
+3. To modify/assign the connection for static IP:
+	# nmcli con mod "ens33" ipv4.addresses 192.168.1.1/24   ipv4.gateway   192.168.1.100   ipv4.dns  "8.8.8.8,8.8.4.4" 	ipv4.method manual
+
+4. To activate/apply changes:
+
+	# nmcli con up "ens33"
+
+Assigning IP through nmtui:
+==========================
+
+1. # nmtui
+	Click on Edit a connection.
+		select ens33 ---> edit--->and manually enter the IP, Prefix (e.g., 24), and Gateway.
+		IPV4 Configuration  Manual
+		click on ADD
+		192.168.1.1/24
+
+		Gateway	192.168.1.50
+		DNS Servers	192.168.1.100
+				192.168.1.200
+
+		Select--> Require IPV4 addressing for this connection
+		Select--> Automatically connect
+		Select--> Available to all users
+						OK--->Back---Quit
+
+2. To apply the effect:
+		#systemctl restart network.service
+
+=============================================================================================================
+Assigning IP address through Main configuration file:
+====================================================
+#vim /etc/sysconfig/network-scripts/ifcfg-ens33
+
+BOOTPROTO=static   or none
+ONBOOT=yes
+IPADDR=192.168.1.1
+PREFIX=24
+GATEWAY=192.168.1.50
+DNS1=8.8.8.8
+DNS2=8.8.4.4
+
+esc:x
+
+ To apply the effect:
+		#systemctl restart network.service
+
+
+============================================================================================================
+To revert an interface to DHCP:
+# nmcli con mod "ens33" ipv4.method auto
+
+	or 
+#vim /etc/sysconfig/network-scripts/ifcfg-ens33
+BOOTPROTO=dhcp
+
+remove static ip lines
+
+esc:x
+
+ To apply the effect:
+		#systemctl restart network.service
+================================================================================================================
+To get the current hostname of the system :
+# hostnamectl status
+
+To set hostname temporarily:
+# hostnamectl set-hostname MyServer
+# hostnamectl
+==================================================================================================================
+Using nmcli
+To view hostname:
+	# nmcli general hostname
+
+To change the hostname:
+	# nmcli general hostname MyServer
+
+To apply the effect:
+	# service systemd-hostnamed restart
+	# hostnamectl
+===================================================================
+Using nmtui:
+#nmtui--->Set system hostname
+# service systemd-hostnamed restart
+# hostnamectl
+===================================================================
+Using Main configuration file:
+
+#vim /etc/hostname
+MyServer
+
+esc:x
+#reboot
+====================================================================================
+To create Virtual Network Adapter:
+
+physical nw adapter----ens33		
+
+#cd /etc/sysconfig/network-scripts
+network-scripts]#cp ifcfg-ens33  ifcfg-ens33:0			#creating duplicate copy of the main file with name ens33:0
+
+	        #vim ifcfg-ens33:0
+		DEVICE=ens33:0
+
+
+			
+
+		IPADDR=172.16.0.1
+		PREFIX=16
+
+esc:x
+
+
+	#service network restart
+	#ifconfig ens33:0
+	#ping 172.16.0.1 -c 2
+
+===========================================================================================
+Package Management:
+
+.rpm	RedHat Package Manager
+RPMS 	RedHat Package Management System
+Debian based distributions:
+.deb is a package types for
+	a. Debian
+	b. Ubantu
+	c. Kali Linux
+	d. Linux Mint
+	e. Steam OS etc
+RPM based distributions:
+.rpm is a package types for
+	a. RedHat
+	b. Fedora
+	c. CentOS
+	d. OpenSuse
+
+
+There are two ways to manages the packages:
+1. rpm		
+2. YUM
+	a. local media
+	b. vsftpd
+	c. httpd
+
+RPM and yum are both package managers for Linux systems that help install, update, and remove packages.
+
+Windows
+setup file		.exe
+			.msi
+Linux
+setup			.rpm	(RedHat Package Manager)
+
+			rhel	centos		fedora
+			.deb	 Suse  ubantu		
+
+
+=========================================================================
+1. to query dhcp package is installed or not
+
+#rpm -q dhcp
+#rpm -qa | grep dhcp
+
+2. To see detailed about dhcp package	
+	# rpm -qi dhcp
+		-qi - Queries information.
+
+3. to query vsftpd package is installed or not
+
+#rpm -q vsftpd
+
+4. To check RPM Dependencies for a package nano:
+	#rpm -qR nano
+		use -q (–query) option along with the package name.
+		-R (–requires) lists what the package depends on.
+
+4. to install vsftpd package:
+insert a Linux iso/dvd
+
+	#df  -h				to show mounted partitions
+
+
+	#cd /media/R........../Packages
+
+
+	#ls vsf*
+
+	#rpm -ivh vsf..................................
+		  
+	#rpm -qa|grep vsftpd
+
+
+5. To uninstall vsftpd:
+	rpm -e vsftpd……..x86_x64
+	#rpm -qa|grep vsftpd
+
+=================================================================================
+
+YUM:  Yellowdog Updater Modified
+1. is a package manager.
+2. A package management tool that allows users to install, update, remove, and search for packages  
+also it care of dependencies unlike rpm.
+
+ways to create yum server
+
+1. local repo
+2. vsftpd
+3. httpd
+
+
+Steps for YUM Local Repo:
+1. insert a dvd
+2. #mkdir /iso
+3. df -h
+4. #cd /run/media/root/RH...............
+5. #cp -av  *  /iso
+6. #cd /etc/yum.repos.d
+7. #rm -f *				to remove all existing files
+8. #vim local.repo
+	[local]
+	name=yum
+	baseurl=file:///iso
+	gpgcheck=0
+	enabled=1
+
+	save the file
+
+8. #yum repolist		to refresh the packages list
+9. #yum info telnet		to query a package
+10.#yum install telnet*	   -y	to install all packages of telnet(-y yes for all prompts)
+11.#yum erase telnet*      -y	to uninstall all packages of telnet
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,435 @@
+
+Routing in Linux: 
+
+Static
+   # ip route add 192.168.2.0/24 via 10.0.0.1
+
+To view routing tables
+	# ip route show
+	or
+	# ip r
+
+Default
+   # ip route add default via 192.168.2.1
+
+For Permanent Routing:
+
+#vim /etc/sysconfig/network-scripts/route-eth0
+10.0.4.0/24 via 192.168.2.1
+
+esc:wq
+
+#service network restart
+
+sda		dd			sdb
+	1				1
+	2				2
+	3				3
+	4				4
+	5				5
+===================================================================================
+dd:
+Linux DD (Disk to Disk) 
+The Linux dd command is one of the most powerful utility which can be used in a variety of ways. 
+This tool is mainly used for copying and converting data, hence it stands for data duplicator. 
+This tool can be used for:
+•	Backing up and restoring an entire hard drive or a partition.
+•	Creating virtual filesystem and backup images of CD or DVDs called ISO files
+•	Copy regions of raw device files like backing up MBR (master boot record).
+•	Converting data formats like ASCII to EBCDIC.
+•	Converting lowercase to uppercase and vice versa.
+
+Converting case of a file(lowercase)--->lcase
+			 (uppercase)--->ucase
+
+	#cat>/test.txt
+	#HELLO
+	ctrl+d
+	
+	~]#dd  if=/test.txt  of=/test1.txt   conv=lcase
+	#cat test1.txt
+
+if===input file
+of===output file
+conv===conversion
+=================================================================================
+To copy data of /dev/sdb1 into /dev/sdc1  
+	1. Add two hard disk  /dev/sdb & /dev/sdc
+	2. create partitions /dev/sdb1 & /dev/sdc1 of size 5G each
+	3. Format both the partitions
+	4. Store data in /dev/sdb1
+
+		#dd if=/dev/sdb2  of=/dev/sdc1   bs=1M    conv=noerror,sync
+	
+	
+	To verify:
+		#mkdir /c1
+		#mount /dev/sdc1  /c1
+	
+=============================================================================
+To Create image of /dev/sdb1  --->/tmp
+
+	#dd if=/dev/sdb1  of=/tmp/sdbimage.img
+	#ls /tmp
+	
+	To verify:
+		format /dev/sdb1
+		#mkfs.ext4  /dev/sdb1
+
+	To restore:
+		#dd if=/tmp/sdbimage.img of=/dev/sdb1
+		#ls
+			
+
+===========================================================
+dmesg: driver message /display message is used to examine kernel ring buffer.
+       output of this command contains messages produced by device drivers
+      useful when system encounters trouble during startup.
+		# dmesg | less
+		# dmesg | grep usb
+		# dmesg | grep memory
+		# dmesg | grep "cpu"
+		# dmesg -c	to clear the all messages after displaying on screen
+====================================================================================================
+Process Management:
+
+first process of Linux is init ---> pid(1)
+
+Process name		ppid				pid
+init			0				1
+gedit			1				2
+firefox			1				3
+	tab1		3				4	
+	tab2		3				5
+
+
+Types of Process:
+1. Normal process		gedit, firefox
+2. Zombie process		
+	a. Zombie is a leftover bit of a dead process that hasn’t been cleaned up properly
+	b. A zombie process is a process that has completed its execution but still remains in the process table because 			       		its parent process has not yet read its exit status.
+	c. Once this is done using the wait system call, the zombie process is eliminated from the process table.
+	d. Zombie processes don't use any system resources but they do retain their process ID. If there are a lot of zombie processes, then all 		the available process ID’s are monopolized by them.
+
+
+3. Orphan process
+		a. An orphan process is a process that is still executing, but whose parent has died. 
+
+		b. When the parent dies, the orphaned child process is adopted by init or systemd (process ID 1).
+
+		c. When orphan processes die, they do not remain as zombie processes.
+
+4. Daemon process		background process (sshd, ntpd)
+				A daemon process is a background process that is not under the direct control of the user.
+
+
+#ps			
+#ps -A			shows list of all the processes 
+OR
+#ps -e
+#ps -ef		shows ppid too
+
+#top			shows the entire process table (pid, nice value, RAM, CPU utilization)
+#top | grep firefox	to filter top command result for firefox using name
+#top -p 1203		to filter top command result for firefox pid
+#pidof  firefox		to get the pid of firefox
+#pgrep firefox		to get the process id of firefox
+#pkill firefox		to kill process using process name
+
+#xkill---> graphical way of killing
+#killall  firefox		to kill all running firefox applications
+
+#ps -eo pid,ni,comm -p  1203		to view only pid, nice and process name columns of process 1100
+	or
+#ps -eo pid,ni,comm | grep firefox	
+
+Killing a process:
+
+#kill 1203		graceful killing
+    OR
+#kill -15 1203		graceful killing		
+
+#kill -9 1203		forceful killing
+
+#xkill				graphical way (using mouse)
+=======================================================================================================================
+
+	Signal name	Signal number			Description
+ 	
+	SIGTERM		      15	 		Kill the process gracefully.
+
+ 	SIGINT		      2	 			This is the signal that is sent when we press Ctrl + C. It 								aims to interrupt the process, but the process may ignore it.
+
+ 	SIGKILL		      9	 			This signal also interrupts the process but it does so 									unconditionally (use with care!) since a process cannot ignore it.
+
+ 	SIGHUP		      1	 			Short for “Hang UP”, this signals instructs daemons to reread its 							configuration file without actually stopping the process.
+
+ 	SIGTSTP		      20			Pause execution and wait ready to continue. This is the signal that 							is sent when we type the Ctrl + Z key combination.
+
+ 	SIGSTOP		      19	 		The process is paused and doesn’t get any more attention from the 							CPU cycles until it is restarted.
+
+ 	SIGCONT		      18			This signal tells the process to resume execution after having 								received either SIGTSTP or SIGSTOP. This is the signal that is sent 							by the shell when we use the fg or bg commands.
+
+•	SIGHUP - Hangup, sent to a process when the controlling terminal is closed. For example, if you closed a terminal 		 window that had a process running in it, you would get a SIGHUP signal. So basically you've been hung up 		 on.
+
+•	SIGINT - Is an interrupt signal, so you can use Ctrl-C and the system will try to gracefully kill the process.
+
+•	SIGTERM - Kill the process, but allow it to do some cleanup first.
+
+•	SIGKILL - Kill the process, kill it with fire, doesn't do any cleanup.
+
+•	SIGSTOP - Stop/suspend a process.
+
+==========================================================================================
+nice & renice  command: setting up the priorities of  a process.
+
+niceness value
+
+		-20				  0				+19
+		highest priority		default				lowest priority
+		best								  worst
+
+
+
+nice:  to start a fresh process with a specific priority.
+=====
+
+#nice  -n  -20  gedit  &			highest priority
+	OR
+#nice --20   gedit  &
+
+# top -p 1100  
+
+#nice -n 18 gedit  &				towards lowest priority
+	OR
+#nice -18  gedit  &
+
+renice: to change the priority of a running process.
+======
+
+#renice -n 10 -p 1100
+#top -p 1100
+==========================================================
+nohup		no hangup:  	to keep applications/process running even if you close the terminal
+
+
+#nohup firefox  & 
+To verify:
+		close the terminal
+
+#nohup ping 10.10.10.1  &
+
+	
+
+you will notice, firefox is still running
+
+=================================================================================
+RAID	Redundant Array of inexpensive disk		system id is   fd
+
+
+hardware RAID
+software RAID
+
+
+RAID-5			min 3			concept of parity
+
+		d0	1G	
+		d1	1G
+		d2	1G			r:2G
+
+	
+RAID-1	Mirrored	min 2		max  2		
+
+		d0	2G
+		d1	2G			e: 2G
+
+
+
+
+EX-OR	Gate
+
+A	B		C
+0	0		0
+0	1		1
+1	0		1
+1	1		0
+
+abcd
+
+	d0		d1		d2
+	1001				
+
+	1		1		0
+	0		1		1
+	0		0		0
+	1		0		1
+===================================================================
+RAID-5
+1. Add 4 hard drives	
+
+/dev/sdb	5G
+/dev/sdc	10G
+/dev/sdd	15G
+/dev/sde	20G
+W
+2. Create partitions in each drive with size of 3G with system id as fd.
+3. reboot
+To create raid array:
+#mdadm    --create     /dev/md0     --level=5  --raid-devices=3   /dev/sdb1    /dev/sdc1     /dev/sdd1 
+#mdadm  --detail   /dev/md0
+#cat  /proc/mdstat
+
+
+#lsblk
+#mount /dev/md0	/raid
+#cd /raid
+#touch 1 2 3 4 5 6
+
+To make sde1 faulty
+#mdadm   --manage   /dev/md0   --fail   /dev/sdc1
+#mdadm  --detail  /dev/md0
+
+
+To remove faulty disk partition in raid array (/dev/sdc1)
+#mdadm   --manage   /dev/md0   --remove  /dev/sdc1
+#mdadm  --detail  /dev/md0
+
+To add new disk partition in raid array (/dev/sde1)
+#mdadm   --manage   /dev/md0   --add   /dev/sde1
+#mdadm  --detail  /dev/md0
+
+
+To verify data of raid array:
+#mkdir /raid
+#ls
+
+
+=============================================================================
+rsync: smart copy (incremental copy)
+1. rsync is a free command-line tool
+2. Efficiently sync files and directories between two hosts or machines
+3. Files that do not exist on the remote-host are copied.
+4. Files that have been updated will be synced, rsync will copy only the changed parts of files to the remote host.
+5. files that are exactly the same are not copied to the remote host.
+
+#mkdir /profit
+#cd /profit
+#touch a b c d
+#mkdir sales
+
+1. To copy content of /profit on nw shared folder:
+on Server:
+
+
+#rsync -rv  /profit/*     10.0.0.2:/shared-folder    
+-r---Recursively  	 but does not keep file ownership, permissions, timestamps, or symbolic links.
+-v---versbose
+OR
+#rsync -av  /profit/*     10.0.0.2:/shared 
+-a---archive  same as -r but keeps all file permissions, symbolic links, file ownership, etc.
+
+
+
+2. To sync the timestamp too:
+#rsync -rtv  /profit/*     10.0.0.2:/shared 
+==================================================================
+Job Scheduling:
+
+
+1. at jobs		are used for one time scheduling
+2. cron jobs		are used for repeated scheduling
+3. anacron jobs		are used for repeated scheduling (for desktops/laptops)
+
+
+at 0842
+>mkdir /aaaaa
+>groupadd bbbb
+ctrl+d				to create at job
+======================
+
+atq			to view scheduled job
+
+ls /
+tail -3 /etc/group
+=======================================================
+To poweroff the system at below time(08:46am)
+at 0846
+>poweroff
+ctrl+d
+#atq	
+
+===========================================================
+To execute a job after 1 min
+#at now  +1min
+>mkdir /f1.txt
+ctrl+d
+
+#ls /
+====================================================
+To delete at job:
+
+#atrm <jobid>
+#atrm 1
+=======================================================
+cron job:  is used for repeated job scheduling/To schedule recurring tasks.
+
+#cat /etc/crontab
+
+* 	* 		*           * 			*
+min	hr		date	    month		day of week
+
+1. To display a welcome message after every min:
+
+#crontab   -e						
+
+*/1  *  *  *  *	   echo "Welcome to terminal 2" > /dev/tty2
+:wq
+
+#crontab  -l					list all scheduled jobs
+#crontab  -r					to delete scheduled jobs
+
+2. take a backup of all the files of /corp folder using tar utility at 9:30am  15th of every month
+#mkdir /corp
+#cd /corp
+	#touch 1 2 3 4
+
+#crontab -e
+30  9  15 * *    tar -cvf /backup/corp.tar  /corp
+
+
+To take a backup of /corp folder after every one minute
+#crontab  -e
+*/1  *  * * *    tar  -cvf   /backup/corp.tar   /corp
+:wq
+#crontab  -l
+
+4. delete all the contents of /corp folder twice a day 8:30AM & 5:30PM  20th of Oct
+#crontab -e
+30  8,17 20  10 *  rm -rf /corp/*
+
+
+5. take a backup of all the files of /corp folder everyday between 9:00AM till 6PM  on hourly basis
+#crontab -e
+
+0  9-18  * * * tar -cvf /backup/corp.tar  /corp
+
+
+6. delete all the contents of /corp folder at 10:45, 12:45,  3:45  on 10th 15th & 20th of last quarter of a year.
+
+
+#crontab -e
+45  10,12,15    10,15,20   10-12   *  rm -rf /corp/*
+
+
+
+7. delete all the contents of /corp folder at 10:45,12:45,3:45  on weekends.
+
+#crontab -e
+45  10,12,15    *   *  sat,sun  rm -rf /corp/*
+
+
+
+anacron
+	anacron	 command is used with Laptops/desktops--- to create repeated job scheduling, as laptops and desktops are devices which are not running 24*7, so anacron will execute the scheduled tasks whenever devices are started next time after a delay of few mins of start.
+
+/etc/anacron

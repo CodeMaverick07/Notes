@@ -1,0 +1,137 @@
+Assignment4
+Create 3 pv of size 10,12,14GB . create LV of size 20G with the name lv1. format lv1. increase it size by 4G. verify the same. reduce the size by 2G. mount the lv permanently, reboot and verify if you can store data.
+
+ Increase the swap size of your Linux server by 25% and verify. Make sure the swap partition get automatically mounted on every boot
+===================================================================================================
+Sample Linux Questions
+1. What is Linux? Features of Linux.
+2. What is kernel?
+3. What is shell?
+4. What is runlevel? use of each run level. 
+5. Name of Linux kernel.
+6. What is SUDO User?
+7. What is YUM used for?
+8. Name of Linux filesystems?
+9. What is hard & soft link?
+10. What is boot loader, name of boot loader
+11. What is LVM? Name components of LVM.
+12. What is VNC?
+13. How to do mounting, temporary & permanent
+14. What is swap memory?
+15. How to compress/decompress file?
+16. Command to change permission
+17. What is umask?. default umask value for user & root
+18. Command to format partition
+19. Use of grep, locate and find command
+20. Ways to kill process
+21  Command to delete user and group
+22. How to stop iptables
+23. Name modes of SeLinux
+24. What is NTP?
+25. What is use of tar and dd command?
+26. What is job? foreground & background?
+27. What is the use of nice/renice?
+28. How to assign IP address and hostname(GUI & CLI methods)?
+29. Name of first process in Linux, process id of first process
+30. Use of dd command with two examples
+31. Booting Process of Linux
+32. What is the configuration filename and the location of a file for configuring ip address, ntp, selinux, log & vnc
+33. Where the logs are stored in Linux & types of logs?
+35. Ways to create file in Linux
+36. Ways to shutdown /reboot system
+37. Difference between telnet & ssh
+38. What is rpm?
+39. What is cups?
+40. Use of sed 
+41. Hex code/system id for LVM, Standard and Swap partition.
+42. What is setfacl & getfacl
+43. What are the special permissions in Linux with examples?
+44. difference between at and cron job?
+45. Ways to mount partitions in Linux.
+======================================================================================================
+Assignment 3
+ 
+1. Show the CPU details of Linux system
+2. Create a folder /test/world with super user account. Create a user with your    lastname, and assign no access for the world folder. Verify the same whether user    is able to work with the world folder or not.
+4. MCQ Assignment
+========
+1.  uid & gid of root user is _____ & _______.
+2.  which command is used to change or modify value of permissions of folder or file ?
+4.  which command is used to add existing user b1 to group network? 
+5.  which command is used to clear the screen ?
+6.  which command is used to switch between users ?  
+7.  which file is responsible for booting os in a particular run level ?  
+8.  which run level boots OS with networking and without gui? 
+9.  what is the default run level in which the os boots up ? 
+10. how to create a hidden file and how to list hidden files under / ?
+11. how to create a hidden file and how to list hidden files under / ?
+12. ____ command is used to rename a file 
+13.  ________ is used to make b1 user a owner of a data folder
+14.  ______ permission allow user to create/delete/rename files/folders
+15. ___________ command is used to make telnet service off
+16. ________command is used view ip address
+17. ___________ command is used to restart sshd service.
+18._______ command is used to remove tree package using rpm.
+19. ______ commands shows the Linux kernel version.
+20. Name the Linux Package managers.
+21. which yum command is used to remove all packages of dhcp?
+22. full form of rpm is _________.
+23. name of Linux kernel is _________.
+24. ______ command is used to see the permission details of /home/berry folder
+25. ________ command is used see the Selinux status?
+26. ________ command allows you to see list of users in your Linux system
+27. ________ file contains list of passwords of users.
+28. ____ command is used to self uid and gid and ________ command is used to see the name of groups this user belongs to.
+29. ________ command is used to delete group network.
+30. _________ command is used to delete Tim user.
+
+ 
+grep assignment:
+=================
+1. Create a file named employees.txt inside
+ 
+101,John,IT,Mumbai
+ 
+102,Alice,HR,Pune
+ 
+103,Bob,IT,Chennai
+ 
+104,David,Finance,Delhi
+ 
+105,Sarah,HR,Mumbai
+ 
+106,Tim,IT,Bangalore
+ 
+107,James,finance,Pune
+ 
+108,Layla,HR,Delhi
+ 
+1. Display all the records having Delhi using grep
+2. Perform case-insensitive search for "finance"
+3. Display line numbers for all Mumbai lines.
+4. Show all the lines which don't have Word James
+ 
+find assignment:
+================
+You are working as a Linux System Administrator. Your responsibility is to locate files, identify large files, clean old logs, and manage directories using the find command.
+ 
+ 
+1. Display all the folders from / whose names end with sh.
+2. Find all empty file from /etc folder
+3. find all the files whose size is greater than 1G
+4. find all the non empty files of /root
+5. find all the empty files stored in /tmp folder and delete it
+ 
+ 
+User/Group Assignment:
+=====================
+1. Create an user Sarah & James
+2. Set and show the ids of these users
+3. set the passwords for them
+4. Identify the group names, that each user belongs too
+5. Create a group Packaging and add James as a member
+6. Rename the Packaging group as Packing
+7. Remove James from Packing group and add Sarah as a member
+8. remove James from the system along with all associated files
+9. Show the list of all the groups in your system
+ 

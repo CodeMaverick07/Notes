@@ -1,0 +1,492 @@
+===========================================================================================================
+RHCSA	
+Redhat Certified System Administrator		3.5hrs
+								practical
+
+210/300
+===========================================================================================================
+
+duration		3.5 hrs
+60		50 marks --->Linux, 10 Marks----SS
+=====================================================================================
+Founder of Linux------------>Linus B Torvalds	---------kernel of Linux		1991	17th Sept
+
+Name of Linux Kernel----------->VMLinuz		
+
+anaconda ------> Linux installer
+
+GNU GPL	-->	GNU is not Unix, General Public License
+
+Shell:  is called as Command Line interpreter.  It takes commands from User and pass it to Kernel.
+
+Bourne Shell	sh
+Bourne Again Shell	BASH
+csh
+tcsh
+zsh
+rsh
+ksh
+
+
+Linux is Master in Web Services and Mail Services
+
+
+Features of Linux:
+1. Open Source  underlying code is available of public 
+2. Better Performance
+3. Better Security		.exe, .msi			.rpm  
+4. Free					
+5. Administrator	--------->root  Super User
+6. Every process is treated as a file.
+7. Linux is case-Sensitive
+
+			directory----->folder		
+==================================================================================
+
+Types of Desktop
+		1. GNOME-------> GNU's Network Object Model Environment		(Default)
+		2. KDE---------> K Desktop Environment
+=============================================================================
+GRUB	Grand Unified Boot Loader			is a boot loader
+
+Booting process
+1. BIOS
+2. MBR
+3. GRUB
+4. Kernel			VMLinuz			uname -r
+5. INIT				first process of linux
+6. Run level
+===================================================================================
+Min HW requirement:
+1. CPU:		PIV or above
+2. RAM:		256MB RAM	(CLI)
+3. Disk:	3GB
+
+===================================================================================
+Ways to install Linux:
+
+1. CLI based
+2. GUI based
+===================================================================
+3 VMs
+
+1. Linux-Server			1 CPU, 1vCPU, RAM--4GB,  100GB
+2. Linux-Client			1 CPU, 1vCPU, RAM--2GB,  100GB
+3. Win10-Client			1 CPU, 1vCPU, RAM--2GB,  60GB
+=============================================================
+Server VM Configuration
+/			70GB
+/boot			2G
+swap			4GB
+=======================================================
+
+Linux Client:
+/			70GB
+/boot			2G
+swap			2GB
+
+Win10:	
+
+==========================================================================
+Ctrl + Alt +F1			Switch to GUI console
+Ctrl + Alt +F2			Switch to CLI console(tty2)
+Ctrl + Alt + F6			Switch to CLI console(tty6)
+===================================================================
+Ways to take help in Linux:
+==========================
+1. Info
+2. man--->manual pages		gives detailed help on given command
+		#man   ls
+3. whatis
+		#whatis  ls
+4. --help
+		#ls  --help
+================================================================== 
+pwd
+cd
+who
+uname
+uname 	-a
+uname 	-r
+history
+history -c
+cal
+cal -3
+cal -j 2025
+
+folder related commands:
+mkdir		to create new directory
+		-p
+		-v
+			/
+				hw
+					cpu
+						intel
+							i7
+			#mkdir -p /hw/cpu/intel/i7
+			#tree /hw
+rmdir
+cd
+mv
+cp   -r
+rm  -r		recursively
+=================================================
+file related commands:
+touch
+cat
+rm			to remove
+mv
+cp
+		cp 1 /home
+
+Names of Linux editors
+vi/vim	
+gedit		GUI editor
+nano
+emacs
+To copy the content of test folder into /home
+#cd
+#mkdir test
+#cd test
+#touch a b c
+
+#cd /
+#cp  -r /root/test/*   /home
+#ls  /home
+	a 	b 	c
+
+
+#cat>a.txt			this will create new file
+#cat>>a.txt			this can be used to create a new file, append new data in existing file
+
+===============================================================================
+
+modes of vi editor
+insert		add data
+command		copy cut delete paste save
+
+to save:
+esc:w
+
+to save and exit
+esc:wq
+esc:x
+
+quit without saving:
+esc:q!
+
+
+
+================================================================================================
+Sort Command		is used for sorting contents of a file in ascending or descending order
+
+sort --help
+
+sort  -n  filename		for numeric sort
+sort  -nr filename		for reverse numeric sort
+sort -M filename		for Month sort
+sort  -R filename		for random sort
+
+
+===================================================================================
+CPU details:
+
+cat  /proc/cpuinfo
+
+Memory details
+
+cat  /proc/meminfo
+
+=========================================================================================================
+
+sed:  String Editor-------perform lots of functions on file like find & replace, insertion & deletion.
+
+1. To replace red with grey of file colors.txt     (changes will be displayed on terminal, but will change inside the file)
+
+	#sed 's/red/grey/'  colors.txt			
+
+2. To replace red with grey inside file colors.txt       (to replace data in a original file)
+
+	#sed -i 's/red/grey/'  colors.txt	
+
+3. #cat>OS.txt
+Unix is great os. unix is opensource. Unix is free os.
+Unix is cli based os. Unix is powerful.
+Unix is easy to learn. Unix is a multiuser os. Learn Unix 
+
+a. To replace only the 2nd occurrence of a word in a line: 
+	#sed 's/Unix/Linux/2' OS.txt
+
+
+b. To replace all occurrences of a word in a line: 
+	#sed 's/Unix/Linux/g' OS.txt
+
+
+
+
+4. To display the first 5 lines of a file:
+	 #sed -n '1,5p' filename
+			1,5: Specifies the range of lines to be printed (from line 1 to line 5). 
+			p:   tells sed to print the specified lines. 
+
+Note: If you use -n alone without p, then the sed does not print anything.
+
+5. Printing Only the Replaced Lines
+	# sed -n 's/unix/linux/p' f1.txt
+
+6. To Delete a last line
+
+	# sed '$d' f1.txt
+
+7. Insert Text in a file:
+
+	#sed '3i\new text' city.txt  # Insert text before line 3
+	#sed '3a\new text' city.txt  # Insert text after line 3
+
+8. To Delete line from range 3 to 6
+	# sed '3,6d' filename.txt
+
+#cat>data.txt
+
+JSmith	10001	IT	Chennai
+John	10002	Prod	Hyderabad
+Mary	10003	IT	Bangalore
+Albert	10004	HR	Pune
+Simon	10005	HR	Mumbai
+Ricky	10006	SALES	Pune
+
+
+a. Delete lines containing "SALES"
+	#sed '/SALES/d' data.txt
+ 
+9. To fill data(Linux) in a blank lines of a file
+cat>sample.txt
+hello
+hi
+bye
+tie
+shy
+
+
+
+
+
+bye bye
+ctrl+d
+
+cat -n sample.txt				#to view content with line number
+#sed  -i  's/^$/Linux/g'  sample.txt		^$---->blank lines
+#cat sample.txt	
+
+
+=========================================================================================
+encryption & decryption of a file:
+
+
+Hello			encrypt		$@#^!!!				decrypt		Hello
+
+/]#cd
+
+~]#cat>imp.txt
+	this file have shazia confidential data
+
+	ctrl+d				to save
+
+	#gpg  -c imp.txt			to encrypt
+		passphrase		123456
+
+
+	#ls
+			imp.txt		imp.txt.gpg
+	#cat imp.txt.gpg
+
+
+
+to decrypt
+	~]# rm -f imp.txt
+	~]# gpg imp.txt.gpg		
+
+			123456
+	~]# ls
+	~]# cat imp.txt
+======================================================================
+grep: Global Regular Expression Print/Parser -----used for searching a particular pattern / word in a file
+
+
+#grep "halt"  /etc/inittab
+
+#cat>city.txt
+I love Mumbai
+Mumbai is my city
+mumbai is very crowded
+I like Hyderabad city
+My office is in Thane
+Commercial hub of India is Mumbai
+
+ctrl+d		to save
+
+
+grep  -iv "mumbai" city.txt			
+grep -ic  "mumbai" city.txt
+grep  -in "mumbai" city.txt
+grep -io "mumbai" city.txt
+grep  -i "^mumbai" city.txt
+grep  -i "mumbai$" city.txt
+
+
+=================================================================================================
+Find & Locate command in Linux:  used to find/search a folder/files in a Linux system
+
+Nautilus:  is the file manager for the GNOME desktop. It allows one to browse directories, preview files.
+
+find command is used to find files/folders in Linux system.
+
+1. To find file inittab in entire file system
+		#find / -name inittab
+
+	
+2. To find file passwd in entire file system(ignore case)
+		#find / -iname passwd
+
+3. To find files which are empty in /root directory
+		#cd
+		~]#find . -type f  -empty
+ 
+4. To find files which are empty not in /root directory
+		#cd
+		~]#find . -type f  ! -empty					f-->file
+
+5. To find all folders named as London in entire file system
+		~]#find / -type d -iname London					d-->directory
+
+
+6. To find files whose size is more than +10KB in /root
+		#cd
+		~]#find . -size +10k	
+
+
+
+7. To find files whose size is more than 10MB & less than 60MB in /root
+		~]#find . -size +10M  -size  -60M
+
+	
+
+8. To find all files having extension .txt in entire file system
+		~]#find / -type f -iname  "*.txt"
+
+9. To find all files having extension .txt  and starting with a character in entire file system
+		~]#find / -type f -iname  "a*.txt"
+
+10. To find all files whose permission is set as 777 in /root
+		~]#find / -type f -perm 0777 -print
+
+=======================================================================
+Locate command is used to search a file/folder in Linux
+
+1. #locate passwd
+2. #locate inittab
+3. #locate -c passwd				#-c will show the count value for passwd file existence in system
+4. #touch testfile.txt
+	#locate testfile.txt			will not show any result, as locate command is unable to search files which are created after last system boot. so need to run updatedb command to apply effects without reboot.
+
+	#updatedb
+	#locate testfile.txt			now result will show file path where it exist 
+
+==========================================================================================
+rc.local file can be used to run customized scripts. System will read this file after booting process phase is completed (Run level).
+#uptime------> shows the details about system uptime
+
+#vim /etc/rc.local
+	echo "This system was restarted last at: "   `date`  >> /root/boot-time.txt
+
+	esc:x			to save & exit
+
+
+
+To verify:
+#init 6
+#cat /root/boot-time.txt
+=========================================================================================
+User & Group Management		V.IMP
+
+Three types of users:
+									user id			group id
+1. root user (Super user)   						 0			  0		
+2. Built-In-User  (System Users)   they cannot login on system		1-499			 1-499
+3. Standard User /normal user	   root creates standard users		 500 onwards		  500
+
+
+	max----------60000  users
+
+				/etc/login.defs			user/group related settings
+
+
+
+
+
+Whenever root creates a user, below will be created automatically
+user		group		home folder		user's password			assign login shell
+john		john		/home/john		 disabled account
+
+
+files associated with Users/Groups
+
+1. /etc/passwd				list of users, their uid, gid, home folder name, shell name etc
+2. /etc/group				list of groups, their gid, members name
+3. /etc/shadow				contains users password  (encrypted form)
+4. /etc/gshadow				contains users profile settings
+
+
+to create users:
+#useradd john
+#useradd tom
+#passwd john			to set the password of john user
+#passwd tom			to set the password of tom user			
+
+
+#id			to see the uid and gid & group membership details of currently logged in user
+#id john		to see id details of john user
+
+to view last 2 lines of /etc/passwd, /etc/group & /etc/shadow
+#tail -2 /etc/passwd
+#tail -2 /etc/group
+#tail -2 /etc/shadow
+
+#ls  /home			to see the list of home folders of users
+
+
+passwd			to change/reset the password of own/self
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+

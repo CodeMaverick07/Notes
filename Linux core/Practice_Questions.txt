@@ -1,0 +1,72 @@
+Sample Linux Practice LAB questions. Below are for practice purpose only
+1.	Show the CPU and RAM information of your server.
+ 
+2. 	Demonstrate the working of dd. (any 2 dd examples).
+ 
+3.	Sort the content of a file containing 10 numbers in descending order.
+ 
+4.	demonstrate the working of sed command.(Three examples)
+ 
+5.    Create a temporary alias for sort and uname command, verify the same if it working.
+ 
+6.	Change the system as 31-Dec-2021 17:20:30 using cli method.
+ 
+7.	Find the files location using find command --passwd, grub.conf, inittab.
+ 
+8.	Search all the files in your Linux system having size greater than 2048MB.
+ 
+9.	Change the Linux machine name with your lastname & verify.
+ 
+10.	Assign below ip address to your machine and set the hostname as S1.
+	i.	160.160.0.1
+	ii.	Prefix=16
+	iii.	Gateway=160.160.0.50
+	iv.	Dns=160.160.0.100
+ 
+11. 	Create a sudo user -Berry with specific privileges ---ping, user creation, changing pwd, creating group, deleting user/group. Verify the 	same by logging in as a Berry user
+12.	Create a sudo user (admin) with only nw privileges. Verify the same.
+13.	Create a user with name exec1 with the no login shell.
+ 
+14.	Show the kernel version.
+ 
+ 
+15.	Take a compressed backup of /home folder in /imp folder. Verify the same by deleting and restoring it.
+ 
+16.	Show the demo of grep command (3 examples).
+ 
+17.	Show the demo of locate command (2 examples).
+ 
+18.	 Search all the empty files of /demo folder and delete them.
+ 
+19. 	Create 3 pv of size 10,12,14GB . create LV of size 20G with the name lv1. format lv1. Increase it size by 4G. Verify 		the same. Reduce the size by 2G. mount the lv permanently, reboot and verify if you can store data. Extend 		the vg by 4GB and verify.
+ 
+20.	Create a cronjob  for deleting all the files of /tmp folder at 6:30pm to 11:30pm from Monday to Friday in second   quarter of a year.
+ 
+21.	Start a new terminal with the priority value 6. Verify the same using top command. Change the priority value of this process to the highest.
+ 
+22. 	Create a folder /dummy/projects with super user account. Create a user with your middle name, and assign fc for the projects folder. Verify the same whether user is able to work with the project folder or not.
+ 
+23. 	Show the demo of all methods of killing a process.
+ 
+24.	Demonstrate the working on NTP Server(Server machine), verify the same from client-side.
+ 
+25. 	Configure a centralized log server(Server machine) to collect the logs of Client1 machine. verify the same, if it is working.
+ 
+26. Demonstrate the working on VNC Server(Server machine), verify the same from client-side.
+ 
+27. Configure Telnet service on Server machine. Verify the same from client1 & client2 for user exec1.
+ 
+28. Configure ssh service on Server machine. Verify the same from client1 & client2 for user exec1 and root.
+ 
+29. Configure RAID 5 partition of size 8GB as a usable storage based on 3 hard drives. Demonstrate the working of RAID 5 by logically failing, removing existing RAID drive and adding a new drive. Verify, if it is working. (optional)				
+30. Demonstrate the working of gzip bzip2 and zip command (compression & decompression).
+ 
+31. Demonstrate the working of tar command. Verify the same by taking backup & restore.
+ 
+32. Demonstrate the working of umask and scp command.
+ 
+33. Demonstrate the working of chmod, chown and chgrp command.
+ 
+34. Add 20GB hard disk to Server machine. Create 2 standard partitions of size 4GB & 9GB. Define different file system for these partitions. Perform  temporary & permanent mounting. Verify the same, if it is working.
+ 
+35. Increase the swap by 25%  of Physical RAM and verify. make sure that swap is automatically mounted on every boot.

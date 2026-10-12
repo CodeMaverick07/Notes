@@ -1,0 +1,545 @@
+umask: command used to change/set the default permissions of a folder/file
+  umask value for root
+
+
+		
+		         
+default permissions for root's folder/file---->	folder     file	
+
+						755	   644
+	
+
+	777		666
+	022		022
+	---		---
+	755		644
+
+=====================================================
+default permissions for user's folder/file---->	folder   file
+		 
+						 775	 664
+	
+0002 ----> umask value for user
+login as user:
+	$	
+
+
+
+		777		666
+		002		002
+		---		---
+		775		664
+
+
+
+to change umask value (temporarily) for root user:
+
+#umask 077
+
+#umask		to verify
+
+
+To create permanent umask for root user:
+
+#vim  /root/.bashrc
+	umask 0027
+
+esc:x
+logout and login again or reboot to get the effect.
+	or
+#vim  /root/.bash_profile
+	umask 0027
+esc:x
+logout and login again or reboot to get the effect.
+=============================================================
+
+SeLinux		Security Enhanced Linux----	advanced security in Linux  it is a predefined Security policies, allows administrators to have 						more control over who can access the system.
+
+modes of SeLinux:
+1. disabled					No SELinux policy is loaded
+2. Permissive  	allow 		 (create logs), Prints warnings instead of enforcing
+3. Enforcing  (default)		  create logs,  deny, Enforces the SeLinux security policy
+
+
+To change the mode of SELinux temporarily:
+#setenforce 0			0-->permissive  1-->enforcing
+To see the status:
+#getenforce
+#sestatus
+
+To change the mode of SELinux permanently:
+========================================
+#vim /etc/sysconfig/selinux
+SELINUX=enforcing 
+    OR
+SELINUX=permissive
+    OR
+SELINUX=disabled
+esc:wq
+
+#reboot			to apply the effect
+===================================================================================
+yum through vsftpd: Very Secured FTP daemon			(daemon---background services)
+
+Yum Server(192.168.20.1)
+
+need to install below packages
+
+deltarpm
+python-delta
+createrepo
+vsftpd
+
+#df -h
+ #cd /run/media/root/R............/P.........
+rpm -ivh vsftpd...............
+rpm -ivh delta..................
+rpm -ivh python-delta..........
+rpm -ivh createrepo..............
+
+cd /media/R................
+#mkdir /var/ftp/pub/iso
+cp -av * /var/ftp/pub/iso
+
+#cd /etc/yum.repos.d
+#vim server.repo
+	[vsftpd]
+	name=yum
+	baseurl=ftp://192.168.20.1/pub/iso
+	gpgcheck=0
+	enabled=1
+
+esc:wq
+
+turn off firewall:
+#systemctl stop firewalld.service			
+
+restart of vsftpd:
+#systemctl restart vsftpd.service
+
+SELINUX
+#getenforce			shows selinux active mode	(permissive--0, enforcing--1, disabled)
+enforcing
+
+#setenforce 0
+
+To create repositories:
+#createrepo  -v /var/ftp/pub/iso
+#yum repolist
+
+
+
+Yum Client(192.168.20.2)
+1. install vsftpd
+		 #cd /run/media/root/R............/P.........
+		#rpm -ivh vsftpd............
+
+2. turn off firewall
+		#systemctl stop firewalld.service			
+
+3. make selinux permissive
+		#setenforce 0
+		#getenforce
+4. create repo file
+		#cd /etc/yum.repos.d
+		#vim server.repo
+			[server]
+			name=yum
+			baseurl=ftp://192.168.20.1/pub/iso
+			gpgcheck=0
+			enabled=1
+		:wq
+5. restart vsftpd
+		#systemctl restart vsftpd.service
+
+6. to create yum repolist
+		#yum repolist
+7. To Verify:
+
+#yum info dhcp			to query about dhcp
+#yum install dhcp* -y		to install all the packages of dhcp
+#yum erase dhcp* -y		to uninstall all the packages of dhcp
+
+==========================================================================
+Working with Firewall:		Information is stored in the /etc/firewalld/firewalld.conf file.
+1. To know if Firewalld is running:
+
+	 # systemctl status firewalld
+	OR
+	 # firewall-cmd --state
+
+2.To get the default zone:
+
+	# firewall-cmd --get-default-zone
+
+3. To get the list of zones:
+
+		# firewall-cmd --get-active-zones
+
+4. To get the list of all the available zones:
+
+	# firewall-cmd --get-zones
+
+
+5. To change the default zone to home permanently:
+
+	# firewall-cmd --set-default-zone=home
+
+6. To permanently assign the ens33 network interface to the internal zone:
+
+	# firewall-cmd --permanent --zone=internal --change-interface=ens33
+
+7. To know which zone is associated with the ens33 interface:
+
+	# firewall-cmd --get-zone-of-interface=eth0
+
+8. To add a source (here 192.168.2.0/24) to a zone permanently:
+
+	# firewall-cmd --permanent --zone=trusted --add-source=192.168.2.0/24
+	# firewall-cmd --reload
+
+9. To only allow connections to your system from a specific IP address (here 1.2.3.4/32).
+
+	# firewall-cmd --zone=internal --add-source=1.2.3.4/32 --permanent
+	# firewall-cmd --reload
+
+10. To add ssh service permanently: 
+	# firewall-cmd  --zone=public --add-service=ssh --permanent
+		or
+	# firewall-cmd  --add-service=ssh --permanent
+	# firewall-cmd --reload
+
+11. To remove ssh service permanently: 
+	# firewall-cmd --zone=public --remove-service=ssh --permanent
+	# firewall-cmd --reload
+
+12. To add several services (here http, https, and dns) at the same time:
+
+	# firewall-cmd  --add-service={http,https,dns}  --permanent
+	# firewall-cmd --reload
+
+13. To get the list of services in the default zone:
+
+	# firewall-cmd --list-services
+
+
+==============================================================================
+Network Services:
+1. ssh
+2. Telnet
+3. VNC
+4. NTP
+5. rsyslog
+================================================================================================
+
+ssh	is a protocol  --secured shell daemon(background services)
+			22 /tcp
+
+			remote access of a device ---	only cli access
+			secured connection
+			credentials/data are shared in encrypted form
+				
+		server					client
+		ssh server				ssh client
+		10.0.0.1				10.0.0.2
+					<--------	root
+
+							ssh ip
+							username	root
+							pwd		test@123
+
+
+
+1. devices should be in nw
+2. firewall should be off
+3. SeLinux should be permissive
+4. restart the ssh service
+
+
+
+on sshd Server:
+# rpm -q openssh-server
+or
+#yum install openssh-server openssh-clients  -y			(optional)
+
+#setenforce 0
+#getenforce
+#systemctl status sshd
+#systemctl restart sshd
+#systemctl enable sshd					#To enable the service at boot time
+
+#systemctl status firewalld.service				#Check firewall status
+or
+#systemctl status firewalld
+#systemctl restart firewalld
+#systemctl enable firewalld
+#firewall-cmd --permanent --add-service=ssh		#Allow the SSH service permanently
+#sudo firewall-cmd --reload				#To apply changes
+
+
+on sshd linux client:
+#yum install openssh-server openssh-clients  -y			(optional)
+
+#setenforce 0
+#getenforce
+#systemctl restart sshd
+#systemctl enable sshd					
+
+#systemctl restart firewalld
+#systemctl enable firewalld
+#firewall-cmd --permanent --add-service=ssh		
+#sudo firewall-cmd --reload			
+
+To verify the ssh connection
+#ssh   10.0.0.1
+				yes
+root's password@10.0.0.1	******
+
+To close the connection:
+#exit
+
+
+
+On Windows Client:(sshd client)
+==========================
+go to rlab---c drive---basic  soft---putty------copy
+1. copy putty software in windows 10 machine-Desktop.
+2. Open putty software
+
+		 root@10.0.0.1
+
+==================================================================================
+
+The xinetd daemon: (/etc/xinetd.conf). you need to install xinetd package first.
+1. In Linux, the extended Internet services daemon (xinetd) replaced inetd. 
+2. It performs the same function as inetd in that it listens to multiple ports and invokes a requested service. 
+3. It is more secure.
+4. Typical xinetd services include Remote Shell (RSH), FTP, telnet, and Post Office Protocol 3 (POP3).
+	It’s also common to run the HTTP, sendmail and Samba services as standalone daemons.   
+
+
+==================================================================================================================
+telnet:  23/tcp
+for remote access , cli access  not secured connection, credentials shared in plain text format.
+root cannot do telnet, only users can do telnet.
+
+On S1 (telnet server 10.10.10.1):
+===============================
+
+#yum install telnet* -y
+#yum install xinetd* -y
+
+Optional step:
+#vim /etc/xinetd.d/telnet			#To configure the Telnet Service File 
+	goto line  disable = yes, change it to disable = no
+
+esc:x
+
+
+#ntsysv					to view/start/stop service during system boot
+#systemctl enable xinetd
+#systemctl restart xinetd
+#systemctl enable telnet.socket
+#systemctl restart telnet.socket
+#setenforce 0
+
+#firewall-cmd  --add-port=23/tcp  --permanent
+    or
+#firewall-cmd  --add-service=telnet --permanent
+#firewall-cmd --reload
+
+On C1 (telnet Client 10.10.10.2):
+===============================
+#yum install telnet* -y
+#yum install xinetd* -y
+#systemctl enable xinetd
+#systemctl restart xinetd
+#systemctl enable telnet.socket
+#systemctl restart telnet.socket
+#setenforce 0
+#firewall-cmd  --add-port=23/tcp  --permanent
+#firewall-cmd --reload
+#setenforce 0
+
+
+On telnet server:
+#useradd user1
+#passwd user1
+	***
+	***
+
+On telnet-client:
+#telnet 10.10.10.1
+
+login:user1
+password:***
+
+On win10 (telnet Client):
+=====================
+1. Open putty software.
+	
+	192.168.1.1
+	telnet		23
+		connect
+
+login:user1
+password:123
+
+=========================================================================================
+vnc: Virtual Network Computing
+
+VNC Server			VNC Client
+10.10.10.1			10.10.10.2
+
+Main configuration file of VNC---->/etc/vnc/config
+
+Systemd Service---------->/etc/systemd/system/vncserver@.service
+			
+
+
+On VNC Server:
+==============
+#yum install tigervnc*  -y
+
+#useradd vncuser1
+#passwd vncuser1
+#su -l user1
+$vncpasswd
+	******
+	******
+$exit
+
+#cp /usr/lib/systemd/system/vncserver@.service  /etc/systemd/system/vncserver@:1.service
+
+or
+
+#cp /usr/lib/systemd/system/vncserver@.service  /usr/lib/systemd/system/vncserver@:1.service
+
+
+#vim /etc/systemd/system/vncserver@:1.service
+or
+#vim /usr/lib/systemd/system/vncserver@:1.service
+
+esc:se nu
+
+goto line number 41, replace <USER> with vncuser1 or root
+
+esc:x
+
+#systemctl daemon-reload
+#systemctl restart vncserver@:1.service
+#systemctl enable vncserver@:1.service
+#firewall-cmd --permanent  --add-service=vnc-server
+#firewall-cmd --reload
+
+or
+
+#systemctl stop firewalld
+#setenforce 0
+
+
+On VNC Client:
+==============
+#yum install tigervnc*  -y
+#setenforce 0
+To connect to VNC Server
+#vncviewer 10.10.10.1:1
+			password ******
+
+
+vncuser1 is connected to VNC Server
+=========================================================================================
+
+Logs: are reports generated by System Software (OS). In linux, default log location is /var/log
+rsyslog port num  514 tcp/udp.
+
+Main conf file:
+
+	/etc/rsyslog.conf			
+
+Types of logs:
+=============
+/var/log/messages----contains all logs
+/var/log/secure---- contains authentication logs
+/var/log/boot--- it contains boot related logs
+/var/log/cron--- it contains cron related logs
+/var/log/kernel--- it contains kernel related activities
+
+to view the logs:
+
+#cd /var/log
+#ls
+		#cat secure | grep tom
+
+
+
+on S1 machine-log server: Centralized log server:		
+=======================
+#yum install rsyslog*	-y		optional
+        
+
+#vim  /etc/rsyslog.conf
+
+
+esc:se   nu			to generate line number.
+
+uncomment line number 13 14  17  18
+
+
+goto last line
+
+*.*  /var/log/mylog.log
+
+esc:x         save
+
+#touch /var/log/mylog.log
+#systemctl status rsyslog.service
+#systemctl restart rsyslog.service
+systemctl enable rsyslog.service
+#setenforce 0
+For continuous logging updates (from all clients):
+#tail -f  /var/log/mylog.log
+
+
+on C1 machine-log Client(Linux):
+=======================
+#yum install rsyslog*	-y		optional
+
+
+#vim  /etc/rsyslog.conf
+
+
+esc:se   nu			to generate line number.
+
+uncomment line number 13 14  17  18
+
+
+goto last line
+
+*.*  @10.10.10.1:514
+
+esc:x				save
+
+
+#systemctl status rsyslog.service
+#systemctl restart rsyslog.service
+#systemctl enable rsyslog.service
+
+#firewall-cmd --zone=public --permanent --add-port=514/udp
+#firewall-cmd --zone=public --permanent --add-port=514/tcp
+#firewall-cmd --reload
+#setenforce 0
+
+
+
+Verification:
+=============
+#useradd u11
+#groupadd sales1
+#logger "hello, I am client"
+
+on S1 machine-log server:
+#cat /var/log/mylog.log			to verify log (will have user, group, logger message in the output)
+#tail -f  /var/log/mylog.log
+
+==============================================================================================================

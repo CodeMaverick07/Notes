@@ -1,0 +1,519 @@
+The /etc/skel directory is the directory used by useradd to create the default settings in a new user's home directory.
+
+To change the location of /etc/skel, edit  cat  /etc/default/useradd.
+
+# useradd defaults file 
+GROUP=100 
+HOME=/home 
+INACTIVE=-1 
+EXPIRE= 
+SHELL=/bin/bash 
+SKEL=/etc/skel
+
+#cd /etc/skel
+
+skel]#cat>rules
+Be punctual
+Be honest towards the company
+no leaves
+no smoking
+working hours 8am-8pm
+ctrl+d			to save
+
+#useradd Tia
+#passwd Tia
+
+============================================================================================
+Types of data backup:
+1. Full backup
+2. Incremental backup
+3. Differential backup
+
+manually
+
+schedule
+
+Full backup				takes backup of all files(A enabled/without A)
+					clear the A bit
+
+data folder
+	a.txt b.txt			
+
+9:00	full
+		f1.bkf	b.txt	a.txt 
+			c.txt  d.txt		
+
+12:00		f2.bkf		a, b, c d
+
+			1 2  a.txt		
+
+3:00		f3.bkf		a b c d 1 2	
+
+			3 4		
+
+6:pm		f4.bkf		a b c d 1 2 3 4
+
+adv:
+1. restore time is less
+
+dis adv:
+1. backup time is more
+2. More disk space
+
+
+2. Incremental Backup:		are taken only after full backup
+				it will take backup of all files(a enabled) since last backup
+				clears the A bit
+
+
+data folder
+		a.txt b.txt					
+
+9:00	full
+		f1.bkf			a.txt	b.txt 
+
+
+				c  d e 			
+
+12:00pm		inc1.bkf		c d e
+
+			1 2 3 a b 		
+
+3:00pm		inc2.bkf
+
+				1 2 3 a b
+
+			5 6			
+
+6:00pm		inc3.bkf			5 6
+
+Adv:  backup time is less
+	less disk space is required
+
+disadv:
+
+		restore time is more
+==============================================================
+3. Differential backup			are taken only after full backup
+					doesnot clear the A bit after taking a backup
+					it will take a backup of all files(a enabled) since last full backup
+
+
+data folder
+		a.txt b.txt							
+
+9:00	full
+		f1.bkf			a.txt	b.txt 
+
+		f1 f2			A
+
+12:00	diff1.bkf			f1  f2
+
+			f3 f4 a		A
+
+3:00	diff2.bkf	f1 f2 f3 f4 a
+
+			x y		A
+
+6:00	diff3.bkf		f1 f2 f3 f4 a x y
+
+
+adv:	
+1. restore time is less
+
+disadv:
+1. more backup time
+2. more space is needed
+======================================================
+dump & restore:		command to take a backup of file system, and can be used for data backup
+full		0
+incremental	1
+differenetial	2
+
+To take backup of /notes:
+#mkdir /notes
+	cd /notes
+		touch hw sw linux ccna
+		mkdir assignment
+
+
+#yum repolist	
+#yum install dump*   -y
+yum info dump
+/]#dump   -0f  /notes.dump    /notes
+/]#ls
+
+Verification:
+#rm  -rf   /notes
+#ls
+
+To restore:
+#restore -rf /notes.dump
+#ls
+		/notes
+
+
+
+Second LAB of dump:		to restore specific files/folders
+		
+To take backup of /notes:
+#mkdir /notes
+	cd /notes
+		touch hw sw linux ccna
+		mkdir assignment
+
+
+#yum repolist	
+#yum install dump*   -y
+yum info dump
+/]#dump   -0f  /notes.dump    /notes
+/]#ls
+
+Verification:
+#rm  -rf   /notes
+#ls
+
+To restore:
+
+restore  -if /notes.dump
+restore>ls
+restore>cd notes
+restore>add ccna
+restore>add linux
+restore>add assignment
+restore>extract
+restore>1
+restore>n
+restore>quit
+#ls /notes
+
+
+
+===========================================================
+
+
+Linux File System:
+vfat
+ext
+
+ext2  FAT16
+
+ext3	FAT32			Journaling (Recovering)
+ext4	NTFS
+XFS	ReFs
+
+
+Formatting using file system and mounting
+/dev/sdb1		1G		ext2			/b1
+/dev/sdb2		2G		ext3			/b2
+/dev/sdb3		3G		ext4			/b3
+
+Formatting:
+#mkfs.ext2   /dev/sdb1
+#mkfs.ext3   /dev/sdb2
+#mkfs.ext4   /dev/sdb3
+
+
+
+
+Mounting can be done in 2 ways:
+1. Temporary				mounting will be removed when you restart your system.
+			#mkdir  /b1  /b2  /b3
+			#mount /dev/sdb1   /b1
+			#mount /dev/sdb2   /b2
+			#mount /dev/sdb3   /b3	
+To verify:
+	#lsblk
+	#lsblk -f		-f--->	to view partition list along with filesystem name
+
+
+To store data in partitions:
+#mkdir /b1
+#mkdir /b2
+#mkdir /b3
+
+#cd /b1
+touch 1 2 3
+
+#cd /b2
+touch a b c
+
+
+#cd /b3
+touch f1 f2 f3
+To remove temporary mounting
+		#umount /b1
+		#umount /b2
+		#umount /b3
+
+
+2. Permanent Mounting:
+/etc/fstab			for permanent mounting
+
+
+#vim /etc/fstab
+/dev/sdb1	/b1		ext2	defaults	0 0
+/dev/sdb2	/b2		auto	defaults	0 0
+/dev/sdb3	/b3		auto	defaults	0 0
+esc:wq
+
+#mount -a		to apply the changes done/to update kernel about new changes
+or
+#reboot
+#lsblk
+
+To remove/delete permanently mounted partitions, first remove the entry from /etc/fstab, then delete the partitions 
+
+Note:
+The fifth field in each entry can be either 0 or 1. The value is used by the dump backup program (if installed) to know what filesystem should be dumped. 
+
+The sixth field is used to establish the order by which another utility, fsck, should check filesystems on boot. The value of 1 must always be used for the root filesystem for all the others we can use 2. If this value is not provided it defaults to 0, and the filesystem will not be checked. 
+
+========================================================================================
+Swap Partition		
+	Swap partition is act as a Virtual memory for Linux system
+	is a logical RAM.
+
+		System ID for Swap is 82
+
+How to increase the swap partition size		4GB
+					+	2GB
+				Swap size	6GB	
+
+				Phy RAM		4GB
+
+
+
+need to create 2 GB partition with system id as 82 on /dev/sdb
+fdisk /dev/sdb
+	n
+	p
+	1
+	enter
+	+2G
+	p			/dev/sdb1
+	t			to change type
+	l			to know system id
+	82			for swap
+	p
+	w			save & quit
+#partprobe
+	or	
+#reboot
+
+#mkswap /dev/sdb1			to format using swap file system
+#swapon /dev/sdb1			to enable swap
+#free -m				to see available memory(RAM+SWAP)
+#swapon -s				to see list of swap partitions
+#swapoff /dev/sdb1			to disable swap
+
+for permanent mounting of swap partition
+#vim /etc/fstab
+/dev/sdb1		swap		swap		defaults	0  0
+esc:wq
+
+#mount -a
+or
+#reboot
+To verify:
+#lsblk		
+#swapon -s
+
+
+================================================================================
+LVM:  System ID: 8e
+
+Logical Volume Manager			
+=========================
+is useful to combine/extend/shrink partitions. Also it allows you to combine multiple disk to act as a single disk
+dynamic volume
+
+
+LVM2 is used with kernel above 2.4
+It has below components.
+1. PV--->Physical volume		consists of two or more disk lvm partition
+2. VG--->Volume group			VG is created inside PV (consists of PV disks)
+3. LV--->Logical Volume			LV is created inside VG
+
+
+2. reboot
+
+3. create Partitions:
+Disk			size		type		partition Name
+/dev/sdb		7G		LVM		/dev/sdb1
+
+/dev/sdc		11G		LVM		/dev/sdc1
+
+/dev/sdd		16G		LVM		/dev/sdd1
+
+1. add three hard disk	sdb--->	10G, sdc---> 15G,  sdd---> 20G
+2. #reboot
+3. #fdisk /dev/sdb
+		n
+		p
+		1
+		enter
+		+7G
+		t
+		8e
+		w
+
+	#fdisk /dev/sdc
+		n
+		p
+		1
+		enter
+		+11G
+		t
+		8e
+		w
+
+	#fdisk /dev/sdd
+		n
+		p
+		1
+		enter
+		+16G
+		t
+		8e
+		w
+
+		
+4. #reboot 
+
+To create PV:
+#pvcreate /dev/sdb1 /dev/sdc1  /dev/sdd1
+# pvs
+#pvdisplay 
+
+TO create VG:
+#vgcreate dept /dev/sdb1 /dev/sdc1  /dev/sdd1
+#vgs
+#vgdisplay
+
+To create LV hr of size 5G
+#lvcreate -L +5G -n hr dept
+#lvs
+
+To create LV Sales of size 22G
+#lvcreate -L +22G -n sales dept
+#lvs
+
+To format & mount permanently:
+#mkfs.ext4	/dev/dept/hr
+#mkfs.ext4	/dev/dept/sales
+
+#mkdir /hr  /sales
+#vim /etc/fstab
+goto last line
+
+/dev/dept/hr		/hr		ext4		0	0
+/dev/dept/sales		/sales		ext4		0	0
+:wq
+
+To apply changes
+#mount -a
+or 
+#reboot
+
+To store data inside LVs
+
+#cd /hr
+#touch 1 2 3
+
+#cd /sales
+mkdir imp non-imp
+
+To extend lv hr by 4G:
+#cd /
+#lvextend  -L +4G /dev/dept/hr
+
+or
+#lvresize -L +4G /dev/dept/hr
+#lvs
+
+To shrink lv hr by 1G:
+#cd /
+#lvextend  -L -1G /dev/dept/hr
+
+or
+#lvresize -L -1G /dev/dept/hr
+			y		
+#lvs
+
+To verify: 
+#reboot
+#lsblk
+
+
+Steps to extend the pv by 6G  ----->Total size 40G
+1. add hard disk (10G)
+2. reboot
+3. create a partition	/dev/sde1		6G		LVM
+	fdisk /dev/sde
+		n
+		p
+		1
+		enter
+		+6G
+		t
+		8e
+		w
+	#init 6
+4. #pvcreate /dev/sde1
+		
+5. #pvs
+6. #vgextend dept /dev/sde1
+7. #vgscan
+8. #vgs
+		new size of vg is 40G
+
+4. reboot
+===========================================================
+Jobs:		are the process running/ task/commands executed
+	
+#ls---->foreground job---short time consuming job
+
+#cp----> foreground job---Time consuming job, till the time of copying operation, terminal will be engaged of copy task.
+ctrl+z to suspend foreground jobs
+to view job status:
+#jobs
+To resume suspended jobs:
+#fg %1					1--->job id of suspended job
+
+
+Jobs can be started in background  if they are lengthy jobs using & symbol
+
+#gedit &		--->background jobs, will not occupy terminal
+#jobs		---->to view all jobs (foreground/background)
+
+=============================================================
+scp is Secured Copy: is used to securely transfer data from one system to another over the nw.(data will be encrypted).
+	Copy files within same machine.
+	Copy files from a local host to remote host and vice versa.
+	Copy files between two different remote servers.
+
+Server			client
+10.0.0.1		10.0.0.2
+
+/profit			/shared
+a b c d
+
+on Client:
+#mkdir /shared
+
+on Server:
+#mkdir /profit
+#cd /profit
+#touch a b c d
+#scp  -r  /profit/*     10.0.0.2:/shared 
+						yes
+root@10.0.0.2:		test@123
+
+cd /profit
+touch e f
+#ls  -ld   /profit
+cd /profit
+ll
+
+

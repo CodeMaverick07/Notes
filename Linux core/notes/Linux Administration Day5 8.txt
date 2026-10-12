@@ -1,0 +1,416 @@
+The xinetd daemon: (/etc/xinetd.conf). you need to install xinetd package first.
+1. In Linux, the extended Internet services daemon (xinetd) replaced inetd. 
+2. It performs the same function as inetd in that it listens to multiple ports and invokes a requested service. 
+3. It is more secure.
+4. Typical xinetd services include Remote Shell (RSH), FTP, telnet, and Post Office Protocol 3 (POP3).
+	It’s also common to run the HTTP, sendmail and Samba services as standalone daemons.   
+==============================================================================================================
+NTP: Network Time Protocol  udp/123
+
+Network Time Protocol is a protocol that allows the synchronization of system clocks (from desktops to servers).
+Time synchronization between all domain joined systems/network system is very important to record logs with accurate date/time, logging to domain, for various distributed applications etc.
+
+on S1 machine-NTP Server:
+=======================
+#date 040121002026.30
+date mmddhourminyear.sec
+
+#yum info chrony
+#yum install chrony -y
+
+#vim  /etc/chrony.conf
+
+esc:se   nu			#to generate line number.
+
+
+comment line num 3 4 5 6
+
+uncomment line number 26 and add nw address with cidr value	(Its necessary here in training to get the immediate effect 									on client-side)
+allow 172.16.0.0/16			#To allow Local Clients to Access the Server
+
+
+uncomment line number 29	local stratum 10
+esc:x			save
+
+
+#setenforce 0
+#firewall-cmd --permanent --add-service=ntp
+or
+firewall-cmd --permanent --add-port=123/udp
+#firewall-cmd --reload
+
+To start and enable the chronyd service:
+
+#systemctl stop ntpd	    #optional-->Stop and disable ntpd if it is running, as both services cannot run simultaneously.
+#systemctl disable ntpd     #optional
+
+#systemctl enable chronyd
+#systemctl restart chronyd
+
+#chronyc sources			#List the configured sources
+#chronyc tracking			#Provides detailed synchronization status information
+
+on C1 machine-NTP Client(Linux):
+=======================
+#date
+
+
+#yum info chrony
+#yum install chrony -y			optional
+
+#vim  /etc/chrony.conf
+
+esc:se   nu			to generate line number.
+
+
+comment line num 3 4 5 6
+
+
+goto last line
+
+server 172.16.0.1								
+
+esc:x			save
+
+
+#setenforce 0
+#firewall-cmd --permanent --add-service=ntp
+or
+firewall-cmd --permanent --add-port=123/udp
+#firewall-cmd --reload
+
+To start and enable the chronyd service:
+
+#systemctl stop ntpd			
+#systemctl disable ntpd
+
+#systemctl enable chronyd
+#systemctl start chronyd
+
+
+#chronyc sources -v			#To check if the server is reachable and synchronizing
+#chronyc tracking
+#ntpdate -u 172.16.0.1		#To manually synchronize the date/time from server(10.10.10.1)
+#timedatectl
+
+Verification: Linux client machine will sync time with NTP Server
+============
+
+on Windows machine-NTP Client:
+===========================
+1. control panel--date & time 
+OR
+Run: timedate.cpl
+
+---internet time
+		synchronize with an internet time server 
+			server  10.10.10.1		update now
+
+					ok
+
+Verification: Windows client machine will sync time with NTP Server
+=============================================================================================
+
+cups: Common/C Unix Printing System: is the default printing system on most Linux distributions. 
+
+Main Configuration file:            /etc/cups/cupsd.conf
+To configure Printer:
+#system-config-printer
+
+Add--Network Printer---App Socket/HP Jet Direct--- Host--localHost---forward---	configure any printer and finish the wizard.
+
+#firewall-cmd --permanent --add-port=631/tcp
+#firewall-cmd --reload
+#systemctl restart cups
+#systemctl enable cups
+
+Open browser----http://localhost:631
+
+		CUPS page should open
+		
+
+cancel		Cancels a print request
+lp		Submits a print request
+lpq		Shows the current print queue status
+lpr		Submits a print request
+lprm		Cancels print jobs that have been queued for printing   
+lpstat		Displays the status information for queues and requests
+
+# lpr /root/install.log		#to print a file
+# lp /root/anaconda-ks.cfg		#to print a file
+# lpq					#to view the print queue
+# lprm 1				#to cancel job id 1	
+
+
+===========================================================
+
+
+Types of Compression in Linux:
+=============================
+	hello		111100001110011110111100	24bits		compression
+
+			1	4
+			0	4
+			1	3
+			0	2
+			1	4
+			0	1
+			1	4
+			0	2
+
+
+			10101010   4				12
+
+
+
+
+Compression/Decompression tools:
+===============================
+1. gzip (the most commonly used (GNU zip))	
+	#cd
+	#ls -lh
+To compress a file install.log:
+	#gzip install.log
+	#ls -lh
+
+To see the content of a compressed file(.gz)
+	#zcat install.log.gz
+To decompress:
+	#gunzip install.log.gz
+	#ls -lh
+	
+
+2. bzip2 -----offers better compression but slower speeds than gzip. 	
+	#cd
+	#ls -lh
+To compress a file install.log:
+	#bzip2 install.log
+	#ls -lh
+			install.log.bz2
+
+To see the content of a compressed file(.bz2)
+	#bzcat install.log.bz2
+
+To decompress:
+	#bunzip2 install.log.bz2
+	#ls -lh
+
+
+3. xz which provides the highest compression ratio but slowest. Suitable for archiving large   250MB
+
+# Compress a file:
+		#xz install.log
+		#ls -lh
+To see the content of a compressed file(.xz)
+		#xzcat install.log.xz
+
+
+# Decompress a file:
+		#unxz install.log.xz
+================================================================================================
+ Zip:	To combine multiple files into a single file---zip command can be used
+ zip		&	unzip	
+
+
+#mkdir /notes
+#cd /notes
+notes]# touch java python c# linux windows
+notes]# zip /notes.zip  java python c# linux		#to zip java python c# linux in a file /notes.zip
+
+ls  /						#to verify
+zipinfo -l /notes.zip
+
+to unzip in new folder:
+=======================
+#mkdir /restore
+cd /restore
+
+restore]#  unzip /notes.zip
+restore]# ls					#will get java python c# linux files
+
+
+========================================================================
+Backup in Linux:  making the duplicate copies for important data so that can be used to recover the original data in case of accidental deletion or data corruption. 
+
+Types of Backup: 
+1. Data backup
+2. System Backup
+
+Types of data backup:
+1. Full backup				takes backup of all files(A enabled/without A)
+					clears the A bit after taking backup
+
+2. Incremental Backup:			are taken only after full backup
+					it will take backup of all files(a enabled) since last backup
+					clears the A bit
+
+3. Differential backup			are taken only after full backup
+					does not clear the A bit after taking a backup
+					it will take a backup of all files(a enabled) since last full backup
+
+
+
+Backup type			Date backed up						Backup time
+==========			==============						===========
+1. Full backup			All imp							Slowest
+2. Incremental backup		Only new/modified files and folders			Fast
+3. Differential backup		All imp since last full					Moderate
+
+
+1. tar
+2. cpio
+3. dump
+4. dd
+5. AMANDA (Advanced Maryland Automatic Network Disk Archiver)--->Client Server Backup  
+
+
+Backup type			Date backed up						Backup time
+==========			==============						===========
+1. Full backup			All imp							Slowest
+2. Incremental backup		Only new/modified files and folders			Fast
+3. Differential backup		All imp since last full					Moderate
+=======================================================================================================
+1. tar------> tape archive
+Tar is primarily used for packaging multiple files and directories into a single file.
+
+
+How to take a backup using tar:
+
+#mkdir /imp
+#cd   /imp
+imp]#touch a b c 
+imp]#mkdir imp  confidential
+#cd /
+#mkdir /backup
+
+To take backup:
+#tar -cvf /backup/imp.tar    /imp
+#ls -lh /backup
+
+To take compressed backup using gzip:
+#tar -cvzf /backup/imp.tar.gz    /imp
+#ls -lh /backup
+
+To take compressed backup using bzip2:
+#tar -cvjf /backup/imp.tar.bz2    /imp
+#ls -lh /backup
+
+To view the compressed file imp
+#tar -tvf /backup/imp.tar
+
+To restore :
+#tar -xvf /backup/imp.tar
+#ls /imp
+=========================================================================================
+to restore compressed backup using bzip2
+#tar -xvjf /backup/imp.tar.bz2
+
+to restore compressed backup using gzip
+#tar -xvzf /backup/imp.tar.gz
+===================================================================================================
+2. cpio------->copy input/output
+
+
+#mkdir /imp
+	cd /imp
+		touch hw sw nw
+#mkdir /backup
+
+To take a backup using cpio:
+#cd /imp
+imp]# ls | cpio -ov > /backup/imp.cpio
+#ls /backup
+
+To restore using cpio inside /restore folder:
+#mkdir /restore
+#cd /restore
+restore]# cpio  -iv < /backup/imp.cpio
+
+restore]#ls 
+	hw sw nw
+
+Another example
+===============
+To take backup of all pdf files of /usr/share/doc:
+
+# mkdir /backup
+# cd /usr/share/doc
+doc]# find . -name '*.pdf  | /backup/pdf.cpio
+doc]# ls /backup
+
+To restore:
+# mkdir /pdf
+# cd !$
+  OR
+# cd /pdf
+# cpio -ivd < /backup/pdf.cpio		(d is required)
+# ls
+====================================================================================
+Disk Management:
+
+
+Basic Disk		Partitions
+		Primary					3
+		Extended				1
+			Logical Drives			n numbers of drives
+
+
+
+IDE/PATA			hd
+			2 hd			hda   hdb
+SATA/SSD/SAS/SCSI		sd		sda	sdb		sdc		sdd
+						sda1	sdb1
+						sda2	sdb2
+						sda3			
+CD/DVD				sr
+floppy				fd
+
+Linux Standard partition 		83
+swap					82
+
+To view partition list:
+fdisk -l
+lsblk
+
+
+1. how to create a partition
+2. format & define the file system
+3. mount the partition
+
+add 2 hard drives		10G & 15G
+reboot
+lsblk
+sdb
+sdc
+
+will create 3 partitions on sdb disk
+sdb1	P	1G
+sdb2	P	2G
+sdb3	P	3G
+
+fdisk /dev/sdb
+m		for help
+n		for new
+p		primary
+1		partition number
+enter		
++1G		size
+p		to verify
+
+n		for new
+p		primary
+2		partition number
+enter		
++2G		size
+p		to verify
+
+n		for new
+p		primary
+3		partition number
+enter		
++3G		size
+p		to verify
+w		save & quit
+
+#init 6		to apply the effect
+#lsblk		to verify

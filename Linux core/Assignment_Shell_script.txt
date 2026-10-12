@@ -1,0 +1,34 @@
+Assignment for Practice-Shell Script
+ Write a shell script program to find area of a Square, Rectangle, Triangle and Circle , accept the inputs from the user.
+ 
+2. Create a shell script that finds and lists all empty files in a /root directory.
+ 
+3. Write a script to find whether entered number is even or odd.
+4. Write a program using case statement to perform Character Type Checker. Accept a single character and identify whether it is:
+ 
+Vowel
+Consonant
+Digit
+Special Character
+ 
+ 
+5. Write a program using case statement to perform Linux Command Information
+ 
+Create a menu:
+1. pwd
+2. date
+3. whoami
+4. hostname
+ 
+Display the output based on user selection.
+ 
+6. Write a program using case statement ---> Linux User Management
+ 
+Create a menu:
+1. Create User
+2. Delete User
+3. Lock User
+4. Unlock User
+5. List Users
+ 
+Display the corresponding commands to perform the task as per user input.

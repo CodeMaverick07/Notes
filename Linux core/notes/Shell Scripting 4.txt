@@ -1,0 +1,668 @@
+Shell:
+
+1. A shell is a command-line interpreter that acts as the interface between the user and the Kernel (operating system).
+2. It allows users to interact with the OS by typing commands and executing programs.
+3. Shells are also used for scripting, where sequences of commands are stored in a file and executed automatically. 
+
+1. Bourne Shell (sh):   The original UNIX shell.
+2. Bourne Again Shell (bash): The most widely used shell in Linux and macOS.
+3. C Shell (csh)
+4. Korn Shell (ksh)
+5. Z Shell (zsh)
+6. TENEX C Shell (tcsh)
+
+Working with shells:
+#cat /etc/shells
+
+Print active shell name:
+#echo $SHELL
+
+=================================================================
+Shell Scripting:
+1. A shell script is a text file that contains a sequence of commands for a Linux/Unix-based operating system 	(OS). 
+
+2. A shell script is usually created to save time for command sequences that a user needs to use repeatedly.
+3. Shell scripting is a way to automate tasks in an operating system by writing a script .
+==================================================================================
+
+Shell Variables:
+
+1.	A shell variable is a character string in a shell that stores some value. 
+2.	It is a pointer to the actual data stored in memory.
+3.	A variable name could contain any alphabet (a-z, A-Z).
+4.	Any digits (0-9).
+5.	An underscore ( _ ). 
+
+Rules for variable definition:
+
+1.	A variable name must start with an alphabet or underscore. 
+2.	It can never start with a number and special characters except  _ underscore because all other special characters  	have special meanings in Shell Scripting.
+
+Valid Variable Names
+a.	XYz
+b.	_AF_5
+c.	BC232
+
+Invalid Variable Names 
+a.	2_PQ
+b.	!MNZ
+c.	$QWE
+d.	&XX22
+
+============================================================================================
+#!/bin/bash	is also known as SHEBANG	#! Shell hash(#)bang(!)
+1.	It tells your terminal that when you run the script it should use bash to execute it. 
+2.	Specifies which interpreter to use to execute the commands.
+==========================================================================
+STDIN, STDOUT, STDERR and File Redirectors 		>  ~]#   cpio -i < /backup/notes.cpio
+File Descriptor			Name				Data Flow direction	Default Device
+0 				STDIN (Standard Input) 		< 			Keyboard
+1				STDOUT (Standard Output)	>			Monitor
+2				STDERR (Standard Error) 	>			Monitor
+
+#ls		stdin  & stdout
+#lss		stderror
+#lss 2> /dev/null		discard if any error in command
+
+#lss 2>&1 | tee /error.txt	display error on screen as well as store in file
+	command not found
+	cat /error.txt
+
+#lss > /error.txt 2>&1		to redirect error in file, and not to display on screen
+#ls / 
+
+#cat /error.txt
+================================================================================
+
+Write a script to shutdown the system:
+mkdir /shell-demo
+cd /shell-demo
+shell-demo]# vim shut.sh
+poweroff
+
+save and exit
+
+To give execute permission
+#chmod +x shut.sh
+to execute the script
+#./shut.sh
+
+
+==================================================================
+
+Write a script to accept first & last name and print
+
+#vim greet.sh
+press i
+#!/bin/bash
+
+echo "Enter your first name:  "
+read fn
+echo "Enter your last name:  "
+read ln
+
+echo "Hello $fn  $ln , happy to see you here "
+
+save
+
+#chmod +x greet.sh
+
+#sh greet.sh     or   # ./greet.sh
+
+
+Write a script to accept two words hello & kitty  & then  print  hello kitty
+cp greet.sh hello.sh
+=================================================================================================
+Combine two strings in a variable:
+
+#vim combine.sh
+#! /bin/bash
+read -p "enter first string " s1
+read -p "enter second string " s2
+s1+=$s2						  += is for append
+echo "combined string =  $s1 "
+save
+
+#chmod +x combine.sh
+#sh combine.sh
+================================================================================================
+Basic Operators in Shell Scripting:
+
+===================================================================
+To add two numbers entered by user:
+
+#vim add.sh
+press i
+#! /bin/bash
+read -p "enter first number: " n1
+read -p "enter second number: " n2
+total=$((n1+n2))
+echo "The total of given input is =  $total "
+esc:x--->save
+
+#chmod +x add.sh
+#./add.sh
+
+or
+
+To add two numbers entered by user:
+#vim sum.sh
+	#! /bin/bash
+	echo "enter first num"
+	read n1
+	echo "enter second num"
+	read  n2
+	total=$((n1+n2))
+	echo "The sum is= " $total
+
+	esc:x
+#chmod +x sum.sh
+
+========================================================
+#! /bin/bash
+#This is a calculator script
+read -p "echo enter first number " a
+read -p "echo enter second number " b
+read -p "echo enter operator (+, -, *, /, %) " c
+if [[ $c == + ]]
+        then
+sum=`expr $a + $b`
+echo "Addition is = " $sum
+else
+        if [[ $c == - ]]
+       then
+sub=`expr $a - $b`
+
+echo "Subtraction is = " $sub
+
+else
+        if [[ $c == * ]]
+        then
+mult=`expr $a \* $b`
+echo "Multiplication is = " $mult
+else
+        if [[ $c == / ]]
+       then
+div=`expr $a / $b`
+echo "Division is = " $div
+else
+ 
+        if [[ $c == % ]]
+        then
+mod=`expr $a % $b`
+echo "Remainder is = " $mod
+else
+echo "Invalid input"
+fi
+fi
+fi
+fi
+fi
+
+
+=================================================
+vim result.sh
+#!/bin/bash
+
+# Prompt user for input
+read -p "enter your marks: " m
+
+if [ $m  -ge  35 ];  then
+    echo "Result: Pass"
+else
+    echo "Result: Fail"
+fi
+
+esc:x
+
+#chmod +x result.sh
+#./result.sh
+
+
+#cp result.sh   new.sh
+
+============================================================
+Write a Shell Script to swap two numbers:
+#vim swap.sh
+
+#! /bin/bash
+read -p "enter first number: " n1
+read -p "enter second number: " n2
+
+n3=$n1
+n1=$n2
+n2=$n3
+
+echo " Numbers after swapping"
+echo $n1
+echo $n2
+===================================================================
+Shell scripts have access to some "magic" variables(positional parameters) from the environment:
+•	$0 - The name of the script
+•	$1 - The first argument sent to the script
+•	$2 - The second argument sent to the script
+•	$3 - The third argument... and so forth
+	$n
+•	$# - The number of arguments provided
+•	$@ - A list of all arguments provided
+
+
+#vim arg-demo.sh
+#! /bin/bash
+echo $0
+echo $1
+echo $2
+echo $3
+echo $#
+echo $@
+esc:x---->save
+
+#chmod +x arg-demo.sh
+
+# ./arg-demo.sh       hello world team  bye shy
+
+
+o/p:
+arg-demo
+hello
+world
+team
+5
+hello world team  bye shy
+
+
+==========================================================================
+There are 5 basic operators in bash/shell scripting:
+a. Arithmetic Operators
+	Operator	Usage
+	+		addition
+	-		subtraction
+	*		multiplication
+	/		division
+	%		modulus
+
+b.	Relational Operators
+	===================
+!= 	-ne
+<	-lt
+<= 	-le
+> 	-gt
+>= 	-ge
+==       -eq
+
+c.	Boolean Operators/Logical Operators
+•	Logical AND (&&)
+•	Logical OR (||)
+•	Not Equal to (!) 
+
+d.	Bitwise Operators
+e.	File Test Operators
+
+truth table
+	
+A	B    C		A+B
+0	0    0
+0	1    1
+1 	0    1
+1	1    1
+
+
+if then
+if then else
+if elif
+if
+then
+else if
+	
+
+else  if
+
+else
+	
+
+
+=============================================================
+
+To check, entered number is greater than, less than or equal to 100:
+
+#vim compare.sh
+#!/bin/bash
+
+#To compare number with value 100
+read -p "enter your number  " n
+if  [  $n   -gt    100  ]
+        then
+                echo " your number is greater than 100"
+elif     [   $n  -lt  100  ]
+        then
+                echo " your number is less than 100"
+else
+                echo " your number is equal to 100"
+fi
+
+save
+
+#chmod +x compare.sh
+#sh compare.sh
+
+=========================================================================
+
+Take two numbers from user and check if the entered numbers are matched numbers to 12 & 15 using AND operator:
+============
+#vim comparision.sh 
+
+#!/bin/bash
+#To check entered number is 12 and 15 or not?
+read -p "Enter first number  " n1
+read -p "Enter second number  " n2
+if [ $n1 == 12  -a  $n2 == 15 ]
+
+then
+        echo " numbers are matched"
+elif [ $n1 == 15 -a $n2 == 12 ]				#-a  AND operator, #-o OR
+
+then
+        echo " numbers are matched"
+else
+        echo " numbers are not matched"
+fi
+
+save the file
+
+#chmod +x comparision.sh
+#sh comparision.sh
+
+====================================================================
+
+This is  script example of if then else with OR operator(II)
+Write a shell script to Take two numbers from user and check if they are matching to 12 & 15
+ 
+#vim check_num.sh
+#!/bin/bash
+echo "Enter the first number:"
+read n1
+echo "Enter the second number:"
+read n2
+# Check if the numbers match 12 and 15
+if [ $n1 -eq 12 ] || [ $n2 -eq 15 ] || [ $n1 -eq 15 ] || [ $n2 -eq 12 ]; then
+    echo "At least one of the numbers matches 12 or 15."
+else
+   echo "Neither number matches 12 or 15."
+fi
+ 
+esc:x
+#chmod +x check_num.sh
+#sh check_num.sh
+
+=================================================================
+Shell Script with a Case Statement:
+
+1. Case statements allow you to manage multiple possible outcomes based on the value of a single variable.
+2. It simplifies complex conditions with multiple choices, making it more readable and easier to maintain than nested if statements.
+3. The Bash case statement is a form of the conditional if-elif-else statement.
+4. Structured way to handle multiple choices or patterns for a given value.
+
+
+#vim case-test.sh
+#!/bin/bash
+
+read -p  "Enter a number between 1 and 3:  "  n 
+
+case $n in
+    1|one)
+        echo "You selected One."
+        ;;					# ;;  break
+    2|two)
+        echo "You selected Two."
+        ;;
+    3|three)
+        echo "You selected Three."
+        ;;
+	
+     *)
+        echo "Invalid selection. Please enter 1, 2, or 3."
+        ;;
+esac
+
+#chmod +x case-test.sh
+#sh case-test.sh
+==============================================================================
+Case Statement with Multiple Matches:
+1. The Bash case statement is a form of the conditional if-elif-else statement.
+2. Structured way to handle multiple choices or patterns for a given value.
+
+
+#vim weekday.sh
+#!/bin/bash
+echo "Enter a day(Mon|Tue|Wed|Thur|Fri|Sat|Sun): "  
+read day
+
+case  $day  in
+    Mon|Tue|Wed|Thur|Fri)
+        			echo "It's a weekday."
+        ;;
+    Sat|Sun)
+       				echo "It's the weekend!, Enjoy!!!"
+        ;;
+    *)
+        echo "Not a valid day."
+        ;;
+esac
+
+#chmod +x weekday.sh
+#sh weekday.sh
+============================================================================
+Write a shell script using case statement to take weekday choice as a input, and display the message
+(Monday|Tuesday|.................Sunday)
+
+#vim weekday.sh
+echo "Enter a weekday Keeping first character in uppercase(e.g., Monday, Tuesday, etc.):"
+read weekday_choice
+
+# Use a case statement to display a message based on the input
+case "$weekday_choice" in
+    "Monday")
+        echo "It's Monday! Time to start the week."
+        ;;
+    "Tuesday")
+        echo "It's Tuesday! Keep up the good work."
+        ;;
+    "Wednesday")
+        echo "It's Wednesday! Mid-week madness."
+        ;;
+    "Thursday")
+        echo "It's Thursday! Almost there."
+        ;;
+    "Friday")
+        echo "It's Friday! Enjoy your weekend."
+        ;;
+    "Saturday")
+        echo "It's Saturday! Time to relax."
+        ;;
+    "Sunday")
+        echo "It's Sunday! Prepare for the week ahead."
+        ;;
+    *)
+        echo "Invalid input. Please enter a valid weekday."
+        ;;
+esac
+
+save
+#chmod +x weekday.sh
+#./weekday.sh
+
+=============================================================================
+File Test: These operators are used to test a particular property of a file.
+
+File test operators in Bash
+-e file: Checks if file exists. Returns true if the file or directory exists.
+-f file: Checks if file is a regular file (not a directory or special file). 
+-d directory: Checks if directory exists and is a directory.
+-s file: Checks if file exists and has a size greater than zero (is not empty).
+-r file: Checks if file exists and is readable by the current user.
+-w file: Checks if file exists and is writable by the current user.
+-x file: Checks if file exists and is executable by the current user.
+-b file: Checks if file is a block special file.
+-c file: Checks if file is a character special file.
+
+===========================================================
+
+#find / -type b			# to find all block files in /
+#find / -type d			# to find all directory files in /
+#find / -type c			# to find all character files in /
+#find / -type l			# to find all linked files in /
+
+1. Find the file is  regular file or not?:
+
+#vim regular-file.sh
+#! /bin/bash
+#to find  mentioned file is regular file or not?
+f="/dev/sr0"					
+if [  -f  $f  ]			#-f  -->regular file
+then
+echo   "File is a regular file"
+else
+echo   "File is not a regular file"
+fi
+save
+
+#chmod +x block-file.sh
+#./regular-file.sh
+		
+====================================================================
+
+Task: ask user to enter a filename, and check whether that file exists in the system or not?
+
+#vim file-exists.sh
+#! /bin/bash
+
+#to find  file exists or not?
+read -p "enter your filename: "  name				/etc/fstab
+					
+if [  -e  $name  ]			#-e -->exists
+then
+echo   "File exist"
+else
+echo   "File does not exist"
+fi
+save
+
+======================================================================================
+Find the file is ordinary/regular file, read, , character file, or a directory etc:
+#vim filetest.sh
+#! /bin/bash
+<<comment
+-e : File exists
+-f : File is a regular file
+-d : File is a directory
+-r : File is readable
+-w : File is writable
+-x : File is executable
+-c   Character device file
+-b   Block device file
+-s   File size greater than zero
+-l   Symbolic link
+comment
+ 
+read -p "Enter the filename: " f
+ 
+if [ -e $f ]					#OR   if [ -e "$f" ]  "$f"   This handles filenames containing spaces.
+then
+echo "$f file exists"
+else
+echo "$f file does not exist"
+fi
+ 
+if [ -f $f ]
+then
+echo "$f is a regular file"
+else
+echo "$f is not a regular file"
+fi
+ 
+if [ -d $f ]
+then
+echo "$f is a directory"
+else
+echo "$f is not a directory"
+fi
+ 
+if [ -r $f ]
+then
+echo "$f is readable"
+else
+echo "$f is not readable"
+fi
+ 
+if [ -w $f ]
+then
+echo "$f is writable"
+else
+echo "$f is not writable"
+fi
+ 
+if [ -x $f ]
+then
+echo "$f is executable"
+else
+echo "$f is not executable"
+fi
+
+
+
+
+if [ -c $f ]
+then
+echo "$f is a character device file"
+else
+echo "$f is not character device file"
+fi
+
+ 
+if [ -b $f ]
+then
+echo "$f is a block device file"
+else
+echo "$f is not a  block device file"
+fi
+ 
+if [ -l $f ]
+then
+echo "$f is a linked file"
+else
+echo "$f is not linked file"
+fi
+
+if [ -s $f ]
+then
+echo "$f file size greater than zero"
+else
+echo "$f file size not greater than zero"
+fi
+
+
+
+save the file
+
+
+#chmod +x filetest.sh
+#./filetest.sh
+
+
+enter the filename   /dev/sr0
+
+Output will be:
+==============
+
+/dev/sr0 file exists
+/dev/sr0 is not a regular file
+/dev/sr0 is not a directory
+/dev/sr0 is readable
+/dev/sr0 is writable
+/dev/sr0 is not executable
+/dev/sr0 is not a character device file
+/dev/sr0 is a block device file
+/dev/sr0 is not a symbolic link
+/dev/sr0 size is greater than zero
+
+

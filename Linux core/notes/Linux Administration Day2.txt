@@ -1,0 +1,266 @@
+Working with Users & Groups
+
+Types of users:							UID		GID
+1. Super User			root				0		0	
+2. Built-IN Users		system Users			1-999		1-999
+3. Standard/Normal Users	Users created by admin root	1000-60000	1000-60000
+
+
+when you create a user
+
+useradd prem
+
+1. system will create user			prem
+2. system will create primary group		prem
+3. system create home folder			/home/prem
+4. will disable account		
+
+
+files associate with users/group
+
+/etc/passwd		contains users list(uid, gid, login name home folder, shell name)
+/etc/group		contains group lists (group name, gid, member details)
+/etc/shadow		contains passwords (encrypted format)
+/etc/gshadow		user settings/profile
+
+
+Types of groups
+1. Primary 
+2. Secondary			manually created group
+
+
+useradd prem
+
+prem		prem		500		500	!!
+
+passwd prem		can only be run by root	
+
+passwd			to set own passwd	
+
+
+
+prem		500		500
+john		501		501
+
+
+#groupadd HR		502
+
+tom		502		503
+
+
+
+id		to see the uid gid of own
+
+id john		to see id of john user	
+
+
+
+
+To assign nologin shell to u3:
+===============================
+to see the list of available shells
+	#cat /etc/shells
+	#grep  u3   /etc/passwd		#to filter u3 user details from file
+
+#usermod  -s  /sbin/nologin  u3
+#grep  u3   /etc/passwd
+#passwd u3
+logout using right top root	---quit---logout
+#usermod  -s  /bin/bash  u3
+#grep  u3   /etc/passwd
+==================================================
+usermod -L john		to lock the user account
+usermod -U john		to unlock the user account
+
+=============================================================
+
+Create user Smith with shell name as /bin/tcsh with uid as 600 and Secondary group as red, blue, green and Primary as Colors, and default home folder as myhome.
+
+
+groupadd red
+groupadd green
+groupadd blue
+groupadd Colors
+mkdir  /myhome
+
+#useradd   -u  600  -g   Colors -G   red,blue,green  -s /bin/tcsh  -d /myhome/Smith    Smith
+
+-g		Primary
+-G		Secondary
+-s		shell
+-d		default home folder
+#tail -1 /etc/passwd
+#id Smith
+
+ls /home
+ls /myhome
+
+#useradd u4; passwd u4			; is a command separator
+
+#passwd -d u4		to remove password
+#passwd u4		 to assign password
+Types of Groups
+1. Primary			created with user
+2. Secondary			Manually root creates
+
+
+existing user		usermod
+
+existing group		groupmod 
+
+#usermod -L u1
+
+
+to delete user:
+==============
+userdel		u3			incorrect way of deletion
+
+deletes user
+deletes group
+deletes pwd
+will keep home folder/mailbox
+
+
+#userdel  -r  u3				to delete user u3 along with all the associated data(including home folder and associated configuration)
+========================================================================================================
+#usermod   -u  3000  u1					to change uid of u1
+#id  u1
+
+#groupmod -g 3000  u1					to change gid of u1
+#id  u1
+============================================================================================
+to rename group  hr	as Finance
+#groupmod  --help
+#groupmod  -n Finance  hr
+tail -5 /etc/group
+===========================================================================================
+
+u1			/home/u1----------->/newhome
+u2			/home/u2
+u3			/home/u3
+
+To change the default home folder for user as /newhome:
+=======================================================
+-m -->move   -d---destination directory
+#mkdir  /newhome
+#usermod -m  -d  /newhome/u1     u1
+
+
+ls /newhome		u1
+ls /home
+========================================================================
+# Adding a user mary,tom,smith to a group red & green: 
+
+#groupadd red; groupadd green
+#useradd smith
+#passwd smith
+#gpasswd -M mary,smith,tom   red   #-M  members
+#gpasswd -M mary,smith,tom   green
+
+tail -2 /etc/group
+
+
+
+
+
+to remove a user from group
+# gpasswd -d tom red
+
+===============================================================================================================
+create a user with name Harry with uid as 3401  shell as /bin/csh, home folder as /myhome, group id as 4000, primary group as Linux, secondary groups as HW, Windows, NW
+
+
+create user  Harry
+
+mkdir /Myhome
+groupadd Linux; groupadd Windows; groupadd NW; groupadd HW
+
+#useradd   -g Linux  -G HW,Windows,NW  -s /bin/csh  -u 3401  -d /Myhome/Harry  Harry
+
+#tail  -5 /etc/group		
+#tail  -5 /etc/passwd		/Myhome/Harry	/bin/csh
+#id Harry
+#ls /Myhome------>Harry
+
+#passwd Harry
+
+#su - Harry
+	pwd------------>/Myhome/Harry
+
+#groupmod -g 4000 Linux
+#id Harry
+
+=============================================================================================================
+Create a user user1 with admin rights:
+#useradd  -ou  0 -g  0  user1 
+grep user1 /etc/passwd
+su -l user1
+===============================================================================================================
+Sudoers		sudo user-------- a user with specific admin rights/privileges, so that user can perform administrative tasks without having root pwd.
+
+To generate a line number in vi:
+===============================
+esc: se nu
+
+
+To remove line number in vi:
+===========================
+esc: se nonumber
+
+
+#useradd jane
+#passwd jane
+
+ To make jane a sudo user(admin right):
+#vi   /etc/sudoers			read only file
+OR
+#visudo
+
+esc:se    nu				to generate line number
+
+
+goto line 99
+jane		All=(ALL)	ALL
+
+esc:wq			save
+
+#su -l john
+#sudo groupadd marketing
+#tail -2 /etc/group
+
+
+====================================================================================
+To give sudo rights to jane user for specific commands:
+						ping	useradd  passwd  fdisk
+#visudo
+
+esc:se    nu				to generate line number
+
+
+goto line 99
+jane	ALL = /bin/ping, /usr/sbin/useradd, /usr/sbin/passwd, /sbin/fdisk
+
+esc:wq			save
+
+#su -l jane
+#sudo useradd m1
+#sudo passwd m1
+#sudo ping localhost
+
+===================================================================================
+ Alternate way to make jane a sudo user(admin right):
+======================================================
+#usermod -aG wheel jane
+
+#visudo
+
+esc:se    nu				to generate line number
+
+
+goto line 105
+uncomment(remove #)         %wheel   ALL=(ALL)   ALL
+esc:wq			save
+#su -l jane
+#sudo groupadd m1
+#tail -2 /etc/group
+
