@@ -1,0 +1,51 @@
+Windows Sample QBs:
+1.	Use of Forward Lookup Zone & Reverse Lookup Zone
+2.	Types of DNS records with it uses.
+3.	What is DNS? Types of DNS Servers
+4.	What is Root Hints in DNS?
+5.	What is ADDS?
+6.	Name the ADDS partitions & their uses?
+7.	Troubleshooting commands of DNS
+8.	What is DORA Process?
+9.	What is CDC, BDC & RODC used for?
+10.	How to convert http site to https?
+11.	Minimum hardware requirement of Win10 & Server 2016?
+12.	What is Replication?
+13.	Types of Replication?
+14.	Use of NTDS and SYSVOL?
+15.	What is the different between computer and user configuration in Group policy?
+16.	Difference between FAT & NTFS
+17.	Types of NTFS permissions
+18.	Types of Disks(Basic & Dynamic)
+19.	Types of Partitions & volumes
+20.	What is group policy?
+21.	What is Forest?
+22.	What is Schema? How to view schema?
+23.	What are the different records of DNS with its uses?
+24.	What is BMR and System state backup?
+25.	Types of Data backups(Full/ Incremental/Differential 3 points of each)
+26.	What is File Server?
+27.	What is File Screening & Disk Quota.
+28.	what is SID? how to view SID of an object?
+29.	Features & Advantages of PowerShell.
+30.	Name few AD objects.
+31.	Types of DNS query.
+32.	What is WDS used for? Pre-requisites for WDS
+33.	What is the use of FSMO? Use of each FSMO Role
+34.	What is Distinguished Name?
+35.	What is trust relationship, direction of trust, types of trust?
+36. 	What is OU used for? 
+37. 	What is Global Catalog?
+38. 	Difference between Computer configuration & user configuration in Group	policy.
+39.	What is IIS used for?
+40.	Explain LSDOU
+ 
+================================================================
+PowerShell QBs:
+1. How to assign IP address/dns address in Powershell?
+2. What is execution policy? commands to set execution policy.
+3. How to manage services using PS commands.
+4. How to manage processes using PS commands.
+5. Command to query, install & uninstall roles/features in PS.
+6. Commands to manage users/groups in PS.
+7. Commands to install/configure ADDS.
