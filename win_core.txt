@@ -1,0 +1,62 @@
+Practice Sample LABs
+1. Create a Domain Controller with name test.com. Create a user testuser1 on DC, then verify logging in with this user from windows 10 domain joined system (Client1).Verify using whoami command on client1 system.
+ 
+2.Create user Maya on DC, allow user to change her pwd at next logon. verify the same by logging on win 10 client.
+ 
+3. Add Win10 Client2 machine to test.com domain. Restrict User Mary to logon on to client2 machine only.
+ 
+4. Create folder report is NTFS drive E: Grant her to read/write/modify content of report folder from network. Verify the same, if it is working.
+ 
+5. Restrict testuser1 from logging in on weekends(Saturdays and Sundays). Verify the same, if it is working.
+ 
+6. Prevent testuser1 from changing his password. Verify the same, if it is working.
+ 
+7. Create user testuser2 and grant him a rights to manage users/group management of test.com domain.  Verify the same, if it is working.
+ 
+8. Change test.com site name as Newyork. verify the same from Active Directory users and computers.
+ 
+9. Set the Account lockout threshold on ADDS server(DC) as 4 and lockout duration as 3hours. Verify the same, if it is working for domain users.
+ 
+ 
+10.  Create a domain Mumbai.com using PowerShell command on core machine. Also create a domain active user "Tames" and verify.
+ 
+11. Perform intra-site replication (DC and ADC), verify the same, if it is working.
+ 
+12. Restrict users from exceeding disk quota limit of 1GB on shared drive and from saving docx, xlsx and exe files. Verify the same, if it is working for domain users. Also generate a html report of files having size more than 1GB.
+ 
+13. Create a  Primary DNS zone mango.com. demonstrate the working of Forward Lookup and Reverse lookup zones. Add different kinds of records.  Verify the same, if it is working using DNS cmd commands.
+ 
+ 
+14. Create a DHCP scope of 40 Ips with the name IT-Scope with lease duration on 3 hours. Exclude any two ip from the given scope range.  Verify the same, if it is working from Client 	machines. Perform the ip reservation for Client1 machine. and restrict Client2 from obtaining IP from DHCP server.
+ 
+ 
+15. Perform Network OS installation for Win10 OS. Verify the same from client machine if they are able to load/install OS from Network.
+ 
+16. Demonstrate the working of backup & restore. Take a backup of reports folder on nw shared folder on client side. Verify the same, if you are able to recover report folder in case of data deletion.
+ 
+17. Demonstrate the working of IIS, create http://www.mylab.com  & http://www.myworld.com. verify if these websites are accessible from network. Secure these websites using SSL. Also prevent user from accessing http websites.
+ 
+18. Prevent sales group users(s1 s2 s3 and s4) from accessing cmd, task manager. also provide a centralized wallpaper to the users of sales group, verify the same, if it is working.
+ 
+ 
+19. Take the snapshot of both dc & adc. Your network contains an Active Directory forest The forest contains two domain controllers named DC1 (i.e. Server1) and DC2 (i.e. Server2=ADC) that run Windows Server 2016. DC1 holds all of the operations master roles. DC1 experiences a hardware failure. Transfer all FSMO role to ADC. Verify the same using appropriate command. 
+Then revert your snapshot, and perform seize role on adc. verify all roles are seized on adc. After verification, revert the snapshot back to original.
+ 
+20. Set the below password and threshold policies for domain users and verify the same from client-side using net accounts command. (Note--Use gpmc.msc---->Forest--Domain--test.com--Default Domain Policy--Right Click--Edit--Computer Configuration--Policies--Windows Settings--Security Settings---Account Policies--Password Policy to configure below
+ 
+		a. Min PWD length---->12Chars
+		b. Min PWD age	-----> 3 Days
+		c. Max PWD age  -----> 8 Days
+		d. Pwd Complexity ----> Enabled
+		e. Password History -----> 10
+		f. Account Lockout threshold ------->4
+		g. Account Lockout Duration ---------> 2 hrs
+		h. Account Reset Counter  ---------->2 hrs
+ 
+21. Create two different wallpaper files inside Wallpaper folder.  -->.DomainWP.png  & OUWP.png ). 
+	a. Create User d1 in test.com.
+	b. Create OU (ProductionUsers), and add user p1 to this OU.
+	c.  Apply DomainWP.png wallpaper at Domain Level & OUWP.png at OU Level(ProductionUsers). 
+	d. Login with d1 user on Client machine and check the wallpaper
+	e. Login with p1 user on Client machine and check the wallpaper
+	f: Restrict access of control panel options(any one) and verify.
